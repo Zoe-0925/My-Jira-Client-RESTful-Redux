@@ -1,26 +1,44 @@
+import { hot } from 'react-hot-loader/root';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import GroupBy from "./Components/Filters/GroupBy"
+import './App.scss';
+
+import Container from "./Components/NavBar/Container"
+import Drawer from "./Components/SideDrawer/Drawer"
+
+import { AvatorCard, Labels, Member } from "./Components/Issues/IssueModal"
+
+import Board from "./Pages/Board"
+
+import ProjectDetail from "./Components/Project/ProjectDetailForm"
+import { ManageCategoryTab } from "./Components/Shared/Tabs"
+//import Login from "./Pages/Login"
 
 function App() {
+  const user = {
+    name: "test name",
+    email: "email.com"
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
     </div>
   );
 }
+//  <ProjectDetail />
+export default process.env.NODE_ENV === "development" ? hot(App) : App
+// <Drawer handleClick={() => { }} onChange={() => { }} />
 
-export default App;
+// <Drawer handleClick={() => { }} onChange={() => { }} />
+//<ProjectDetail />
+
+/**
+ *
+ *
+ *     <div className="main">
+        <Drawer handleClick={() => { }} onChange={() => { }} />
+        <div className="right-main">
+          <ProjectDetail />
+        </div>
+      </div>
+ */
