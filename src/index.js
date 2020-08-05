@@ -7,13 +7,6 @@ import Routes from './Routes';
 import history from './history';
 import Container from "./Components/NavBar/Container"
 import './fonts/Montserrat/Montserrat-Regular.ttf';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { ApolloProvider } from '@apollo/client';
-
-const client = new ApolloClient({
-  uri: "http://localhost:3000",
-  cache: new InMemoryCache()
-});
 
 const store = configureStore();
 
@@ -22,7 +15,6 @@ if (module.hot) {
 }
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
   <Provider store={store}>
     <Container />
     <Router history={history}>
@@ -30,8 +22,7 @@ ReactDOM.render(
         <Routes />
       </div>
     </Router>
-  </Provider>
-  </ApolloProvider>,
+  </Provider>,
   document.getElementById('root')
 );
 

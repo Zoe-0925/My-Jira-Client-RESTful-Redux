@@ -16,28 +16,28 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
  * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 
  */
 
-function EpicTitle({ epicSummary, epicId, handleChange }) {
+function ColumnTitle({ columnSummary, columnId, handleChange }) {
     const contentEditable = useRef()
 
     const onChange = e => {
-        if (e.target.value !== "" && e.target.value !== epicSummary) {
+        if (e.target.value !== "" && e.target.value !== columnSummary) {
             handleChange(e.target.value)
         }
     }
 
-    const deleteEpic = (id) => {
+    const deletecolumn = (id) => {
         //TODO
         //write a custom hook that
         //dispatch an action
-        //that calls the server to delete the epic
+        //that calls the server to delete the column
     }
 
     return (
-        <div className="flex-row epic-title" id={epicId}>
+        <div className="flex-row epic-title" id={columnId}>
             <ContentEditable
                 className="epic-summary"
                 innerRef={contentEditable}
-                html={epicSummary} // innerHTML of the editable div
+                html={columnSummary} // innerHTML of the editable div
                 disabled={false}       // use true to disable editing
                 onChange={onChange} // handle innerHTML change
                 onKeyUp={e => {
@@ -50,13 +50,13 @@ function EpicTitle({ epicSummary, epicId, handleChange }) {
             />
             <DotIconMenu className="dot-icon">
                 <MenuItem>Set column limit</MenuItem>
-                <MenuItem onClick={() => deleteEpic(epic.id)}>Delete</MenuItem>
+                <MenuItem onClick={() => deleteColumn(column.id)}>Delete</MenuItem>
             </DotIconMenu>
         </div>
     )
 }
 
-function EpicBody({ task, opentask }) {
+function ColumnBody({ task, opentask }) {
     const labelsFormatted = task === undefined || task.labels.length === 0 ? "" :
         task.labels.map(each => <p className="label">{each}</p>)
 
@@ -91,8 +91,8 @@ function CreateIssue({ handleClick }) {
 
 }
 
-export default function Epic({ epic }) {
-    const [epicSummary, setEpicSummary] = useState(epic.summary || "")
+export default function Column({ column }) {
+    const [columnSummary, setColumnSummary] = useState(column.summary ||"")
     const [tasksDisplayed, setTasksDisplayed] = useState([])
     const [newTask, setNewTask] = useState("")
     const [showNewEditable, setShowEditable] = useState(false)
@@ -103,25 +103,25 @@ export default function Epic({ epic }) {
     const createIssueEditable = useRef()
 
     useEffect(() => {
-        if (epic.summary !== undefined) {
-            setEpicSummary(epic.summary)
+        if (column.summary !== undefined) {
+            setColumnSummary(column.summary)
         }
-    }, [epic.summary])
+    }, [column.summary])
 
     useEffect(() => { //Load the tasks from props to local state only once.
-        if (epic.tasks !== undefined && tasksDisplayed.length === 0) {
-            setTasksDisplayed(epic.tasks)
+        if (column.tasks !== undefined && tasksDisplayed.length === 0) {
+            setTasksDisplayed(column.tasks)
         }
     }, [])
 
-    const changeEpicSummary = (value) => {
-        setEpicSummary(value)
+    const changeColumnSummary = (value) => {
+        setColumnSummary(value)
         //TODO 
         //call the server to update it.
 
         //TODO 
         //On change,
-        //Change epic Summary
+        //Change Column Summary
         //And XSS
     }
 
@@ -137,10 +137,10 @@ export default function Epic({ epic }) {
     }
 
     const tasks = tasksDisplayed.length <= 0 ? "" : tasksDisplayed.map(each =>
-        <EpicBody key={each.id} task={each} opentask={opentask} />)
+        <ColumnBody key={each.id} task={each} opentask={opentask} />)
 
     return (<div className="epic-box">
-        <EpicTitle epicSummary={epicSummary} epicId={epic.id} handleChange={changeEpicSummary} />
+        <ColumnTitle columnSummary={columnSummary} columnId={column.id} handleChange={changeColumnSummary} />
         {tasks}
         {!showNewEditable && <CreateIssue handleClick={() => { setShowEditable(true) }} />}
         {showNewEditable && <div className="editable-container">

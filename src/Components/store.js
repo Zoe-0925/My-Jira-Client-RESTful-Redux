@@ -15,7 +15,6 @@ const configureStore = () => {
 
     const store = createStore(RootReducer, middleware);
 
-
     if (module.hot) {
         module.hot.accept('./RootReducer', () => {
             store.replaceReducer(require('./RootReducer').default);

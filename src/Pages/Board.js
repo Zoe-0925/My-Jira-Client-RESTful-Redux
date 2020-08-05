@@ -4,8 +4,7 @@ import NavBreadcrumbs from "../Components/NavBar/NavBreadcrumbs"
 import FilterManager from "../Components/Filters/FilterManager"
 import Drawer from "../Components/SideDrawer/Drawer"
 import { Project } from "../Components/SideDrawer/DrawerBodyFragment"
-import Container from "../Components/NavBar/Container"
-import Epic from "../Components/Epics/Epic"
+import Column from "../Components/Column/Column"
 
 export default function Board() {
     const contentEditable = useRef()
@@ -23,7 +22,7 @@ export default function Board() {
     }, { id: "2", summary: "IN PROGRESS", tasks: [] }, { id: "3", summary: "DONE", tasks: [] },
     { id: "4", summary: "TEST", tasks: [] }]
 
-    const epics = epicData.map(each => <Epic key={each.id} epic={each} />)
+    const columns = epicData.map(each => <Column key={each.id} column={each} />)
 
     return (
         <Fragment>
@@ -42,7 +41,7 @@ export default function Board() {
                 </div>
                 <FilterManager />
                 <div className="epic-list">
-                    {epics}
+                    {columns}
                 </div>
             </div>
         </Fragment>
