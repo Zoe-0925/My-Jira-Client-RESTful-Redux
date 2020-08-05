@@ -1,7 +1,13 @@
 import axios from 'axios'
 const BASE = 'http://localhost:8080/api/'
 
-function createComment(item) {
+export const CREATE_COMMENT = "CREATE_COMMENT"
+export const GET_COMMENT_BY_ID = "GET_COMMENT_BY_ID"
+export const GET_ALL_COMMENTS = "GET_ALL_COMMENTS"
+export const UPDATE_COMMENT = "UPDATE_COMMENT"
+export const DELETE_COMMENT = "UPDATE_COMMENT"
+
+export function createComment(item) {
     return axios({
         method: 'post',
         url: 'http://localhost:8080/api/comments/',
@@ -9,20 +15,20 @@ function createComment(item) {
     });
 }
 
-function fetchCommentById(id) {//fetch all projects of a Comment
+export function fetchCommentById(id) {//fetch all projects of a Comment
     return axios.get(BASE + 'comments/' + id);
 }
 
-function fetchAllComments(id) {//fetch all Comments in a project
+export function fetchAllComments(id) {//fetch all Comments in a project
     return axios.get(BASE + 'comments/issue/' + id);
 }
 
 //TODO not sure if it's useful. Maybe delete later
-function updateComment(id, update) {//fetch all projects of a Comment
+export function updateComment(id, update) {//fetch all projects of a Comment
     return axios.put(BASE + 'comments/' + id, update);
 }
 
-function deleteCommentById(id) {//fetch all projects of a Comment
+export function deleteCommentById(id) {//fetch all projects of a Comment
     return axios.delete(BASE + 'comments/' + id);
 }
 

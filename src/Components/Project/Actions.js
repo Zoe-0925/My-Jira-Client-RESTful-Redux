@@ -2,8 +2,15 @@ import axios from 'axios'
 
 const BASE = 'http://localhost:8080/api/'
 
+export const CREATE_PROJECT = "CREATE_PROJECT"
+export const GET_PROJECT_BY_ID = "GET_PROJECT_BY_ID"
+export const GET_USERS_PROJECT = "GET_USERS_PROJECT"
+export const UPDATE_PROJECT = "UPDATE_PROJECT"
+export const DELETE_PROJECT = "UPDATE_PROJECT"
+export const LEAVE_PROJECT = "LEAVE_PROJECT"
 
-function createProject(item) {
+
+export function createProject(item) {
     return axios({
         method: 'post',
         url: 'http://localhost:8080/api/projects/',
@@ -11,22 +18,22 @@ function createProject(item) {
     });
 }
 
-function fetchUsersProjects(id) {//fetch all projects of a user
+export function fetchUsersProjects(id) {//fetch all projects of a user
     return axios.get(BASE + 'projects/user/' + id);
 }
 
-function fetchProjectById(id) {//fetch all projects of a user
+export function fetchProjectById(id) {//fetch all projects of a user
     return axios.get(BASE + 'projects/' + id);
 }
 
-function updateProjectById(id, update) {//fetch all projects of a user
+export function updateProjectById(id, update) {//fetch all projects of a user
     return axios.put(BASE + 'projects/' + id, update);
 }
 
-function deleteProjectById(id) {//fetch all projects of a user
+export function deleteProjectById(id) {//fetch all projects of a user
     return axios.delete(BASE + 'projects/' + id);
 }
 
-function leaveProjectById(id, userId) {//fetch all projects of a user
+export function leaveProjectById(id, userId) {//fetch all projects of a user
     return axios.delete(BASE + 'projects/' + id + '/members/' + userId);
 }
