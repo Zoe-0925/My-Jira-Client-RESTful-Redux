@@ -1,11 +1,13 @@
-import React from 'react';
+import React from "react";
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import configureStore from './Components/store';
-import { Router } from 'react-router-dom';
-import Routes from './Routes';
+/**   Router    */
 import history from './history';
-import Container from "./Components/NavBar/Container"
+/**    Redux     */
+import { Provider, ReactReduxContext } from 'react-redux';
+import configureStore from './Components/store';
+/**     Pages     */
+import App from './App';
+/**     Fonts    */
 import './fonts/Montserrat/Montserrat-Regular.ttf';
 
 const store = configureStore();
@@ -15,13 +17,8 @@ if (module.hot) {
 }
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Container />
-    <Router history={history}>
-      <div className="App">
-        <Routes />
-      </div>
-    </Router>
+  <Provider store={store} context={ReactReduxContext}>
+    <App history={history} context={ReactReduxContext} />
   </Provider>,
   document.getElementById('root')
 );

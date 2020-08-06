@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
-import Drawer from "../Components/SideDrawer/Drawer"
-import ProjectDetailForm from "../Components/Project/ProjectDetailForm"
-import {ProjectSetting} from "../Components/SideDrawer/DrawerBodyFragment"
-import Container from "../Components/NavBar/Container"
+import Drawer from "../ViewComponents/SideDrawer/Drawer"
+import ProjectDetailForm from "../ViewComponents/Project/ProjectDetailForm"
+import {ProjectSetting} from "../ViewComponents/SideDrawer/DrawerBodyFragment"
 
 export default function ProjectDetail() {
     //TODO

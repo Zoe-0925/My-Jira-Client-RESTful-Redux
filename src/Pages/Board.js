@@ -1,10 +1,10 @@
 import React, { Fragment, useRef, useState } from 'react'
 import ContentEditable from 'react-contenteditable'
-import NavBreadcrumbs from "../Components/NavBar/NavBreadcrumbs"
-import FilterManager from "../Components/Filters/FilterManager"
-import Drawer from "../Components/SideDrawer/Drawer"
-import { Project } from "../Components/SideDrawer/DrawerBodyFragment"
-import Column from "../Components/Column/Column"
+import NavBreadcrumbs from "../ViewComponents/NavBar/NavBreadcrumbs"
+import FilterManager from "../ViewComponents/Filters/FilterManager"
+import Drawer from "../ViewComponents/SideDrawer/Drawer"
+import { Project } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
+import Column from "../ViewComponents/Column/Column"
 
 export default function Board() {
     const contentEditable = useRef()
