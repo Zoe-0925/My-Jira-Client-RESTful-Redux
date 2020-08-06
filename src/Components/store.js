@@ -6,7 +6,7 @@ import history from "../history"
 import { routerMiddleware } from 'connected-react-router'
 
 //API
-const BASE = 'http://localhost:8080/api/'
+const BASE = 'http://localhost:8080/api'
 const configureStore = () => {
     let middleware = applyMiddleware(thunk.withExtraArgument(BASE), logger, routerMiddleware(history));
 

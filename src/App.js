@@ -16,7 +16,11 @@ import { AvatorCard, Labels, Member } from "./ViewComponents/Issues/IssueModal"
 import './App.scss';
 
 import { ManageCategoryTab } from "./ViewComponents/Shared/Tabs"
+import { Button } from '@material-ui/core';
 //import Login from "./Pages/Login"
+
+import { useDispatch } from "react-redux"
+import {fetchCheckEmail} from "./Components/User/Actions"
 
 const App = ({ history, context }) => {
   const user = {
@@ -24,8 +28,24 @@ const App = ({ history, context }) => {
     email: "email.com"
   }
 
+  const dispatch = useDispatch()
+ 
+  const validateEmail = (email) => {
+    return async (dispatch, getState, BASE) => {
+      const response = await fetchCheckEmail(BASE, "testEmail@gmail.com")
+      console.log("response", response)
+
+      //save the validity to the store
+      //The view will use useEffect to select and call the other actions 
+      //dispatch({ type: "SET_JOKE", joke });
+    }
+  }
+  const testFetch =()=> dispatch(validateEmail(""))
+
+
   return (
     <div className="App">
+      <Button onClick={testFetch}>TEST</Button>
       <ConnectedRouter history={history} context={context}>
         <Router history={history}>
           <Switch>
@@ -44,6 +64,7 @@ const App = ({ history, context }) => {
           </Switch>
         </Router>
       </ConnectedRouter>
+
     </div>
   );
 }

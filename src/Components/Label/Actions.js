@@ -17,19 +17,19 @@ export function createLabel(item) {
 }
 
 export function fetchLabelById(id) {//fetch all projects of a Label
-    return axios.get(BASE + 'labels/' + id);
+    return axios.get(BASE + '/labels/' + id);
 }
 
 export function fetchAllLabels(id) {//fetch all labels in a project
-    return axios.get(BASE + 'labels/project/' + id);
+    return axios.get(BASE + '/labels/project/' + id);
 }
 
 //TODO not sure if it's useful. Maybe delete later
 export function updateLabel(id, update) {//fetch all projects of a Label
-    return axios.put(BASE + 'labels/' + id, update);
+    return axios.put(BASE + '/labels/' + id, update);
 }
 
 export function deleteLabelById(id) {//fetch all Labels of a Label
-    return axios.delete(BASE + 'labels/' + id);
+    return axios.delete(BASE + '/labels/' + id);
 }
 

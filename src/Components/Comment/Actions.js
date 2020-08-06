@@ -16,19 +16,19 @@ export function createComment(item) {
 }
 
 export function fetchCommentById(id) {//fetch all projects of a Comment
-    return axios.get(BASE + 'comments/' + id);
+    return axios.get(BASE + '/comments/' + id);
 }
 
 export function fetchAllComments(id) {//fetch all Comments in a project
-    return axios.get(BASE + 'comments/issue/' + id);
+    return axios.get(BASE + '/comments/issue/' + id);
 }
 
 //TODO not sure if it's useful. Maybe delete later
 export function updateComment(id, update) {//fetch all projects of a Comment
-    return axios.put(BASE + 'comments/' + id, update);
+    return axios.put(BASE + '/comments/' + id, update);
 }
 
 export function deleteCommentById(id) {//fetch all projects of a Comment
-    return axios.delete(BASE + 'comments/' + id);
+    return axios.delete(BASE + '/comments/' + id);
 }
 

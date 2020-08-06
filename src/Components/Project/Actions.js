@@ -19,21 +19,21 @@ export function createProject(item) {
 }
 
 export function fetchUsersProjects(id) {//fetch all projects of a user
-    return axios.get(BASE + 'projects/user/' + id);
+    return axios.get(BASE + '/projects/user/' + id);
 }
 
 export function fetchProjectById(id) {//fetch all projects of a user
-    return axios.get(BASE + 'projects/' + id);
+    return axios.get(BASE + '/projects/' + id);
 }
 
 export function updateProjectById(id, update) {//fetch all projects of a user
-    return axios.put(BASE + 'projects/' + id, update);
+    return axios.put(BASE + '/projects/' + id, update);
 }
 
 export function deleteProjectById(id) {//fetch all projects of a user
-    return axios.delete(BASE + 'projects/' + id);
+    return axios.delete(BASE + '/projects/' + id);
 }
 
 export function leaveProjectById(id, userId) {//fetch all projects of a user
-    return axios.delete(BASE + 'projects/' + id + '/members/' + userId);
+    return axios.delete(BASE + '/projects/' + id + '/members/' + userId);
 }

@@ -1,8 +1,8 @@
 //Cited from https://github.com/kilkelly/react-passport-redux-example/blob/master/src/client/actions/users.js
 import axios from 'axios'
+import { useDispatch } from "react-redux";
+import thunk from "redux-thunk";
 //import { history } from "../../history"
-
-const BASE = 'http://localhost:8080/api/'
 
 export const CREATE_USER = "CREATE_USER"
 export const GET_USER_BY_ID = "GET_USER_BY_ID"
@@ -62,6 +62,17 @@ function beginRegister() {
     return { type: types.REGISTER_USER }
 }
 
+const validateEmail = (email) => {
+    return async (dispatch, getState, BASE) => {
+        const response = await fetchCheckEmail(BASE, email)
+        console.log("response", response)
+
+        //save the validity to the store
+        //The view will use useEffect to select and call the other actions 
+        //dispatch({ type: "SET_JOKE", joke });
+    }
+}
+
 function registerSuccess() {
     return { type: types.REGISTER_SUCCESS_USER }
 }
@@ -94,7 +105,7 @@ export function manualLogin(
                     dispatch(loginSuccess(data))
 
                     //TODO update this to project board page
-                  //  history.push("/projects")
+                    //  history.push("/projects")
                 } else {
                     dispatch(loginError())
                     let loginMessage = response.data.message
@@ -122,7 +133,7 @@ export function manualLogout() {
                     dispatch(logoutSuccess())
                     // use browserHistory singleton to control navigation. Will generate a 
                     // state change for time-traveling as we are using the react-router-redux package
-                  //  history.push("/Login") // logout to home page
+                    //  history.push("/Login") // logout to home page
                 } else {
                     dispatch(logoutError())
                 }
@@ -165,6 +176,7 @@ export function manualRegister(data) {
 
 export function signUp(account) {
 
+
 }
 
 export function login(account) {
@@ -183,31 +195,35 @@ export function createUser(item) {
     });
 }
 
-export function fetchUserById(id) {//fetch all USERs of a user
+export function fetchUserById(BASE, id) {//fetch all USERs of a user
     return axios.get(BASE + '/users/' + id);
 }
 
-export function fetchUserByEmail(email) {//fetch all USERs of a user
+export function fetchUserByEmail(BASE, email) {//fetch all USERs of a user
     return axios.get(BASE + '/users/email' + email);
 }
 
 // @return: {result:boolean}
-export function fetchCheckEmail(email) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/checkEmail' + email);
+export function fetchCheckEmail(BASE, email) {//fetch all USERs of a user
+    return axios({
+        method: 'post',
+        url: BASE + '/users/checkEmail',
+        data: email
+    });
 }
 
-export function updateUserInfo(id, update) {//fetch all USERs of a user
+export function updateUserInfo(BASE, id, update) {//fetch all USERs of a user
     return axios.put(BASE + '/users/info' + id, update);
 }
 
-export function updateEmail(id, update) {//fetch all USERs of a user
+export function updateEmail(BASE, id, update) {//fetch all USERs of a user
     return axios.put(BASE + '/users/email' + id, update);
 }
 
-export function updatePassword(id, update) {//fetch all USERs of a user
+export function updatePassword(BASE, id, update) {//fetch all USERs of a user
     return axios.put(BASE + '/users/password' + id, update);
 }
 
-export function deleteUser(id) {//fetch all USERs of a user
+export function deleteUser(BASE, id) {//fetch all USERs of a user
     return axios.delete(BASE + '/users/' + id);
 }

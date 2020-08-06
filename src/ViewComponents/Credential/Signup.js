@@ -1,9 +1,8 @@
-import React, { useState, Fragment } from 'react'
+import React from 'react'
 import { Form, Field } from 'formik';
 import { withFormik } from 'formik';
 import {
     Button,
-    InputLabel,
     Divider,
     Box,
     Link
@@ -13,15 +12,7 @@ import {
 } from 'formik-material-ui';
 import { EmailField, PasswordField } from "./SharedTextFields"
 
-const SignupForm = props => {
-    const [value, setValue] = useState({
-        email: "",
-        password: ""
-    })
-
-    const [passwordVisible, setPasswordVisible] = useState(false)
-
-
+export const SignupForm = props => {
     const {
         values,
         handleChange,
@@ -33,11 +24,12 @@ const SignupForm = props => {
             <p className="title">Sign up for your account</p>
             <EmailField handleChange={handleChange} value={values.email} />
             <Field
+            data-testid="name-field"
                 fullWidth={true}
                 className="row text-field"
                 component={TextField}
-                name="text"
-                type="name"
+                name="name"
+                type="text"
                 margin="normal"
                 variant="outlined"
                 size="small"
@@ -45,14 +37,14 @@ const SignupForm = props => {
                 value={values.name}
                 placeholder="Enter full name"
             />
-            <PasswordField placeholder="Create password" handleChange={handleChange}
+            <PasswordField 
+            placeholder="Create password" handleChange={handleChange}
                 value={values.password} />
 
             <Button
                 className="row main-submit-btn"
                 onClick={handleSubmit}
             >Sign up</Button>
-
             <p className="or-label">OR</p>
 
             <Button
