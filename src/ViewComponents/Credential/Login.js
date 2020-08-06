@@ -31,33 +31,28 @@ const LoginForm = props => {
 
     return <div className="form">
         <Form onSubmit={handleSubmit}>
-        <EmailField handleChange={handleChange} value={values.email} />
+            <p className="title">Log in to your account</p>
+            <EmailField handleChange={handleChange} value={values.email} />
             {showPassword &&
-                <PasswordField placeholder="Enter Password" 
+                <PasswordField placeholder="Enter Password"
                     handleChange={handleChange} value={values.password}
                 />
             }
-            <Box margin={1}>
-                <Button
-                    className="row main-submit-btn"
-                    onClick={handleSubmit}
-                >{showPassword ? "Log in" : "CONTINUE"}</Button>
-            </Box>
+            <Button
+                className="row main-submit-btn"
+                onClick={handleSubmit}
+            >{showPassword ? "Log in" : "CONTINUE"}</Button>
             <Divider />
-            <Box margin={1}>
-                <Button
-                    className="row submit-btn"
-                    onClick={handleSubmit}
-                >Log in with Google</Button>
-                <Button
-                    className="row submit-btn"
-                    onClick={handleSubmit}
-                >Log in with Git hub</Button>
-            </Box>
+            <Button
+                className="row submit-btn"
+                onClick={handleSubmit}
+            >Log in with Google</Button>
+            <Button
+                className="row submit-btn"
+                onClick={handleSubmit}
+            >Log in with Git hub</Button>
             <Divider />
-            <Box margin={1}>
-                <Link href="/signup" className="link"><p>Sign up for an account</p></Link>
-            </Box>
+            <Link href="/signup" className="link"><p className="link">Sign up for an account</p></Link>
         </Form>
     </div>
 }

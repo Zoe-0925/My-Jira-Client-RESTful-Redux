@@ -65,7 +65,7 @@ const SignupForm = props => {
             >Continue with Git hub</Button>
             <Box margin={1}>
             <Divider className="blank-divider"/>
-                <Link className="link" href="/login"><p>Already have an account? Log in</p></Link>
+                <Link className="link" href="/login"><p className="link">Already have an account? Log in</p></Link>
             </Box>
         </Form>
     </div>

@@ -3,6 +3,8 @@ $sm-font: "Roboto", sans-serif;
 $xs-font-size: 1rem;
 $card-font-size: 0.75rem;
 $link-font-size: 1rem;
+$box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 1px 2px 0 rgba(0, 0, 0, 0.19);
+
 
 $search: 300px;
 $wide-search: 600px;
@@ -75,9 +77,13 @@ $one-third: 33%;
     font-size: $sm-font-size;
     font-family: $sm-font;
     text-align: center;
+    box-shadow: $box-shadow;
 
     .title{
+      font-size:1rem;
       color:rgb(94, 108, 132);
+      padding-top: 2rem;
+      font-weight: 600;
     }
 
     .row {
@@ -96,6 +102,7 @@ $one-third: 33%;
 
     .link {
       font-size: 0.875rem;
+      padding-bottom: 2rem;
     }
 
     .blank-divider{
@@ -138,7 +145,9 @@ $one-third: 33%;
 
     .submit-btn{
       color:rgb(66, 82, 110);
-      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
+      box-shadow: $box-shadow;
+      font-weight: 600;
+      font-size:1rem;
     }
   }
 }
@@ -474,7 +483,6 @@ $one-third: 33%;
   }
 
   .navbar-create-btn {
-    font-weight: bold;
     align-items: baseline;
     box-sizing: border-box;
     font-weight: 500;
