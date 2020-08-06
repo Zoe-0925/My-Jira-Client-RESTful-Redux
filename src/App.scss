@@ -2,6 +2,7 @@ $sm-font-size: 1.25rem;
 $sm-font: "Roboto", sans-serif;
 $xs-font-size: 1rem;
 $card-font-size: 0.75rem;
+$link-font-size: 1rem;
 
 $search: 300px;
 $wide-search: 600px;
@@ -61,16 +62,23 @@ $one-third: 33%;
   }
 
   background-color: $white;
-  width: $one-third;
+  width: 400px;
   margin-left: $one-third;
   margin-right: $one-third;
-  align-items: center;
+  align-self: center;
 
   form {
+    padding-left: 10%;
+    padding-right: 10%;
     align-self: center;
-    width: $full;
+    width: 80%;
     font-size: $sm-font-size;
     font-family: $sm-font;
+    text-align: center;
+
+    .title{
+      color:rgb(94, 108, 132);
+    }
 
     .row {
       margin-top: $margin-1;
@@ -84,6 +92,53 @@ $one-third: 33%;
     .select {
       height: 40px;
       background-color: $bgc;
+    }
+
+    .link {
+      font-size: 0.875rem;
+    }
+
+    .blank-divider{
+      margin-top: 2rem;
+    }
+    .text-field {
+      background-color: $bgc;
+    }
+
+    .or-label {
+      color: grey;
+      font-size: 0.75rem;
+      text-align: center;
+
+  
+    }
+
+    .main-submit-btn {
+      font-weight: bold;
+      align-items: baseline;
+      box-sizing: border-box;
+      font-weight: 500;
+      width: $full;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: transparent 0px 0px 0px 2px;
+      background: $call-to-action-color;
+      height: 2.5rem;
+      line-height: 2.28571em;
+      vertical-align: middle;
+      color: rgb(255, 255, 255);
+      border-radius: 3px;
+      padding: 3px 12px 6px 12px;
+      cursor: pointer;
+      transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+      transition-property: background, box-shadow;
+      transition-duration: 0.1s, 0.15s;
+      transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+    }
+
+    .submit-btn{
+      color:rgb(66, 82, 110);
+      box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
     }
   }
 }
@@ -209,13 +264,12 @@ $one-third: 33%;
   font-size: $xs-font-size;
   color: $drawer-color;
 
-  .container{
-    color:$drawer-color;
+  .container {
+    color: $drawer-color;
   }
 
-  .list-item{
+  .list-item {
     max-height: 3rem;
-
   }
 
   .title {
@@ -394,7 +448,6 @@ $one-third: 33%;
   .item-left {
     margin-left: 10%;
   }
-
 }
 
 .project-detail-form {
@@ -554,4 +607,13 @@ $one-third: 33%;
 .inline-text_input--active {
   border-bottom: 1px solid #666666;
   text-align: left;
+}
+
+.Login-Signup-Page {
+  background-color: skyblue;
+}
+
+.logo-title{
+  text-align: center;
+  
 }

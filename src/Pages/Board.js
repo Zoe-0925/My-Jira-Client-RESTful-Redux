@@ -5,6 +5,7 @@ import FilterManager from "../ViewComponents/Filters/FilterManager"
 import Drawer from "../ViewComponents/SideDrawer/Drawer"
 import { Project } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
 import Column from "../ViewComponents/Column/Column"
+import Container from "../ViewComponents/NavBar/Container"
 
 export default function Board() {
     const contentEditable = useRef()
@@ -26,9 +27,10 @@ export default function Board() {
 
     return (
         <Fragment>
+            <Container />
             <div className="main">
                 <Drawer handleClick={() => { }} onChange={() => { }} >
-                    <Project projectName={projectName} currentLocation="board"/>
+                    <Project projectName={projectName} currentLocation="board" />
                 </Drawer>
                 <NavBreadcrumbs className="row" />
                 <div className="board-name">

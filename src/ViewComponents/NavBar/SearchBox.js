@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react'
 import SearchIcon from '@material-ui/icons/Search';
-import { TextField, ClickAwayListener } from '@material-ui/core';
-import IconButton from "@material-ui/core/IconButton";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import { TextField, ClickAwayListener,IconButton,InputAdornment } from '@material-ui/core';
 import { useSimpleState } from './CustomHooks';
 
 export default function SearchBox() {

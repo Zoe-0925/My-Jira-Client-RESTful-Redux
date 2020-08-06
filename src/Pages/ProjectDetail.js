@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react'
 import Drawer from "../ViewComponents/SideDrawer/Drawer"
 import ProjectDetailForm from "../ViewComponents/Project/ProjectDetailForm"
-import {ProjectSetting} from "../ViewComponents/SideDrawer/DrawerBodyFragment"
+import { ProjectSetting } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
+import Container from "../ViewComponents/NavBar/Container"
 
 export default function ProjectDetail() {
     //TODO
@@ -9,6 +10,7 @@ export default function ProjectDetail() {
 
     return (
         <Fragment>
+            <Container />
             <div className="main">
                 <Drawer >
                     <ProjectSetting projectName={projectName} currentLocation="detail" />

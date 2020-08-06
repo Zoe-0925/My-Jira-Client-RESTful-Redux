@@ -5,6 +5,8 @@ import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";
 import { ConnectedRouter } from 'connected-react-router'
 /**    Pages     */
+import Login from "./Pages/Login"
+import Signup from "./Pages/Signup"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import Container from "./ViewComponents/NavBar/Container"
@@ -24,11 +26,12 @@ const App = ({ history, context }) => {
 
   return (
     <div className="App">
-      <Container />
       <ConnectedRouter history={history} context={context}>
         <Router history={history}>
           <Switch>
             <Route path="/" exact component={Board} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/signup" exact component={Signup} />
             <Route path="/projects" exact component={Board} />
             <Route path="/project/:id" exact component={App} />
             <Route path="/project/:id/roadmap" exact component={App} />
@@ -44,20 +47,8 @@ const App = ({ history, context }) => {
     </div>
   );
 }
-//  <ProjectDetail />
 export default process.env.NODE_ENV === "development" ? hot(App) : App
-// <Drawer handleClick={() => { }} onChange={() => { }} />
 
-// <Drawer handleClick={() => { }} onChange={() => { }} />
-//<ProjectDetail />
 
-/**
- *
- *
- *     <div className="main">
-        <Drawer handleClick={() => { }} onChange={() => { }} />
-        <div className="right-main">
-          <ProjectDetail />
-        </div>
-      </div>
- */
+//TODO
+//Project detail page
