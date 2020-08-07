@@ -1,7 +1,14 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 
-const BASE = 'http://localhost:8080/api/'
+export const LOADING_PROJECT = "LOADING_PROJECT"
+export const ERROR_PROJECT = "ERROR_PROJECT"
+export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
+export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
+export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
+export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
+
+
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const GET_PROJECT_BY_ID = "GET_PROJECT_BY_ID"

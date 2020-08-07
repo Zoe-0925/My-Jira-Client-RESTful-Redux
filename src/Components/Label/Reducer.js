@@ -1,7 +1,5 @@
 import {
-    CREATE_LABEL,
     CREATE_SUCCESS_LABEL,
-    DELETE_LABEL,
     DELETE_SUCCESS_LABEL,
     APPEND_SUCCESS_LABELS,
     LOADING_LABEL,
@@ -21,14 +19,16 @@ export default function LabelReducer(state = initialState, action) {
         case LOADING_LABEL:
             return Object.assign({}, state, { loading: true })
         case CREATE_SUCCESS_LABEL:
-            return Object.assign({}, state, { loading: false, authenticated: true, labels: action.data.label })
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.labels = newState.labels.push(action.data)
+            return newState
         case DELETE_SUCCESS_LABEL:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.labels.filter(item => item.id === action.id)
+            newState.labels = newState.labels.filter(item => item._id === action.id)
             return newState
         case APPEND_SUCCESS_LABELS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.labels = [...newState.labels, action.data]
+            newState.labels = newState.labels.concat(action.data)
             return newState
         case ERROR_LABEL:
             return Object.assign({}, state, { loading: false, authenticated: false })

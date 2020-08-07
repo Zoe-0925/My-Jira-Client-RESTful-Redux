@@ -1,7 +1,14 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 
-const BASE = 'http://localhost:8080/api/'
+export const LOADING_ISSUE = "LOADING_ISSUE"
+export const ERROR_ISSUE = "ERROR_ISSUE"
+export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
+export const DELETE_SUCCESS_ISSUE = "DELETE_SUCCESS_ISSUE"
+export const UPDATE_SUCCESS_ISSUE = "UPDATE_SUCCESS_ISSUE"
+export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
+export const APPEND_SUCCESS_ISSUES_PARENT = "APPEND_SUCCESS_ISSUES_PARENT"
+export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
 
 
 function createIssue(BASE, item, token) {

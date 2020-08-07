@@ -1,13 +1,37 @@
+import {
+    LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
+    UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS
+} from "./Actions"
 
-
-//TODO intial state should be from the local storage???
-const initialState = {}
-
-export default function StatusReducer(state = initialState, action) {
+export default function StatusReducer(state = {
+    loading: false,
+    authenticated: false,
+    status: []
+}, action) {
     let newState;
 
     switch (action.type) {
-
+        case LOADING_STATUS:
+            return Object.assign({}, state, { loading: true })
+        case CREATE_SUCCESS_STATUS:
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.status = newState.status.push(action.data)
+            return newState
+        case DELETE_SUCCESS_STATUS:
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.status = newState.status.filter(item => item._id === action.id)
+            return newState
+        case UPDATE_SUCCESS_STATUS:
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.status = newState.status.filter(item => item._id === action.id)
+            newState.status = newState.status.push(action.data)
+            return newState
+        case APPEND_SUCCESS_STATUS:
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.status = newState.status.push(action.data)
+            return newState
+        case ERROR_STATUS:
+            return Object.assign({}, state, { loading: false, authenticated: false })
         default:
             return state;
     }

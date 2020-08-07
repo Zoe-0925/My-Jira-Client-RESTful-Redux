@@ -2,6 +2,13 @@ import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 
 
+export const LOADING_STATUS = "LOADING_STATUS"
+export const ERROR_STATUS = "ERROR_STATUS"
+export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
+export const DELETE_SUCCESS_STATUS = "DELETE_SUCCESS_STATUS"
+export const UPDATE_SUCCESS_STATUS = "UPDATE_SUCCESS_STATUS"
+export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
+
 export const CREATE_STATUS = "CREATE_STATUS"
 export const GET_STATUS_BY_ID = "GET_STATUS_BY_ID"
 export const GET_ALL_STATUS = "GET_ALL_STATUS"
