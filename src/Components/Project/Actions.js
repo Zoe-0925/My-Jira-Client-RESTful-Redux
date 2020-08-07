@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { post, put, jwtConfig } from "../Util"
 
 const BASE = 'http://localhost:8080/api/'
 
@@ -10,30 +11,26 @@ export const DELETE_PROJECT = "UPDATE_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"
 
 
-export function createProject(item) {
-    return axios({
-        method: 'post',
-        url: 'http://localhost:8080/api/projects/',
-        data: item
-    });
+export function createProject(BASE, item, token) {
+    return post('/projects/', BASE, item, token)
 }
 
-export function fetchUsersProjects(id) {//fetch all projects of a user
-    return axios.get(BASE + '/projects/user/' + id);
+export function fetchUsersProjects(BASE, id, token) {//fetch all projects of a user
+    return axios.get(BASE + '/projects/user/' + id, jwtConfig(token));
 }
 
-export function fetchProjectById(id) {//fetch all projects of a user
-    return axios.get(BASE + '/projects/' + id);
+export function fetchProjectById(BASE, id, token) {//fetch all projects of a user
+    return axios.get(BASE + '/projects/' + id, jwtConfig(token));
 }
 
-export function updateProjectById(id, update) {//fetch all projects of a user
-    return axios.put(BASE + '/projects/' + id, update);
+export function updateProjectById(BASE, id, update, token) {//fetch all projects of a user
+    return put('/projects/' + id, BASE, update, token)
 }
 
-export function deleteProjectById(id) {//fetch all projects of a user
-    return axios.delete(BASE + '/projects/' + id);
+export function deleteProjectById(BASE, id, token) {//fetch all projects of a user
+    return axios.delete(BASE + '/projects/' + id, jwtConfig(token));
 }
 
-export function leaveProjectById(id, userId) {//fetch all projects of a user
-    return axios.delete(BASE + '/projects/' + id + '/members/' + userId);
+export function leaveProjectById(BASE, id, userId, token) {//fetch all projects of a user
+    return axios.delete(BASE + '/projects/' + id + '/members/' + userId, jwtConfig(token));
 }

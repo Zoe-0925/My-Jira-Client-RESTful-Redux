@@ -1,11 +1,11 @@
+import axios from 'axios'
+import { post, put, jwtConfig } from "../Util"
+
 const BASE = 'http://localhost:8080/api/'
 
-function createIssue(item) {
-    return axios({
-        method: 'post',
-        url: BASE + 'issues/',
-        data: item
-    });
+
+function createIssue(BASE, item, token) {
+    return post('/issues/', BASE, item, token)
 }
 
 //TODO create issue type
@@ -13,38 +13,38 @@ function createIssue(item) {
 //Maybe issue type itself is anoher document LOL
 
 
-function fetchIssueById(id) {//fetch all Issues of a user
-    return axios.get(BASE + '/issues/', + id);
+function fetchIssueById(BASE, id, token) {//fetch all Issues of a user
+    return axios.get(BASE + '/issues/' + id, jwtConfig(token));
 }
 
-function fetchProjectsIssues(id) {//fetch all Issues in a project
-    return axios.get(BASE + '/issues/project/' + id);
+function fetchProjectsIssues(BASE, id, token) {//fetch all Issues in a project
+    return axios.get(BASE + '/issues/project/' + id, jwtConfig(token));
 }
 
-function fetchByProjectAndIssueType(id, type) {//fetch all Issues of a particular type in a project
-    return axios.get(BASE + '/issues/project/' + id + 'issueType/' + type);
+function fetchByProjectAndIssueType(BASE, id, type, token) {//fetch all Issues of a particular type in a project
+    return axios.get(BASE + '/issues/project/' + id + 'issueType/' + type, jwtConfig(token));
 }
 
-function fetchByAssigneeAndIssueType(id, type) {//fetch all Issues of a particular type of an assignee
-    return axios.get(BASE + '/issues/assignee/' + id + 'issueType/' + type);
+function fetchByAssigneeAndIssueType(BASE, id, type, token) {//fetch all Issues of a particular type of an assignee
+    return axios.get(BASE + '/issues/assignee/' + id + 'issueType/' + type, jwtConfig(token));
 }
 
-function fetchByReporteeAndIssueType(id, type) {//fetch all Issues of a particular type of a reportee
-    return axios.get(BASE + '/issues/reportee/' + id + 'issueType/' + type);
+function fetchByReporteeAndIssueType(BASE, id, type, token) {//fetch all Issues of a particular type of a reportee
+    return axios.get(BASE + '/issues/reportee/' + id + 'issueType/' + type, jwtConfig(token));
 }
 
-function fetchChildren(id) {//fetch all chilren of an Issues 
-    return axios.get(BASE + '/issues/' + id + '/children'); //e.g. subtasks of a task    or   tasks of an epic 
+function fetchChildren(BASE, id, token) {//fetch all chilren of an Issues 
+    return axios.get(BASE + '/issues/' + id + '/children', jwtConfig(token)); //e.g. subtasks of a task    or   tasks of an epic 
 }
 
-function fetchParent(id) {//fetch all chilren of an Issues 
-    return axios.get(BASE + '/issues/' + id + '/parent'); //e.g. subtasks of a task    or   tasks of an epic 
+function fetchParent(BASE, id, token) {//fetch all chilren of an Issues 
+    return axios.get(BASE + '/issues/' + id + '/parent', jwtConfig(token)); //e.g. subtasks of a task    or   tasks of an epic 
 }
 
-function updateIssueById(id, update) {//fetch all Issues of a user
-    return axios.put(BASE + '/issues/', + id, update);
+function updateIssueById(BASE, id, update, token) {//fetch all Issues of a user
+    return put('/issues/' + id, BASE, item, token)
 }
 
-function deleteIssueById(id) {//fetch all Issues of a user
-    return axios.delete(BASE + '/issues/', + id);
+function deleteIssueById(BASE, id, token) {//fetch all Issues of a user
+    return axios.delete(BASE + '/issues/' + id, jwtConfig(token));
 }

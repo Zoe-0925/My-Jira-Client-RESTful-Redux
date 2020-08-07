@@ -1,5 +1,6 @@
 //Cited from https://github.com/kilkelly/react-passport-redux-example/blob/master/src/client/actions/users.js
 import axios from 'axios'
+import { post, put, jwtConfig } from "../Util"
 import { useDispatch } from "react-redux";
 import thunk from "redux-thunk";
 //import { history } from "../../history"
@@ -81,14 +82,7 @@ function registerError() {
     return { type: types.REGISTER_ERROR_USER }
 }
 
-function makeUserRequest(method, data, api = "/login") {
-    // returns a Promise
-    return axios({
-        method: method,
-        url: api,
-        data: data
-    })
-}
+
 
 // Example of an Async Action Creator
 // http://redux.js.org/docs/advanced/AsyncActions.html
@@ -174,56 +168,48 @@ export function manualRegister(data) {
 
 }
 
-export function signUp(account) {
-
-
+export function fetchSignUp(BASE, item, token) {
+    return post('/users/signup', BASE, item, token)
 }
 
-export function login(account) {
-
+export function fetchLogin(BASE, item, token) {
+    return post('/users/login', BASE, item, token)
 }
 
-export function logout(account) {
-
+export function fetchLogout(BASE, item, token) {
+    return post('/users/logout', BASE, item, "")
 }
 
-export function createUser(item) {
-    return axios({
-        method: 'post',
-        url: BASE + '/users/',
-        data: item
-    });
+//TODO for testing purpose
+export function createUser(BASE, item) {
+    return post('/users/checkEmail', BASE, item, "")
 }
 
-export function fetchUserById(BASE, id) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/' + id);
+export function fetchUserById(BASE, id, token) {//fetch all USERs of a user
+    return axios.get(BASE + '/users/' + id, jwtConfig(token));
 }
 
-export function fetchUserByEmail(BASE, email) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/email' + email);
+export function fetchUserByEmail(BASE, email, token) {//fetch all USERs of a user
+    return axios.get(BASE + '/users/email' + email, jwtConfig(token));
 }
 
 // @return: {result:boolean}
-export function fetchCheckEmail(BASE, email) {//fetch all USERs of a user
-    return axios({
-        method: 'post',
-        url: BASE + '/users/checkEmail',
-        data: email
-    });
+export function fetchCheckEmail(BASE, email, token) {//fetch all USERs of a user
+    return post('/users/checkEmail', BASE, email, token)
 }
 
-export function updateUserInfo(BASE, id, update) {//fetch all USERs of a user
-    return axios.put(BASE + '/users/info' + id, update);
+export function updateUserInfo(BASE, id, update, token) {//fetch all USERs of a user
+    return put('/users/info/' + id, BASE, update, token)
 }
 
-export function updateEmail(BASE, id, update) {//fetch all USERs of a user
-    return axios.put(BASE + '/users/email' + id, update);
+export function updateEmail(BASE, id, update, token) {//fetch all USERs of a user
+    return put('/users/email/' + id, BASE, update, token)
 }
 
-export function updatePassword(BASE, id, update) {//fetch all USERs of a user
-    return axios.put(BASE + '/users/password' + id, update);
+export function updatePassword(BASE, id, update, token) {//fetch all USERs of a user
+    return put('/users/password' + id, BASE, update, token)
 }
 
-export function deleteUser(BASE, id) {//fetch all USERs of a user
-    return axios.delete(BASE + '/users/' + id);
+export function deleteUser(BASE, id, token) {//fetch all USERs of a user
+    return axios.delete(BASE + '/users/' + id, jwtConfig(token));
 }
