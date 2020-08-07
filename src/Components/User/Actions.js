@@ -1,11 +1,15 @@
 //Cited from https://github.com/kilkelly/react-passport-redux-example/blob/master/src/client/actions/users.js
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
-import { useDispatch } from "react-redux";
-import thunk from "redux-thunk";
+import history from "../../history"
+require('dotenv').config()
 //import { history } from "../../history"
+export const ERROR_USER = "ERROR_USER"
+export const LOADING_USER = "LOADING_USER"
 
 export const CREATE_USER = "CREATE_USER"
+
+//TODO
 export const GET_USER_BY_ID = "GET_USER_BY_ID"
 export const GET_USER_BY_EMAIL = "GET_USER_BY_EMAIL"
 export const CHECK_EMAIL_EXIST = "CHECK_EMAIL_EXIST"
@@ -13,25 +17,20 @@ export const UPDATE_USER_INFO = "UPDATE_USER_INFO"
 export const UPDATE_USER_EMAIL = "UPDATE_USER_EMAIL"
 export const UPDATE_USER_PASSWORD = "UPDATE_USER_PASSWORD"
 export const DELETE_USER = "UPDATE_USER"
+//-------------------------------------------------------
+
 
 /**    --- New --- */
-export const MANUAL_LOGIN_USER = "MANUAL_LOGIN_USER"
 export const LOGIN_SUCCESS_USER = "LOGIN_SUCCESS_USER"
-export const LOGIN_ERROR_USER = "LOGIN_ERROR_USER"
 export const SIGNUP_USER = "SIGNUP_USER"
 export const SIGNUP_SUCCESS_USER = "SIGNUP_SUCCESS_USER"
-export const SIGNUP_ERROR_USER = "SIGNUP_ERROR_USER"
 export const LOGOUT_USER = "LOGOUT_USER"
 export const LOGOUT_SUCCESS_USER = "LOGOUT_SUCCESS_USER"
-export const LOGOUT_ERROR_USER = "LOGOUT_ERROR_USER"
-export const REGISTER_USER = "REGISTER_USER"
-export const REGISTER_SUCCESS_USER = "REGISTER_SUCCESS_USER"
-export const REGISTER_ERROR_USER = "REGISTER_ERROR_USER"
 /**    --- New --- */
 
 // "Log In" action creators
 function beginLogin() {
-    return { type: types.MANUAL_LOGIN_USER }
+    return { type: MANUAL_LOGIN_USER }
 }
 
 function loginSuccess(data) {
@@ -42,25 +41,25 @@ function loginSuccess(data) {
 }
 
 function loginError() {
-    return { type: types.LOGIN_ERROR_USER }
+    return { type: ERROR_USER }
 }
 
 // "Log Out" action creators
 function beginLogout() {
-    return { type: types.LOGOUT_USER }
+    return { type: LOGOUT_USER }
 }
 
 function logoutSuccess() {
-    return { type: types.LOGOUT_SUCCESS_USER }
+    return { type: LOGOUT_SUCCESS_USER }
 }
 
 function logoutError() {
-    return { type: types.LOGOUT_ERROR_USER }
+    return { type: ERROR_USER }
 }
 
 // "Register" action creators
-function beginRegister() {
-    return { type: types.REGISTER_USER }
+function beginSignup() {
+    return { type: SIGNUP_USER }
 }
 
 const validateEmail = (email) => {
@@ -74,12 +73,12 @@ const validateEmail = (email) => {
     }
 }
 
-function registerSuccess() {
-    return { type: types.REGISTER_SUCCESS_USER }
+function signupSuccess() {
+    return { type: SIGNUP_SUCCESS_USER }
 }
 
-function registerError() {
-    return { type: types.REGISTER_ERROR_USER }
+function signupError() {
+    return { type: ERROR_USER }
 }
 
 
@@ -88,84 +87,77 @@ function registerError() {
 // http://redux.js.org/docs/advanced/AsyncActions.html
 export function manualLogin(
     data,
-    successPath // path to redirect to upon successful log in
+    successPath, // path to redirect to upon successful log in
+    token
 ) {
     return dispatch => {
         dispatch(beginLogin())
-
-        return makeUserRequest("post", data, "/login")
-            .then(response => {
-                if (response.data.success) {
-                    dispatch(loginSuccess(data))
-
-                    //TODO update this to project board page
-                    //  history.push("/projects")
-                } else {
-                    dispatch(loginError())
-                    let loginMessage = response.data.message
-                    return loginMessage
-                }
-            })
-            .catch(function (response) {
-                if (response instanceof Error) {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', response.message);
-                }
-            })
+        try {
+            const response = await fetchLogin(process.env.BASE, data, token)
+            const json = await response.json()
+            if (json.data.success) {
+                dispatch(loginSuccess(data))
+                history.push(successPath)
+            }
+            else {
+                dispatch(loginError())
+                let loginMessage = json.data.message
+                return loginMessage
+            }
+        }
+        catch (err) {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
     }
 }
 
-// Example of an Async Action Creator
-// http://redux.js.org/docs/advanced/AsyncActions.html
-export function manualLogout() {
+export async function manualLogout(data, token) {
     return dispatch => {
         dispatch(beginLogout())
-
-        return axios.get("/logout")
-            .then(response => {
-                if (response.data.success) {
-                    dispatch(logoutSuccess())
-                    // use browserHistory singleton to control navigation. Will generate a 
-                    // state change for time-traveling as we are using the react-router-redux package
-                    //  history.push("/Login") // logout to home page
-                } else {
-                    dispatch(logoutError())
-                }
-            })
-            .catch(response => {
-                if (response instanceof Error) {
-                    // Something happened during logout that triggered an Error
-                    console.log('Error', response.message);
-                }
-            })
+        try {
+            const response = await fetchLogout(process.env.BASE, data, token)
+            const json = await response.json()
+            if (json.data.success) {
+                dispatch(logoutSuccess())
+                history.push("./login")
+            }
+            else {
+                dispatch(logoutError())
+                let message = json.data.message
+                return message
+            }
+        }
+        catch (err) {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
     }
 }
 
 //TODO need to update here to connect passport and 3rd party register
-export function manualRegister(data) {
-
+export async function manualSignup(data) {
     return dispatch => {
-        dispatch(beginRegister())
-
-        return makeUserRequest("post", data, "/register")
-            .then(response => {
-                if (response.data.success) {
-                    dispatch(registerSuccess())
-                    dispatch(manualLogin(data, "/"))
-                } else {
-                    dispatch(registerError())
-                    let registerMessage = response.data.message
-                    return registerMessage
-                }
-            })
-            .catch(response => {
-                if (response instanceof Error) {
-                    // Something happened in setting up the request that triggered an Error
-                    console.log('Error', response.message);
-                }
-            })
+        dispatch(beginSignup())
+        try {
+            const response = await fetchSignUp(process.env.BASE, data, token)
+            const json = await response.json()
+            if (json.data.success) {
+                data._id = json.data.id
+                dispatch(signupSuccess(data))
+                dispatch(manualLogin(data, "/projects"))
+            }
+            else {
+                dispatch(signupError())
+                let message = json.data.message
+                return message
+            }
+        }
+        catch (err) {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
     }
-
 }
 
 export function fetchSignUp(BASE, item, token) {
