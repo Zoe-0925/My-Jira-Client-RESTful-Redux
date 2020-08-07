@@ -14,6 +14,8 @@ const initialState = {
     comments: []
 }
 
+
+
 export default function CommentReducer(state = initialState, action) {
     let newState
     switch (action.type) {
