@@ -18,7 +18,148 @@ export const DELETE_PROJECT = "UPDATE_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"
 
 
-export function createProject(BASE, item, token) {
+/***************** Actions  ***********************/
+export function createSuccessfulProject(data) {
+    return {
+        type: CREATE_SUCCESS_PROJECT,
+        data: data
+    }
+}
+
+export function appendSuccessfulProject(data) {
+    return {
+        type: APPEND_SUCCESS_PROJECTS,
+        data: data //an array
+    }
+}
+
+export function appendCurrentProject(data) {
+    return {
+        type: APPEND_SUCCESS_CURRENT_PROJECTS,
+        data: data //an array
+    }
+}
+
+export function updateSuccessfulProject(data) {
+    return {
+        type: UPDATE_SUCCESS_PROJECT,
+        data: data
+    }
+}
+
+export function dispatchError(data) {
+    return {
+        type: ERROR_PROJECT,
+        data: data
+    }
+}
+
+/*****************  Thunk Actions  ****************/
+export async function createProject(id, token) {
+    return async  dispatch => {
+        dispatch({ type: LOADING_PROJECT })
+        try {
+            const response = await dispatch(fetchCreateProject(process.env.BASE, id, token))
+            if (response.data.success) {
+                data._id = response.data.id
+                dispatch(createSuccessfulProject(data))
+            }
+            else {
+                dispatch(dispatchError(response.data.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
+//Get all projects of the user
+export async function getAllProjects(userId, token) {
+    return async  dispatch => {
+        dispatch({ type: LOADING_PROJECT })
+        try {
+            const response = await dispatch(fetchAllProjects(process.env.BASE, userId, token))
+            if (response.data.success) {
+                dispatch(appendSuccessfulProjects(response.data.data))
+            }
+            else {
+                dispatch(dispatchError(response.data.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            console.log('Error', err);
+        }
+    }
+}
+
+//TODO
+//test to see 
+export async function getASingleProject(BASE, id, token) {
+    return async  dispatch => {
+        dispatch({ type: LOADING_PROJECT })
+        try {
+            const response = await dispatch(deleteProjectById(process.env.BASE, id, token))
+            if (response.data.success) {
+                dispatch(appendCurrentProject(response.data.data))
+            }
+            else {
+                dispatch(dispatchError(response.data.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
+export async function updateProject(id, token) {
+    return async  dispatch => {
+        dispatch({ type: LOADING_PROJECT })
+        try {
+            const response = await dispatch(deleteProjectById(process.env.BASE, id, token))
+            if (response.data.success) {
+                dispatch(updateSuccessfulProject(response.data.data))
+            }
+            else {
+                dispatch(dispatchError(response.data.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
+export async function deleteProject(id, token) {
+    return async  dispatch => {
+        dispatch({ type: LOADING_PROJECT })
+        try {
+            const response = await dispatch(fetchProjectById(process.env.BASE, id, token))
+            if (response.data.success) {
+                dispatch(deleteSuccessfulProject(id))
+            }
+            else {
+                dispatch(dispatchError(response.data.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+/*****************  API Calls****************/
+
+export function fetchCreateProject(BASE, item, token) {
     return post('/projects/', BASE, item, token)
 }
 

@@ -1,27 +1,17 @@
-import React, { useState, Fragment } from 'react'
-import { Form, Field } from 'formik';
-import { withFormik } from 'formik';
+import React, { useState } from 'react'
+import { Form, withFormik } from 'formik';
 import {
     Button,
-    InputLabel,
     Divider,
-    Box, Link, IconButton, InputAdornment
+    Link
 } from '@material-ui/core';
-import {
-    TextField,
-} from 'formik-material-ui';
-import VisibilityIcon from '@material-ui/icons/Visibility';  // Filled password icon - viewable
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined'; //default password icon
+import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
-
+import { manualLogin } from "../../Components/User/Actions"
+import {genPassword} from "../../Util"
 
 const LoginForm = props => {
-    const [value, setValue] = useState({
-        email: "",
-        password: ""
-    })
     const [showPassword, setShow] = useState(true)
-    const [passwordVisible, setPasswordVisible] = useState(false)
 
     const {
         values,
@@ -90,4 +80,22 @@ const LoginView = withFormik({
 //TODO
 // onContinue needs to use the server to validate if the email already exists
 
-export default LoginView
+const LoginController = () => {
+    const dispatch = useDispatch()
+
+    const handleLogin = (values) => {
+        const token = localStorage.getItem("token")
+        const { salt, hash } = genPassword(values.password)
+        dispatch(manualLogin({
+            email: values.email,
+            salt: salt,
+            hash: hash
+        }, "/projects", token))
+    }
+
+    return (
+        <LoginView onContinue={handleLogin} />
+    )
+}
+
+export default LoginController

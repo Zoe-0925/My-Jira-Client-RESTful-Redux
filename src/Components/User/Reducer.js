@@ -2,13 +2,12 @@ import {
 	LOADING_USER,
 	LOGIN_SUCCESS_USER,
 	ERROR_USER,
-	SIGNUP_USER,
 	SIGNUP_SUCCESS_USER,
-	LOGOUT_USER,
 	LOGOUT_SUCCESS_USER,
+	UPDATE_USER
 } from "./Actions"
 
-const user = (state = {
+const UserReducer = (state = {
 	loading: false,
 	authenticated: false,
 	id: "",
@@ -16,7 +15,7 @@ const user = (state = {
 }, action) => {
 	switch (action.type) {
 		case LOADING_USER:
-		return Object.assign({}, state, { loading: true })
+			return Object.assign({}, state, { loading: true })
 		case LOGIN_SUCCESS_USER:
 			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data.user })
 		case SIGNUP_SUCCESS_USER:
@@ -25,6 +24,8 @@ const user = (state = {
 			return Object.assign({}, state, {
 				loading: false, authenticated: false, id: "", user: {}
 			})
+		case UPDATE_USER:
+			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data.user })
 		case ERROR_USER:
 			return Object.assign({}, state, { loading: false, authenticated: false })
 		default:
@@ -32,4 +33,4 @@ const user = (state = {
 	}
 }
 
-export default user
+export default UserReducer

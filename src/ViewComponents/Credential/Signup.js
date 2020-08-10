@@ -1,6 +1,5 @@
 import React from 'react'
-import { Form, Field } from 'formik';
-import { withFormik } from 'formik';
+import { Form, Field, withFormik } from 'formik';
 import {
     Button,
     Divider,
@@ -10,7 +9,12 @@ import {
 import {
     TextField,
 } from 'formik-material-ui';
+import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
+import { manualSignup } from "../../Components/User/Actions"
+import { genPassword } from "../../Util"
+
+
 
 export const SignupForm = props => {
     const {
@@ -24,7 +28,7 @@ export const SignupForm = props => {
             <p className="title">Sign up for your account</p>
             <EmailField handleChange={handleChange} value={values.email} />
             <Field
-            data-testid="name-field"
+                data-testid="name-field"
                 fullWidth={true}
                 className="row text-field"
                 component={TextField}
@@ -37,8 +41,8 @@ export const SignupForm = props => {
                 value={values.name}
                 placeholder="Enter full name"
             />
-            <PasswordField 
-            placeholder="Create password" handleChange={handleChange}
+            <PasswordField
+                placeholder="Create password" handleChange={handleChange}
                 value={values.password} />
 
             <Button
@@ -56,14 +60,14 @@ export const SignupForm = props => {
                 onClick={handleSubmit}
             >Continue with Git hub</Button>
             <Box margin={1}>
-            <Divider className="blank-divider"/>
+                <Divider className="blank-divider" />
                 <Link className="link" href="/login"><p className="link">Already have an account? Log in</p></Link>
             </Box>
         </Form>
     </div>
 }
 
-const SignupView = withFormik({
+export const SignupView = withFormik({
     mapPropsToValues: () => ({
         email: "",
         name: "",
@@ -101,4 +105,22 @@ const SignupView = withFormik({
 //TODO
 // onContinue needs to use the server to validate if the email already exists
 
-export default SignupView
+const SignupController = () => {
+    const dispatch = useDispatch()
+    const handleSignup = (values) => {
+        const token = localStorage.getItem("token")
+        const { salt, hash } = genPassword(values.password)
+        dispatch(manualSignup({
+            email: values.email,
+            name: values.name,
+            salt: salt,
+            hash: hash
+        }, "/projects", token))
+    }
+
+    return (
+        <SignupView onContinue={handleSignup} />
+    )
+}
+
+export default SignupController

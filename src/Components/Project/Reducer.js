@@ -7,19 +7,18 @@ import {
 export default function ProjectReducer(state = {
     loading: false,
     authenticated: false,
-    projects: []
+    projects: [],
+    errorMessage: ""
 }, action) {
     let newState;
 
     switch (action.type) {
         case LOADING_PROJECT:
-            return Object.assign({}, state, { loading: true })
+            return Object.assign({}, state, { loading: true, errorMessage: "" })
         case CREATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects.push(action.data)
             return newState
-        case SIGNUP_SUCCESS_USER:
-            return Object.assign({}, state, { loading: false, authenticated: true })
         case DELETE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects = newState.projects.filter(item => item._id === action.id)
@@ -34,7 +33,7 @@ export default function ProjectReducer(state = {
             newState.projects = newState.projects.push(action.data)
             return newState
         case ERROR_PROJECT:
-            return Object.assign({}, state, { loading: false, authenticated: false })
+            return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
         default:
             return state
     }

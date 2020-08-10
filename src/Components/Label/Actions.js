@@ -1,15 +1,13 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 
-
-//TODO 
-//Seems like I still need create and delete actions so that the thunk will be initiated
-
 export const LOADING_LABEL = "LOADING_LABEL"
 export const ERROR_LABEL = "ERROR_LABEL"
 export const CREATE_SUCCESS_LABEL = "CREATE_SUCCESS_LABEL"
 export const DELETE_SUCCESS_LABEL = "DELETE_SUCCESS_LABEL"
 export const APPEND_SUCCESS_LABELS = "APPEND_SUCCESS_LABELS"
+
+/********************** Actions *******************/
 
 export function createSuccessfulLabel(data) {
     return {
@@ -18,27 +16,54 @@ export function createSuccessfulLabel(data) {
     }
 }
 
+export function appendSuccessfulLabels(data) {
+    return {
+        type: APPEND_SUCCESS_LABELS,
+        data: data
+    }
+}
+
+
+export function deleteSuccessfulLabel(data) {
+    return {
+        type: DELETE_SUCCESS_LABEL,
+        data: data
+    }
+}
+
+
+export function dispatchError(data) {
+    return {
+        type: ERROR_LABEL,
+        data: data
+    }
+}
+
+
+
+
+/****************************************************************************/
+
+
 //export const GET_LABEL_BY_ID = "GET_LABEL_BY_ID"
 //export const GET_ALL_LABELS = "GET_ALL_LABELS"
 
 /**    Thunk Actions    */
 export function createLabel(data, token) {
-    return dispatch => {
+    return async dispatch => {
         dispatch({ type: LOADING_LABEL })
         try {
             const response = await dispatch(fetchCreateLabel(process.env.BASE, data, token))
-            const json = await response.json()
-            if (json.data.success) {
-                data._id = json.data.id
-                dispatch(createSuccessfulLabel(json.data.data))
+            if (response.data.success) {
+                data._id = response.data.data.id
+                dispatch(createSuccessfulLabel(data))
             }
             else {
-                dispatch({ type: ERROR_LABEL })
-                let loginMessage = json.data.message
-                return loginMessage
+                dispatch(dispatchError(response.data.message))
             }
         }
         catch (err) {
+            dispatch(dispatchError(err))
             // Something happened in setting up the request that triggered an Error
             console.log('Error', err);
         }
@@ -46,27 +71,40 @@ export function createLabel(data, token) {
 
 }
 
-export function deleteLabel(id) {
-
-}
-
-export function getAllLabels(projectId, token) {
-    return dispatch => {
+export function deleteLabel(id, token) {
+    return async  dispatch => {
         dispatch({ type: LOADING_LABEL })
         try {
-            const response = await dispatch(fetchAllLabels(process.env.BASE, projectId, token))
-            const json = await response.json()
-            if (json.data.success) {
-                dispatch(loginSuccess(data))
+            const response = await dispatch(deleteLabelById(process.env.BASE, id, token))
+            if (response.data.success) {
+                dispatch(deleteSuccessfulLabel(id))
             }
             else {
-                dispatch({ type: ERROR_LABEL })
-                let loginMessage = json.data.message
-                return loginMessage
+                dispatch(dispatchError(response.data.message))
             }
         }
         catch (err) {
+            dispatch(dispatchError(err))
             // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
+export function getAllLabels(projectId, token) {
+    return async  dispatch => {
+        dispatch({ type: LOADING_LABEL })
+        try {
+            const response = await dispatch(fetchAllLabels(process.env.BASE, projectId, token))
+            if (response.data.success) {
+                dispatch(appendSuccessfulLabels(response.data.data))
+            }
+            else {
+                dispatch(dispatchError(response.data.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
             console.log('Error', err);
         }
     }

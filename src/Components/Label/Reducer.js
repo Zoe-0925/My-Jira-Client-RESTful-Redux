@@ -6,18 +6,16 @@ import {
     ERROR_LABEL
 } from "./Actions"
 
-//TODO intial state should be from the local storage???
-const initialState = {
+export default function LabelReducer(state = {
     loading: false,
     authenticated: false,
+    errorMessage: "",
     labels: []
-}
-
-export default function LabelReducer(state = initialState, action) {
+}, action) {
     let newState
     switch (action.type) {
         case LOADING_LABEL:
-            return Object.assign({}, state, { loading: true })
+            return Object.assign({}, state, { loading: true, errorMessage: "" })
         case CREATE_SUCCESS_LABEL:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.labels = newState.labels.push(action.data)
@@ -31,7 +29,7 @@ export default function LabelReducer(state = initialState, action) {
             newState.labels = newState.labels.concat(action.data)
             return newState
         case ERROR_LABEL:
-            return Object.assign({}, state, { loading: false, authenticated: false })
+            return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
         default:
             return state;
     }
