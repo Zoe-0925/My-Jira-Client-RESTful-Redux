@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
+require('dotenv').config()
+
 
 export const LOADING_COMMENT = "LOADING_COMMENT"
 export const ERROR_COMMENT = "ERROR_COMMENT"

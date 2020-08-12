@@ -33,14 +33,6 @@ function loginSuccess(data) {
     }
 }
 
-//TODO fix the signup flow
-function signupSuccess(data) {
-    return {
-        type: SIGNUP_SUCCESS_USER,
-        data
-    }
-}
-
 export function dispatchError(data) {
     return {
         type: ERROR_USER,
@@ -73,9 +65,9 @@ export async function manualLogin(
         dispatch({ type: LOADING_USER })
         try {
             const response = await fetchLogin(process.env.BASE, data, token)
-            if (response.data.success) {
+            if (response.data.success && response.data.data.length > 0) {
                 setLocalStorage(tokenResponse.data.token)
-                dispatch(loginSuccess(response.data.data))
+                dispatch(loginSuccess(response.data.data[0]))
                 history.push(successPath)
             }
             else {

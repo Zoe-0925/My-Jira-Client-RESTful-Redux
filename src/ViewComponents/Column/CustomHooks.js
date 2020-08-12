@@ -1,5 +1,6 @@
-import React from 'react'
+import React,{useState} from 'react'
 import { useSelector, useDispatch } from "react-redux"
+import {useSimpleState} from "../Shared/CustomHooks"
 
 export function useStatusChange() {
     const dispatch = useDispatch()
@@ -42,7 +43,7 @@ export function useColumnController() {
     }, { id: "2", summary: "IN PROGRESS", tasks: [] }, { id: "3", summary: "DONE", tasks: [] },
     { id: "4", summary: "TEST", tasks: [] }]
 
-    return {epicData,showNewEditable, setShowEditable}
+    return {epicData,showNewEditable, setShowEditable,opentask}
 }
 
 export function useEditText(value) {

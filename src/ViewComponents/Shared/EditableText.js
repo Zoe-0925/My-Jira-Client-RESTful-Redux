@@ -38,7 +38,7 @@ export function Input({ state, setState, setEdit }) {
     )
 }
 
-export function Textarea({ state, setState, setEdit }) {
+export function Textarea({ state, setState, setEdit, handleSubmit }) {
     return (
         <textarea
             name={state.name}

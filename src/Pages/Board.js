@@ -6,6 +6,7 @@ import { Project } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
 import Columns from "../ViewComponents/Column/Column"
 import Container from "../ViewComponents/NavBar/Container"
 import { useEditText } from "../ViewComponents/Column/CustomHooks"
+import { EditableText, Input } from "../ViewComponents/Shared/EditableText"
 
 export default function Board() {
     //TODO get project id and name, and then replace the "My EC"
@@ -25,7 +26,7 @@ export default function Board() {
                 </EditableText>
                 <FilterManager />
                 <div className="epic-list">
-                    <Columns/>
+                    <Columns />
                 </div>
             </div>
         </Fragment>

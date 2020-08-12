@@ -38,7 +38,7 @@ function ColumnBody({ task, opentask }) {
     if (task.issueType === undefined || task.summary === undefined) { return <div></div> }
 
     return (
-        <div className="epic-body" onClick={() => openTask(task.id)}>
+        <div className="epic-body" onClick={() => openTask(task._id)}>
             <p className="summary">{task.summary}</p>
             <div className="labels">{labelsFormatted}</div>
             <div className="issueType tab row">
@@ -70,19 +70,24 @@ function CreateIssue({ handleClick }) {
 export default function Columns() {
 
     const { loading, status } = useStatusChange()
-    const { epicData, showNewEditable, setShowEditable } = useColumnController()
+    const { epicData, showNewEditable, setShowEditable,opentask } = useColumnController()
     const { state, setState, edit, setEdit } = useEditText("")
 
-    
-    const tasks = epicData.length <= 0 ? "" : epicData.map(each =>
+
+    //TODO
+    //useEffect or useSelector:
+    //When a new task is inserted, append it to the data list
+
+    const tasks = epicData===undefined||epicData.length <= 0 ? "" : epicData.map(each =>
         <ColumnBody key={each.id} task={each} opentask={opentask} />)
 
     return (<div className="epic-box">
-        <ColumnTitle columnSummary={status.name} columnId={status.id} handleChange={changeColumnSummary} />
+        <ColumnTitle columnSummary={status.name} columnId={status.id} />
         {tasks}
         {!showNewEditable && <CreateIssue handleClick={() => { setShowEditable(true) }} />}
         {showNewEditable && <EditableText className="editable-create-issue" edit={true}>
-            <Textarea state={state} setState={setState} setEdit={setEdit} />
+            <Textarea state={state} setState={setState} setEdit={setEdit}
+                handleSubmit={() => { setShowEditable(false) }} />
         </EditableText>}
     </div>
     )

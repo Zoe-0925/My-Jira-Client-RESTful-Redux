@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
+require('dotenv').config()
+
 
 export const LOADING_LABEL = "LOADING_LABEL"
 export const ERROR_LABEL = "ERROR_LABEL"
