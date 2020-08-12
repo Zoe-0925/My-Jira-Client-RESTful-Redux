@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React from 'react'
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
@@ -15,40 +15,25 @@ import {
     TextField,
     Select,
 } from 'formik-material-ui';
+import { useDispatch, useSelector } from "react-redux"
+import { updateProject } from "../../Components/Project/Actions"
 
-const projectName = "test project Name"
-const projectId = "test id"
+const projectName = "test project Name" //TODO change to useSelect
+const projectId = "test id"  //TODO change to useSelect
 
+//TODO
+// need to pass project id and name and data to the form
 
 const ProjectDetailForm = props => {
     const category = []
     const categoryItems = category.map(each => <MenuItem value={each}>{each}</MenuItem>)
 
-    function removeProject() {
-
-    }
-
-    function handleClick(destination) {
-
-    }
-    const [value, setValue] = useState({
-        email: "",
-        password: ""
-    })
-    const [showPassword, setShow] = useState(true)
-
-    const validateEmail = () => {
-        //if no error
-        //value.email
-        setShow(true)
-        //else
-
-    }
-
     const {
         values,
         handleChange,
         handleSubmit,
+        project,
+        removeProject
     } = props
 
     return <div className="project-detail-form">
@@ -56,15 +41,15 @@ const ProjectDetailForm = props => {
             <Breadcrumbs aria-label="breadcrumb">
                 <Link color="inherit" href="/projects">
                     Projects</Link>
-                <Link color="inherit" href={"/project/" + projectId}>
-                    <Typography color="textPrimary">{projectName}</Typography>
+                <Link color="inherit" href={"/project/" + project._id}>
+                    <Typography color="textPrimary">{project.name}</Typography>
                 </Link>
             </Breadcrumbs>
         </div>
         <div className="row">
             <Typography variant="h5">Details</Typography>
-            <DotIconMenu className="delete-project-icon" click={removeProject} >
-                <MenuItem>Move to Trash</MenuItem>
+            <DotIconMenu className="delete-project-icon" >
+                <MenuItem onClick={removeProject}>Move to Trash</MenuItem>
             </DotIconMenu>
         </div>
         <img className="project-icon" src="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" alt="project icon" />
@@ -92,6 +77,7 @@ const ProjectDetailForm = props => {
                     margin="normal"
                     variant="outlined"
                     size="small"
+                    disabled={true}
                     onChange={handleChange}
                     value={values.key}
                 />
@@ -99,23 +85,21 @@ const ProjectDetailForm = props => {
                 <Field
                     className="select full"
                     component={Select}
-                    labelId="state" id="select" name="state"
+                    labelId="category" id="select" name="category"
                     variant="outlined"
                     onChange={handleChange}
-                    value={values.state}
-                    placeholder="Choose a category"
+                    value={values.category}
                 >
                     {categoryItems}
                 </Field>
-                <InputLabel className="row" id="state">Default Assignee</InputLabel>
+                <InputLabel className="row" id="default_assignee">Default Assignee</InputLabel>
                 <Field
                     className="select full"
                     component={Select}
-                    labelId="state" id="select" name="state"
+                    labelId="default_assignee" id="default_assignee" name="default_assignee"
                     variant="outlined"
                     onChange={handleChange}
                     value="Project Lead"
-                    placeholder="Choose a category"
                 >
                     {categoryItems}
                 </Field>
@@ -129,21 +113,32 @@ const ProjectDetailForm = props => {
     </div>
 }
 
+//TODO: useStore from the store
+const initialValue = {
+    name: "",
+    key: "",
+    category: "",
+    assignee: ""
+}
+
 const ProjectDetail = withFormik({
-    mapPropsToValues: () => ({
-        email: '',
-        password: ""
+
+    mapPropsToValues: ({ project }) => ({
+        name: project.name,
+        key: project.key,
+        category: project.category,
+        assignee: project.default_assignee
     }),
 
     // Custom sync validation
     validate: values => {
+
+
         const errors = {}
-        if (!values.email) {
-            errors.email = 'Required';
+        if (!values.name) {
+            errors.name = 'Required';
         }
-        if (!values.password) {
-            errors.password = 'Required';
-        }
+
         //TODO
         //Password regex
         return errors;
@@ -155,8 +150,21 @@ const ProjectDetail = withFormik({
     displayName: 'BasicForm',
 })(ProjectDetailForm);
 
+const ProjectDetailController = () => {
+    const dispatch = useDispatch()
+    const projects = useSelector(state => state.ProjectReducer)
+    const currentProject = projects.currentProject
 
-//TODO
-// onContinue needs to use the server to validate if the email already exists
+    const handleUpdate = values => {
+        dispatch(updateProject(currentProject._id, values))
+    }
 
-export default ProjectDetail
+    function removeProject() {
+        dispatch(deleteProject(currentProject._id))
+    }
+
+    return (<ProjectDetail onContinue={handleUpdate} project={currentProject} removeProject={removeProject} />)
+}
+
+export default ProjectDetailController
+

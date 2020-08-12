@@ -12,9 +12,7 @@ import {
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
 import { manualSignup } from "../../Components/User/Actions"
-import { genPassword } from "../../Util"
-
-
+import { genPassword } from "../../Components/Util"
 
 export const SignupForm = props => {
     const {
@@ -86,7 +84,9 @@ export const SignupView = withFormik({
         if (!values.name) {
             errors.name = 'Required';
         }
-        //TODO: name must be alphabets
+        if (!/^[A-Za-z]/i.test(values.name)){
+            errors.name = 'Please enter a valid name';
+        }
         if (!values.password) {
             errors.password = 'Required';
         }

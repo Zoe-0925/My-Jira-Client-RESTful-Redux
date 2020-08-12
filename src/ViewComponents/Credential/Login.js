@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Form, withFormik } from 'formik';
 import {
     Button,
@@ -8,10 +8,9 @@ import {
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
 import { manualLogin } from "../../Components/User/Actions"
-import {genPassword} from "../../Util"
+import { genPassword } from "../../Components/Util"
 
 const LoginForm = props => {
-    const [showPassword, setShow] = useState(true)
 
     const {
         values,
@@ -23,15 +22,12 @@ const LoginForm = props => {
         <Form onSubmit={handleSubmit}>
             <p className="title">Log in to your account</p>
             <EmailField handleChange={handleChange} value={values.email} />
-            {showPassword &&
-                <PasswordField placeholder="Enter Password"
-                    handleChange={handleChange} value={values.password}
-                />
-            }
+            <PasswordField placeholder="Enter Password"
+                handleChange={handleChange} value={values.password} />
             <Button
                 className="row main-submit-btn"
                 onClick={handleSubmit}
-            >{showPassword ? "Log in" : "CONTINUE"}</Button>
+            >Log in</Button>
             <Divider />
             <Button
                 className="row submit-btn"

@@ -24,3 +24,16 @@ export default function FilterManager() {
         </div>
     )
 }
+
+// No filter
+// Filter by issue summary
+// Filter by epic
+// filter by label
+// group by assignee
+// group by epic
+// group by subtask 
+
+// 选中了什么 filter 还要显示数字（local state）
+
+//Group by view
+//Now we have none group by view

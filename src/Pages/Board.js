@@ -1,49 +1,31 @@
-import React, { Fragment, useRef, useState } from 'react'
-import ContentEditable from 'react-contenteditable'
+import React, { Fragment } from 'react'
 import NavBreadcrumbs from "../ViewComponents/NavBar/NavBreadcrumbs"
 import FilterManager from "../ViewComponents/Filters/FilterManager"
 import Drawer from "../ViewComponents/SideDrawer/Drawer"
 import { Project } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
-import Column from "../ViewComponents/Column/Column"
+import Columns from "../ViewComponents/Column/Column"
 import Container from "../ViewComponents/NavBar/Container"
+import { useEditText } from "../ViewComponents/Column/CustomHooks"
 
 export default function Board() {
-    const contentEditable = useRef()
-    const [html, setHtml] = useState("My EC") //TODO get from the state
-
-    //TODO
-    const projectName = "test project name"
-
-    //TODO 
-    //set the board link color to be blue
-
-    const epicData = [{
-        id: "1", summary: "TO DO", tasks:
-            [{ id: "2", summary: "test 1", key: "test key 1", labels: ["test"] }]
-    }, { id: "2", summary: "IN PROGRESS", tasks: [] }, { id: "3", summary: "DONE", tasks: [] },
-    { id: "4", summary: "TEST", tasks: [] }]
-
-    const columns = epicData.map(each => <Column key={each.id} column={each} />)
+    //TODO get project id and name, and then replace the "My EC"
+    const { state, setState, edit, setEdit } = useEditText("My EC")
 
     return (
         <Fragment>
             <Container />
             <div className="main">
                 <Drawer handleClick={() => { }} onChange={() => { }} >
-                    <Project projectName={projectName} currentLocation="board" />
+                    <Project currentLocation="board" />
                 </Drawer>
                 <NavBreadcrumbs className="row" />
-                <div className="board-name">
-                    <ContentEditable
-                        innerRef={contentEditable}
-                        html={html} // innerHTML of the editable div
-                        disabled={false}       // use true to disable editing
-                        onChange={(e) => setHtml(e.target.value)} // handle innerHTML change
-                    />
-                </div>
+                <EditableText name="epic-summary" className="board-name"
+                    setEdit={setEdit} edit={edit} value={state.value}>
+                    <Input state={state} setState={setState} setEdit={setEdit} />
+                </EditableText>
                 <FilterManager />
                 <div className="epic-list">
-                    {columns}
+                    <Columns/>
                 </div>
             </div>
         </Fragment>

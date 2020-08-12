@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 
+
 export const LOADING_PROJECT = "LOADING_PROJECT"
 export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
@@ -55,10 +56,11 @@ export function dispatchError(data) {
 }
 
 /*****************  Thunk Actions  ****************/
-export async function createProject(id, token) {
+export async function createProject(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchCreateProject(process.env.BASE, id, token))
             if (response.data.success) {
                 data._id = response.data.id
@@ -77,10 +79,11 @@ export async function createProject(id, token) {
 }
 
 //Get all projects of the user
-export async function getAllProjects(userId, token) {
+export async function getAllProjects(userId) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchAllProjects(process.env.BASE, userId, token))
             if (response.data.success) {
                 dispatch(appendSuccessfulProjects(response.data.data))
@@ -98,10 +101,11 @@ export async function getAllProjects(userId, token) {
 
 //TODO
 //test to see 
-export async function getASingleProject(BASE, id, token) {
+export async function getASingleProject(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(deleteProjectById(process.env.BASE, id, token))
             if (response.data.success) {
                 dispatch(appendCurrentProject(response.data.data))
@@ -118,11 +122,12 @@ export async function getASingleProject(BASE, id, token) {
     }
 }
 
-export async function updateProject(id, token) {
+export async function updateProject(id, update) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
-            const response = await dispatch(deleteProjectById(process.env.BASE, id, token))
+            const token = localStorage.getItem("token")
+            const response = await dispatch(fetchUpdateProject(process.env.BASE, id, update, token))
             if (response.data.success) {
                 dispatch(updateSuccessfulProject(response.data.data))
             }
@@ -138,11 +143,12 @@ export async function updateProject(id, token) {
     }
 }
 
-export async function deleteProject(id, token) {
+export async function deleteProject(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
-            const response = await dispatch(fetchProjectById(process.env.BASE, id, token))
+            const token = localStorage.getItem("token")
+            const response = await dispatch(fetchDeleteProject(process.env.BASE, id, token))
             if (response.data.success) {
                 dispatch(deleteSuccessfulProject(id))
             }
@@ -171,11 +177,11 @@ export function fetchProjectById(BASE, id, token) {//fetch all projects of a use
     return axios.get(BASE + '/projects/' + id, jwtConfig(token));
 }
 
-export function updateProjectById(BASE, id, update, token) {//fetch all projects of a user
+export function fetchUpdateProject(BASE, id, update, token) {//fetch all projects of a user
     return put('/projects/' + id, BASE, update, token)
 }
 
-export function deleteProjectById(BASE, id, token) {//fetch all projects of a user
+export function fetchDeleteProject(BASE, id, token) {//fetch all projects of a user
     return axios.delete(BASE + '/projects/' + id, jwtConfig(token));
 }
 

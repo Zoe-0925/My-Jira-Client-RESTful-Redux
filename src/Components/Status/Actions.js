@@ -52,10 +52,11 @@ export const appendSuccessfulStatus = (data) => {
 
 
 /**************************** Thunk Actions ***************************/
-export function createStatus(data, token) {
+export function createStatus(data) {
     return async dispatch => {
         dispatch({ type: LOADING_STATUS })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchCreateStatus(process.env.BASE, data, token))
             if (response.data.success) {
                 data._id = response.data.data.id
@@ -73,10 +74,11 @@ export function createStatus(data, token) {
     }
 }
 
-export function updateStatus(data, token) {
+export function updateStatus(data) {
     return async dispatch => {
         dispatch({ type: LOADING_STATUS })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchUpdateStatus(process.env.BASE, data, token))
             if (response.data.success) {
                 data._id = response.data.data.id
@@ -94,10 +96,11 @@ export function updateStatus(data, token) {
     }
 }
 
-export function deleteStatus(id, token) {
+export function deleteStatus(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_STATUS })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(deleteStatusById(process.env.BASE, id, token))
             if (response.data.success) {
                 dispatch(deleteSuccessfulStatus(id))
@@ -114,10 +117,11 @@ export function deleteStatus(id, token) {
     }
 }
 
-export function getAllStatuss(projectId, token) {
+export function getAllStatus(projectId) {
     return async  dispatch => {
         dispatch({ type: LOADING_STATUS })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchAllStatus(process.env.BASE, projectId, token))
             if (response.data.success) {
                 dispatch(appendSuccessfulStatus(response.data.data))

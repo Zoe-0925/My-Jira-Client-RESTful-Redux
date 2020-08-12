@@ -22,11 +22,9 @@ export default function Container() {
                         <Link color="inherit" href="/projects" className="navbar--link-item">Projects</Link>
                         <Link color="inherit" href="/" className="navbar--link-item">People</Link>
                         <Button className="navbar-create-btn" onClick={handleTrue}>Create</Button>
-
                         <SearchBoxController />
                         <SettingsIcon className="icon" fontSize="large" />
                         <Account />
-
                     </nav>
                     <nav className="mobile">
                         <h1 className="title">Jira Software Mock</h1>

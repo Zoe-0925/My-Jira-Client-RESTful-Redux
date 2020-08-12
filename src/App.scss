@@ -158,15 +158,14 @@ $one-third: 33%;
   position: fixed;
   background-color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 0.5rem;
   margin-left: 300px;
   z-index: 1;
 
   .desktop {
     @media (min-width: 401px) {
       display: block;
+      display: flex;
+      align-items: flex-start;
     }
     @media (max-width: 400px) {
       display: none;
@@ -218,6 +217,7 @@ $one-third: 33%;
     }
     @media (max-width: 400px) {
       display: block;
+      display: flex;
     }
     width: $full;
     font-size: 1rem;
@@ -461,7 +461,7 @@ $one-third: 33%;
 
 .project-detail-form {
   width: 100%;
-  z-index: 100;
+  margin-top: 100px;
 
   .row {
     width: 100%;
@@ -539,15 +539,16 @@ $one-third: 33%;
     font-family: $sm-font;
     justify-content: space-between;
     text-align: center;
+    height:3rem;
 
     .epic-summary {
       padding: 1rem 1rem 1rem 1rem;
     }
 
-    .editable-container {
+    .editable-create-issue {
       background-color: white;
       width: $full;
-      height: 1.75rem;
+      height: 5rem;
       font-size: 2rem;
       font-family: inherit;
     }
@@ -624,4 +625,18 @@ $one-third: 33%;
 .logo-title{
   text-align: center;
   
+}
+
+.editable-input{
+  height:$full;
+  width:230px;
+  text-align: left;
+}
+
+.editable-label{
+  height:$full;
+  width:$full;
+  text-align: left;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }

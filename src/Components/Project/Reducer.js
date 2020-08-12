@@ -8,7 +8,16 @@ export default function ProjectReducer(state = {
     loading: false,
     authenticated: false,
     projects: [],
-    errorMessage: ""
+    errorMessage: "",
+    currentProject:{
+        _id:"test id",
+        name:"test name",
+        key:"test key",
+        category:"test category",
+        lead:"test lead",
+        image:"test image",
+        default_assignee:"test default_assignee"
+    }
 }, action) {
     let newState;
 

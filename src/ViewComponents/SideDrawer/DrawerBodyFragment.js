@@ -14,8 +14,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
  * @param projectName: current project's name
  * @param CurentLocation: enum ("roadmap", "board", "detail")
  */
-export function Project({ projectName, currentLocation }) {
-    console.log(currentLocation)
+export function Project({ currentLocation }) {
+
+    //TODO change this to use selector
+    const projectName = "test project name"
 
     return (
         <Fragment>
@@ -45,32 +47,32 @@ export function Project({ projectName, currentLocation }) {
     )
 }
 
-export function ProjectSetting({ projectName, currentLocation }) {
+export function ProjectSetting({ currentLocation }) {
 
     return (
         <Fragment>
-                <Link color={currentLocation !== "roadmap" ? "inherit" : "primary"} href={"/projects"}>
-                    <ListItem button key="ProjectSettings" onClick={() => { handleClick("Project Settings") }}>
-                        <ListItemIcon> <ArrowBackRoundedIcon /></ListItemIcon>
-                        <ListItemText primary="Project Settings" />
-                    </ListItem>
-                </Link>
-                <Divider />
-                <ListItemText primary="Issue Types" />
-                <ListItem className="list-item" button key="Epics" >
-                    <ListItemIcon> <OpenInBrowserIcon /></ListItemIcon>
-                    <ListItemText primary="Epics" />
+            <Link color={currentLocation !== "roadmap" ? "inherit" : "primary"} href={"/projects"}>
+                <ListItem button key="ProjectSettings" onClick={() => { handleClick("Project Settings") }}>
+                    <ListItemIcon> <ArrowBackRoundedIcon /></ListItemIcon>
+                    <ListItemText primary="Project Settings" />
                 </ListItem>
-                <Divider />
-                <ListItem className="list-item" button key="Tasks">
-                    <ListItemIcon>  <CheckBoxIcon /></ListItemIcon>
-                    <ListItemText primary="Tasks" />
-                </ListItem>
-                <Divider />
-                <ListItem className="c" button key="Subtasks" >
-                    <ListItemIcon>   <AllInboxIcon /></ListItemIcon>
-                    <ListItemText primary="Subtasks" />
-                </ListItem>
+            </Link>
+            <Divider />
+            <ListItemText primary="Issue Types" />
+            <ListItem className="list-item" button key="Epics" >
+                <ListItemIcon> <OpenInBrowserIcon /></ListItemIcon>
+                <ListItemText primary="Epics" />
+            </ListItem>
+            <Divider />
+            <ListItem className="list-item" button key="Tasks">
+                <ListItemIcon>  <CheckBoxIcon /></ListItemIcon>
+                <ListItemText primary="Tasks" />
+            </ListItem>
+            <Divider />
+            <ListItem className="c" button key="Subtasks" >
+                <ListItemIcon>   <AllInboxIcon /></ListItemIcon>
+                <ListItemText primary="Subtasks" />
+            </ListItem>
         </Fragment>
     )
 }
