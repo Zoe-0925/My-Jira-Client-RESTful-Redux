@@ -52,7 +52,7 @@ export async function getCommentsForIssue(issueId, token) {
         dispatch({ type: LOADING_COMMENT })
         try {
             const response = await dispatch(fetchCommentsForIssue(process.env.BASE, issueId, token))
-            if (response.success) {
+            if (response.data.success) {
                 dispatch(appendSuccessfulLabels(response.data))
             }
             else {
@@ -72,7 +72,7 @@ export async function createComment(data, token) {
         dispatch({ type: LOADING_COMMENT })
         try {
             const response = await dispatch(fetchCreateComment(process.env.BASE, data, token))
-            if (response.success) {
+            if (response.data.success) {
                 let newData = Object.assign({}, data)
                 newData._id = response.id
                 dispatch(createSuccessfulComment(newData))
@@ -94,7 +94,7 @@ export async function updateComment(data, token) {
         dispatch({ type: LOADING_COMMENT })
         try {
             const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
-            if (response.success) {
+            if (response.data.success) {
                 dispatch(updateSuccessfulComment(data))
             }
             else {
@@ -114,7 +114,7 @@ export async function deleteComment(data, token) {
         dispatch({ type: LOADING_COMMENT })
         try {
             const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
-            if (response.success) {
+            if (response.data.success) {
                 dispatch(deleteSuccessfulComments(data))
             }
             else {

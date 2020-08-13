@@ -1,17 +1,24 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
+import { appendSuccessfulLabels } from "../Label/Actions"
+import { appendSuccessfulStatus } from "../Status/Actions"
 require('dotenv').config()
 
 
 export const LOADING_ISSUE = "LOADING_ISSUE"
 export const ERROR_ISSUE = "ERROR_ISSUE"
 export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
+export const CREATE_SUCCESS_EPIC = "CREATE_SUCCESS_EPIC"
 export const DELETE_SUCCESS_ISSUE = "DELETE_SUCCESS_ISSUE"
+export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
 export const UPDATE_SUCCESS_ISSUE = "UPDATE_SUCCESS_ISSUE"
+export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
 export const APPEND_SUCCESS_CURRENT_ISSUE = "APPEND_SUCCESS_CURRENT_ISSUE"
+export const APPEND_SUCCESS_CURRENT_EPICS = "APPEND_SUCCESS_CURRENT_EPICS"
 export const APPEND_SUCCESS_ISSUES_PARENT = "APPEND_SUCCESS_ISSUES_PARENT"
 export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
+export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 
 /**********************************  Actions  ******************************************/
 
@@ -20,6 +27,13 @@ export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
 export function appendSuccessfulIssues(data) {
     return {
         type: APPEND_SUCCESS_ISSUES,
+        data: data
+    }
+}
+
+export function appendSuccessfulEpics(data) {
+    return {
+        type: APPEND_SUCCESS_EPICS,
         data: data
     }
 }
@@ -38,9 +52,23 @@ export function createSuccessfulIssue(data) {
     }
 }
 
+export function createSuccessfulEpic(data) {
+    return {
+        type: CREATE_SUCCESS_EPIC,
+        data: data
+    }
+}
+
 export function deleteSuccessfulIssue(id) {
     return {
         type: DELETE_SUCCESS_ISSUE,
+        id: id
+    }
+}
+
+export function deleteSuccessfulEpic(id) {
+    return {
+        type: DELETE_SUCCESS_EPIC,
         id: id
     }
 }
@@ -51,15 +79,55 @@ export function updateSuccessfulIssues(data) {
         data: data
     }
 }
+
+export function updateSuccessfulEpics(data) {
+    return {
+        type: UPDATE_SUCCESS_EPIC,
+        data: data
+    }
+}
+
+export function updateIssueGroup(id, data) {
+    return {
+        type: UPDATE_ISSUE_GROUP,
+        id: id,
+        data: data
+    }
+}
+
 /**********************************  Thunk Actions  ******************************************/
+
+export async function getLabelsAndIssuesGroupByStatus(projectId, token) {
+    return async dispatch => {
+        dispatch({ type: LOADING_ISSUE })
+        try {
+            const response = await dispatch(fetchLabelsAndIssuesGroupByStatus(process.env.BASE, projectId, token))
+            if (response.data.success) {
+                dispatch(appendSuccessfulLabels(response.data.labels)) //Array
+                dispatch(appendSuccessfulStatus(response.data.status)) //Array
+                dispatch(appendSuccessfulEpics(response.data.epics)) //Array
+                dispatch(appendSuccessfulIssues(response.data.issues)) // Map()
+            }
+            else {
+                dispatch(dispatchError(response.message))
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
 
 export async function getIssuesForProject(projectId, token) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
             const response = await dispatch(fetchProjectsIssues(process.env.BASE, projectId, token))
-            if (response.success) {
-                dispatch(appendSuccessfulLabels(response.data))
+            if (response.data.success) {
+                dispatch(appendSuccessfulIssues(response.data.data))
             }
             else {
                 dispatch(dispatchError(response.message))
@@ -78,7 +146,7 @@ export async function createIssue(data, token) {
         dispatch({ type: LOADING_ISSUE })
         try {
             const response = await dispatch(fetchCreateIssue(process.env.BASE, data, token))
-            if (response.success) {
+            if (response.data.success) {
                 let newData = Object.assign({}, data)
                 newData._id = response.id
                 dispatch(createSuccessfulIssue(newData))
@@ -100,8 +168,8 @@ export async function getASingleIssue(id, token) {
         dispatch({ type: LOADING_ISSUE })
         try {
             const response = await dispatch(fetchIssueById(process.env.BASE, id, token))
-            if (response.success) {
-                dispatch(appendSuccessfulIssues(response.data))
+            if (response.data.success) {
+                dispatch(appendSuccessfulIssues(response.data.data))
             }
             else {
                 dispatch(dispatchError(response.message))
@@ -122,8 +190,8 @@ export async function getIssueByProjectAndType(id, type, token) {
         dispatch({ type: LOADING_ISSUE })
         try {
             const response = await dispatch(fetchByProjectAndIssueType(process.env.BASE, id, type, token))
-            if (response.success) {
-                dispatch(appendCurrentIssue(response.data))
+            if (response.data.success) {
+                dispatch(appendCurrentIssue(response.data.data))
             }
             else {
                 dispatch(dispatchError(response.message))
@@ -143,7 +211,7 @@ export async function updateIssue(data, token) {
         dispatch({ type: LOADING_ISSUE })
         try {
             const response = await dispatch(fetchUpdateIssue(process.env.BASE, data, token))
-            if (response.success) {
+            if (response.data.success) {
                 dispatch(updateSuccessfulIssue(data))
             }
             else {
@@ -163,7 +231,7 @@ export async function deleteIssue(id, token) {
         dispatch({ type: LOADING_ISSUE })
         try {
             const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
-            if (response.success) {
+            if (response.data.success) {
                 dispatch(deleteSuccessfulIssues(id))
             }
             else {
@@ -191,6 +259,11 @@ function fetchCreateIssue(BASE, item, token) {
 function fetchIssueById(BASE, id, token) {//fetch all Issues of a user
     return axios.get(BASE + '/issues/' + id, jwtConfig(token));
 }
+
+function fetchLabelsAndIssuesGroupByStatus(BASE, id, token) {//fetch all labels, issues and status
+    return axios.get(BASE + '/issues/project/board' + id, jwtConfig(token));
+}
+
 
 function fetchProjectsIssues(BASE, id, token) {//fetch all Issues in a project
     return axios.get(BASE + '/issues/project/' + id, jwtConfig(token));

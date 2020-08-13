@@ -29,6 +29,7 @@ export default function Board() {
                     <Columns />
                 </div>
             </div>
+
         </Fragment>
     )
 }

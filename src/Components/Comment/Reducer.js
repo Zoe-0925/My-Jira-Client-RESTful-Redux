@@ -18,6 +18,7 @@ const initialState = {
 
 export default function CommentReducer(state = initialState, action) {
     let newState
+    let comment
     switch (action.type) {
         case LOADING_COMMENT:
             return Object.assign({}, state, { loading: true })
@@ -35,8 +36,8 @@ export default function CommentReducer(state = initialState, action) {
             return newState
         case UPDATE_SUCCESS_COMMENT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.comments = newState.comments.filter(item => item._id === action.data._id)
-            newState.comments = newState.comments.push(action.data)
+            comment = newState.comments = newState.comments.find(item => item._id === action.data._id)
+            comment = action.data
             return newState
         case ERROR_COMMENT:
             return Object.assign({}, state, { loading: false, authenticated: false })

@@ -1,6 +1,6 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import {useSimpleState} from "../Shared/CustomHooks"
+import { useSimpleState } from "../Shared/CustomHooks"
 
 export function useStatusChange() {
     const dispatch = useDispatch()
@@ -27,23 +27,10 @@ export function useColumnController() {
         //Dispatch action to create a new task
     }
 
-    const opentask = (id) => {
-        //TODO
-        //get the task object from the state
-        //change the modal open status
-        //and pop the task data into the modal
-    }
 
     const [showNewEditable, setShowEditable] = useState(false)
 
-
-    const epicData = [{
-        id: "1", summary: "TO DO", tasks:
-            [{ id: "2", summary: "test 1", key: "test key 1", labels: ["test"] }]
-    }, { id: "2", summary: "IN PROGRESS", tasks: [] }, { id: "3", summary: "DONE", tasks: [] },
-    { id: "4", summary: "TEST", tasks: [] }]
-
-    return {epicData,showNewEditable, setShowEditable,opentask}
+    return { showNewEditable, setShowEditable,  changeColumnSummary }
 }
 
 export function useEditText(value) {
@@ -56,6 +43,19 @@ export function useEditText(value) {
     return { state, setState, edit, setEdit }
 }
 
-export function useBoardFilter(){
-    
+export function useTaskController() {
+    const openTaskDetail = (id) => {
+        //TODO
+        //get the task object from the state
+        //change the modal open status
+        //and pop the task data into the modal
+    }
+
+    //Handle issue modal state
+
+    return {  openTaskDetail }
+}
+
+export function useBoardFilter() {
+
 }

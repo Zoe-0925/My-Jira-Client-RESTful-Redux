@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { useDispatch } from "react-redux"
 import { MenuItem, Tooltip } from '@material-ui/core';
 import { AddTab, DotIconMenu } from "../Shared/Tabs"
+import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Components/Status/Actions"
 /**--------------Editable Textfiled-------------- */
 import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */
-import AllInboxIcon from '@material-ui/icons/AllInbox';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useStatusChange, useEditText, useColumnController } from './CustomHooks';
 
 
@@ -14,63 +13,48 @@ import { useStatusChange, useEditText, useColumnController } from './CustomHooks
  * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 
  */
 //ColumnTitle tracks the "Status" model
-function ColumnTitle({ columnSummary, columnId }) {
-    const { state, setState, edit, setEdit } = useEditText(columnSummary)
+function ColumnTitle({ status }) {
+    const { state, setState, edit, setEdit } = useEditText(status !== undefined && status.name)
+    const dispatch = useDispatch()
 
     return (
-        <div className="flex-row epic-title" id={columnId}>
+        <div className="flex-row epic-title" id={status !== undefined ? status.id : ""}>
             <EditableText name="epic-summary" className="epic-summary"
                 setEdit={setEdit} edit={edit} value={state.value}>
-                <Input state={state} setState={setState} setEdit={setEdit} />
+                <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
+                    dispatch(updateSuccessfulStatus(state))
+                }} />
             </EditableText>
             <DotIconMenu className="dot-icon">
                 <MenuItem>Set column limit</MenuItem>
-                <MenuItem onClick={() => dispatch(deleteStatus(column.id))}>Delete</MenuItem>
+                <MenuItem onClick={() => dispatch(deleteSuccessfulStatus(status.id))}>Delete</MenuItem>
             </DotIconMenu>
         </div>
     )
 }
 
-function ColumnBody({ task, opentask }) {
-    const labelsFormatted = task === undefined || task.labels.length === 0 ? "" :
-        task.labels.map(each => <p className="label">{each}</p>)
+//Need the status id
+export function SingleColumn({ initialStatus, ...props }) {
+    const { showNewEditable, setShowEditable, createNewTask } = useColumnController()
+    const { state, setState, setEdit } = useEditText(initialStatus !== undefined && initialStatus.name)
 
-    if (task.issueType === undefined || task.summary === undefined) { return <div></div> }
-
-    return (
-        <div className="epic-body" onClick={() => openTask(task._id)}>
-            <p className="summary">{task.summary}</p>
-            <div className="labels">{labelsFormatted}</div>
-            <div className="issueType tab row">
-                <div>
-                    <Tooltip title={task.issueType} aria-label={task.issueType}>
-                        {task.issueType === "Task" ?
-                            <CheckBoxIcon style={{ color: "#5BC2F2" }} /> : <AllInboxIcon style={{ color: "#A64BED" }} />}
-                    </Tooltip>
-                    <Tooltip title={task.summary} aria-label={task.summary}>{task.summary}</Tooltip>
-                </div>
-                <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon /></Tooltip>
-            </div>
-        </div>
-
+    return (<div className="epic-box">
+        <ColumnTitle columnSummary={state.name} columnId={initialStatus !== undefined ? initialStatus.id : ""} />
+        {props.children}
+        {!showNewEditable && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
+        {showNewEditable && <EditableText className="editable-create-issue" edit={true}>
+            <Textarea state={state} setState={setState} setEdit={setEdit}
+                handleSubmit={(e) => { createNewTask(e.target.value) }} />
+        </EditableText>}
+    </div>
     )
 }
 
-function CreateIssue({ handleClick }) {
-
-    return (
-        <AddTab operationName="Create issue" handleClick={handleClick} className="create-issue-tab" />
-    )
-
-}
-
-//TODO wait!!!
-//Title should be a list as well......
 
 export default function Columns() {
 
     const { loading, status } = useStatusChange()
-    const { epicData, showNewEditable, setShowEditable,opentask } = useColumnController()
+    const { epicData, showNewEditable, setShowEditable, opentask } = useColumnController()
     const { state, setState, edit, setEdit } = useEditText("")
 
 
@@ -78,13 +62,13 @@ export default function Columns() {
     //useEffect or useSelector:
     //When a new task is inserted, append it to the data list
 
-    const tasks = epicData===undefined||epicData.length <= 0 ? "" : epicData.map(each =>
-        <ColumnBody key={each.id} task={each} opentask={opentask} />)
 
+
+    //TODO
+    //epic-box should be a single box
     return (<div className="epic-box">
         <ColumnTitle columnSummary={status.name} columnId={status.id} />
-        {tasks}
-        {!showNewEditable && <CreateIssue handleClick={() => { setShowEditable(true) }} />}
+        {!showNewEditable && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
         {showNewEditable && <EditableText className="editable-create-issue" edit={true}>
             <Textarea state={state} setState={setState} setEdit={setEdit}
                 handleSubmit={() => { setShowEditable(false) }} />

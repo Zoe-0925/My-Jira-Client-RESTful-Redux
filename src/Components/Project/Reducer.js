@@ -9,18 +9,18 @@ export default function ProjectReducer(state = {
     authenticated: false,
     projects: [],
     errorMessage: "",
-    currentProject:{
-        _id:"test id",
-        name:"test name",
-        key:"test key",
-        category:"test category",
-        lead:"test lead",
-        image:"test image",
-        default_assignee:"test default_assignee"
+    currentProject: {
+        _id: "test id",
+        name: "test name",
+        key: "test key",
+        category: "test category",
+        lead: "test lead",
+        image: "test image",
+        default_assignee: "test default_assignee"
     }
 }, action) {
     let newState;
-
+    let project
     switch (action.type) {
         case LOADING_PROJECT:
             return Object.assign({}, state, { loading: true, errorMessage: "" })
@@ -38,8 +38,8 @@ export default function ProjectReducer(state = {
             return newState
         case UPDATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.projects = newState.projects.filter(item => item._id === action.data._id)
-            newState.projects = newState.projects.push(action.data)
+            project = newState.projects = newState.projects.find(item => item._id === action.data._id)
+            project = action.data
             return newState
         case ERROR_PROJECT:
             return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })

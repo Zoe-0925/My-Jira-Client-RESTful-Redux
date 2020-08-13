@@ -3,10 +3,13 @@ import {
     UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS
 } from "./Actions"
 
+const status = new Map()
+
 export default function StatusReducer(state = {
     loading: false,
     authenticated: false,
-    status: []
+    statusOrder: [],
+    status: new Map()
 }, action) {
     let newState;
 

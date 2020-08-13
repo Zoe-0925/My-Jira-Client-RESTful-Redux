@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { ListItem } from '@material-ui/core';
 
-export function Input({ state, setState, setEdit }) {
+export function Input({ state, setState, setEdit, handleSubmit }) {
 
     return (
         <input
@@ -30,13 +30,15 @@ export function Input({ state, setState, setEdit }) {
                 }
                 if (event.key === 'Enter') {
                     setEdit(false)
-                    //TODO
-                    //and save the value to the server
+                    handleSubmit(event.target.value)
                 }
             }}
         />
     )
 }
+
+//TODO: update this to accept an initial edit
+//And then it's togglable
 
 export function Textarea({ state, setState, setEdit, handleSubmit }) {
     return (
@@ -65,8 +67,7 @@ export function Textarea({ state, setState, setEdit, handleSubmit }) {
                 }
                 if (event.key === 'Enter') {
                     setEdit(false)
-                    //TODO
-                    //and save the value to the server
+                    handleSubmit(event.target.value)
                 }
             }}
             rows="5" cols="33" />

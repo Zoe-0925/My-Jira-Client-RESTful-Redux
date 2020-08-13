@@ -109,19 +109,6 @@ export async function updateIssue(data, token) {
 export async function deleteIssue(id, token) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
-        try {
-            const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
-            if (response.success) {
-                dispatch(deleteSuccessfulIssues(id))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
-        }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
-        }
+        dispatch(deleteSuccessfulIssues(id))
     }
 }
