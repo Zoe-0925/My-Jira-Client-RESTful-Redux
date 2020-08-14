@@ -526,9 +526,16 @@ $one-third: 33%;
   min-height: 9rem;
   color: $card-color;
   font-size: $card-font-size;
+  z-index: 0.2;
+
+  .column{
+    background-color: $bgc;
+  }
 
   .epic-body {
     cursor: pointer;
+    z-index: 1;
+    background-color:white;
   }
 
   .epic-body:hover {
@@ -639,4 +646,12 @@ $one-third: 33%;
   text-align: left;
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.is-dragging{
+  background-color:lightblue;
+}
+
+.drag-over{
+  background-color: #5bc2f2;
 }

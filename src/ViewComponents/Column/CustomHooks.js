@@ -30,7 +30,7 @@ export function useColumnController() {
 
     const [showNewEditable, setShowEditable] = useState(false)
 
-    return { showNewEditable, setShowEditable,  changeColumnSummary }
+    return { showNewEditable, setShowEditable,  changeColumnSummary ,createNewTask}
 }
 
 export function useEditText(value) {

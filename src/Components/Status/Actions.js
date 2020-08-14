@@ -15,6 +15,9 @@ export const GET_STATUS_BY_ID = "GET_STATUS_BY_ID"
 export const GET_ALL_STATUS = "GET_ALL_STATUS"
 export const UPDATE_STATUS = "UPDATE_STATUS"
 export const DELETE_STATUS = "UPDATE_STATUS"
+export const REORDER_ISSUES = "REORDER_ISSUES"
+export const MOVE_ISSUES = "MOVE_ISSUES"
+export const UNDO_ISSUE_ORDER = "UNDO_ISSUE_ORDER"
 
 export const createSuccessfulStatus = (data) => {
     return {
@@ -30,7 +33,7 @@ export const updateSuccessfulStatus = (data) => {
     }
 }
 
-export const deleteSuccessfulStatus = (id,issues) => {
+export const deleteSuccessfulStatus = (id, issues) => {
     return {
         type: DELETE_SUCCESS_STATUS,
         id: id,
@@ -52,8 +55,84 @@ export const appendSuccessfulStatus = (data) => {
     }
 }
 
+export const reorderIssues = (index, startIndex, endIndex) => {
+    console.log("index", index)
+    return {
+        type: REORDER_ISSUES,
+        index: index,
+        startIndex: startIndex,
+        endIndex: endIndex
+    }
+}
+
+export const moveIssues = (source, destination, startIndex, endIndex) => {
+    return {
+        type: MOVE_ISSUES,
+        sourceIndex: source,
+        destinationIndex: destination,
+        startIndex: startIndex,
+        endIndex: endIndex
+    }
+}
+
 
 /**************************** Thunk Actions ***************************/
+//TODO not finished yet.
+
+export function updateIssueOrderRequest(id, startIndex, endIndex) {
+    return async dispatch => {
+        dispatch({ type: LOADING_STATUS })
+        try {
+            const token = localStorage.getItem("token")
+            const response = await dispatch(fetchUpdateIssueOrders(process.env.BASE, id, startIndex, endIndex, token))
+            if (response.success) {
+                //TODO
+                //dispatch the implemented action to confirm the history
+            }
+            else {
+                //TODO
+                //dispatch undo
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            //TODO
+            //dispatch undo
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
+//TODO not finished yet.
+export function moveIssuesRequest(source, destination, startIndex, endIndex) {
+    return async dispatch => {
+        dispatch({ type: LOADING_STATUS })
+        try {
+            const token = localStorage.getItem("token")
+
+            //TODO update 2 status objects.
+            const response = await dispatch(fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token))
+            if (response.success) {
+                //TODO
+                //dispatch the implemented action to confirm the history
+            }
+            else {
+                //TODO
+                //dispatch undo
+            }
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            //TODO
+            //dispatch undo
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
+
 export function createStatus(data) {
     return async dispatch => {
         dispatch({ type: LOADING_STATUS })
@@ -144,20 +223,30 @@ export async function fetchCreateStatus(BASE, item, token) {
     return post('status/', BASE, item, token)
 }
 
-export async function fetchStatusById(BASE, id, token) {//fetch all projects of a Status
+export async function fetchStatusById(BASE, id, token) {
     return axios.get(BASE + 'status/' + id, jwtConfig(token));
 }
 
-export async function fetchAllStatus(BASE, id, token) {//fetch all status in a project
+export async function fetchAllStatus(BASE, id, token) {
     return axios.get(BASE + 'status/project/' + id, jwtConfig(token));
 }
 
 //TODO not sure if it's useful. Maybe delete later
-export async function fetchUpdateStatus(BASE, id, update, token) {//fetch all projects of a Status
-    return put('status/' + id, BASE, update, token)
+export async function fetchUpdateStatus(BASE, id, update, token) {
+    return put("status/" + id, BASE, update, token)
 }
 
-export async function deleteStatusById(BASE, id, token) {//fetch all projects of a Status
+export async function fetchUpdateIssueOrders(BASE, id, startIndex, endIndex, token) {
+    return put("status/" + id + "/issueOrders", BASE,
+        { startIndex: startIndex, endIndex: endIndex }, token)
+}
+
+export async function fetchUpdateMultipleIssueOrders(BASE, sourceId, destinationId, startIndex, endIndex, token) {
+    return put("status/issueOrders", BASE,
+        { source: sourceId, destination: destinationId, startIndex: startIndex, endIndex: endIndex }, token)
+}
+
+export async function deleteStatusById(BASE, id, token) {
     return axios.delete(BASE + 'status/' + id, jwtConfig(token));
 }
 

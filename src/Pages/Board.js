@@ -7,6 +7,7 @@ import Columns from "../ViewComponents/Column/Column"
 import Container from "../ViewComponents/NavBar/Container"
 import { useEditText } from "../ViewComponents/Column/CustomHooks"
 import { EditableText, Input } from "../ViewComponents/Shared/EditableText"
+import DragAndDrop from "../ViewComponents/Column/DragAndDrop"
 
 export default function Board() {
     //TODO get project id and name, and then replace the "My EC"
@@ -25,9 +26,7 @@ export default function Board() {
                     <Input state={state} setState={setState} setEdit={setEdit} />
                 </EditableText>
                 <FilterManager />
-                <div className="epic-list">
-                    <Columns />
-                </div>
+                <DragAndDrop />
             </div>
 
         </Fragment>

@@ -66,4 +66,3 @@ export function getExpiration() {
     const expiresAt = JSON.parse(expiration);
     return format(expiresAt, 'MM/dd/yyyy-H:mm:ss');
 }
-

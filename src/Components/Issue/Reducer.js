@@ -7,7 +7,10 @@ import {
 import { DELETE_SUCCESS_STATUS } from "../Status/Actions"
 
 const issues = new Map()
-issues.set("2", { id: "2", summary: "test 1", key: "test key 1", labels: ["test"] })
+issues.set("2", {
+    id: "2", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "test Assignee",
+    issueType: "task"
+})
 
 export default function IssueReducer(state = {
     loading: false,
@@ -20,7 +23,6 @@ export default function IssueReducer(state = {
         case LOADING_ISSUE:
             return { ...state, loading: true }
         case CREATE_SUCCESS_ISSUE:
-            const statusId = action.data.status
             newState = { ...state, authenticated: true, loading: false }
             newState.issues.set(action.data._id, action.data)
             return newState
