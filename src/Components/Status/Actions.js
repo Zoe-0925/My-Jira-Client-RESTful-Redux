@@ -17,7 +17,8 @@ export const UPDATE_STATUS = "UPDATE_STATUS"
 export const DELETE_STATUS = "UPDATE_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
-export const UNDO_ISSUE_ORDER = "UNDO_ISSUE_ORDER"
+export const UNDO_REORDER_ISSUE = "UNDO_REORDER_ISSUE"
+export const UNDO_MOVE_ISSUE = "UNDO_MOVE_ISSUE"
 
 export const createSuccessfulStatus = (data) => {
     return {
@@ -85,13 +86,8 @@ export function updateIssueOrderRequest(id, startIndex, endIndex) {
         try {
             const token = localStorage.getItem("token")
             const response = await dispatch(fetchUpdateIssueOrders(process.env.BASE, id, startIndex, endIndex, token))
-            if (response.success) {
-                //TODO
-                //dispatch the implemented action to confirm the history
-            }
-            else {
-                //TODO
-                //dispatch undo
+            if (!response.success) {
+                dispatch({ type: UNDO_REORDER_ISSUE })
             }
         }
         catch (err) {
@@ -110,16 +106,9 @@ export function moveIssuesRequest(source, destination, startIndex, endIndex) {
         dispatch({ type: LOADING_STATUS })
         try {
             const token = localStorage.getItem("token")
-
-            //TODO update 2 status objects.
             const response = await dispatch(fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token))
-            if (response.success) {
-                //TODO
-                //dispatch the implemented action to confirm the history
-            }
-            else {
-                //TODO
-                //dispatch undo
+            if (!response.success) {
+                dispatch({ type: UNDO_MOVE_ISSUE })
             }
         }
         catch (err) {

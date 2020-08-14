@@ -81,6 +81,9 @@ export const SignupView = withFormik({
         if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Please enter a valid email address';
         }
+        if(!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(values.password)){
+            errors.password = 'Password must contain at least 1 lower case, 1 upper case, 1 number and 1 special character. ';
+        }
         if (!values.name) {
             errors.name = 'Required';
         }

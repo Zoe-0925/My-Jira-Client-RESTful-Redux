@@ -5,11 +5,13 @@ import CommentReducer from "./Comment/Reducer"
 import LabelReducer from "./Label/Reducer"
 import StatusReducer from "./Status/Reducer"
 import UserReducer from "./User/Reducer"
+import FilterReducer from "./Filter/Reducer"
 import { connectRouter } from 'connected-react-router'
 
 
 const RootReducer = (history) => combineReducers({
     ProjectReducer, IssueReducer, CommentReducer, LabelReducer, StatusReducer, UserReducer,
+    FilterReducer,
     router: connectRouter(history),
 });
 

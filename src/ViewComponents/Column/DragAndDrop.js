@@ -50,19 +50,27 @@ export default function DragAndDrop() {
     const [reorderIssue, setReorderIssue] = useState(initialReorder)
     const [moveIssue, setMoveIssue] = useState(initialMove)
 
+    //----------Filters----------------------
+    const [filterByEpic, setEpic] = useState("")
+    const [filterByAssignee, setAssigneeFilter] = useState("")
+    const [groupByAssignee, setAssigneeGroup] = useState(false)
+    const [groupByEpic, setEpicGroup] = useState(false)
+    const [groupBySubtask, setSubtaskGroup] = useState(false)
+
+
     const dispatch = useDispatch()
 
     //TODO
     //Do I need to return a clean up function and clean the state???
     useEffect(() => {
-        if(reorderIssue.source===""){return}
+        if (reorderIssue.source === "") { return }
         dispatch(reorderIssues(reorderIssue.source, reorderIssue.startIndex, reorderIssue.endIndex))
         //API request:
         // dispatch(updateIssueOrderRequest(reorderIssue.id, reorderIssue.startIndex, reorderIssue.endIndex))
     }, [reorderIssue])
 
     useEffect(() => {
-        if(moveIssue.sourceIndex===""){return}
+        if (moveIssue.sourceIndex === "") { return }
         dispatch(moveIssues(moveIssue.sourceIndex, moveIssue.destinationIndex, moveIssue.startIndex, moveIssue.endIndex))
         //API request:
         //  dispatch(moveIssuesRequest(moveIssue.sourceIndex, moveIssue.destinationIndex, moveIssue.startIndex, moveIssue.endIndex))
