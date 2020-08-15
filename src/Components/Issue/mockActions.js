@@ -51,7 +51,7 @@ export function updateSuccessfulIssue(data) {
 }
 /**********************************  Thunk Actions  ******************************************/
 
-export async function getIssuesForProject(projectId) {
+export async function getIssuesForProject(projectId, token) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         const data = [
@@ -63,8 +63,8 @@ export async function getIssuesForProject(projectId) {
     }
 }
 
-export async function createIssue(data) {
-    return async dispatch => {
+export function createIssue(data) {
+    return dispatch => {
         dispatch({ type: LOADING_ISSUE })
         let newData = Object.assign({}, data)
         newData._id = uuidv4()
@@ -72,8 +72,8 @@ export async function createIssue(data) {
     }
 }
 
-export async function getASingleIssue(id) {
-    return async dispatch => {
+export function getASingleIssue(id) {
+    return dispatch => {
         dispatch({ type: LOADING_ISSUE })
         const data = { id: "2", summary: "test 1", key: "test key 1", labels: ["test"] }
         dispatch(appendSuccessfulIssues(data))
@@ -83,8 +83,8 @@ export async function getASingleIssue(id) {
 
 //TODO need to think about the flow.
 //Where to store in the store, and where does the client take it
-export async function getIssueByProjectAndType(id, type) {
-    return async dispatch => {
+export function getIssueByProjectAndType(id, type) {
+    return dispatch => {
         dispatch({ type: LOADING_ISSUE })
         const issue = [{ id: "2", summary: "test issue", key: "test key 1", labels: ["test"] }]
         const epic = [{
@@ -99,15 +99,15 @@ export async function getIssueByProjectAndType(id, type) {
 }
 
 
-export async function updateIssue(data) {
-    return async dispatch => {
+export function updateIssue(data) {
+    return dispatch => {
         dispatch({ type: LOADING_ISSUE })
         dispatch(updateSuccessfulIssue(data))
     }
 }
 
-export async function deleteIssue(id) {
-    return async dispatch => {
+export function deleteIssue(id, token) {
+    return dispatch => {
         dispatch({ type: LOADING_ISSUE })
         dispatch(deleteSuccessfulIssues(id))
     }

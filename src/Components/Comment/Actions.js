@@ -47,7 +47,7 @@ export function updateSuccessfulComments(data) {
     }
 }
 /**********************************  Thunk Actions  ******************************************/
-export async function getCommentsForIssue(issueId, token) {
+export function getCommentsForIssue(issueId, token) {
     return async dispatch => {
         dispatch({ type: LOADING_COMMENT })
         try {
@@ -67,7 +67,7 @@ export async function getCommentsForIssue(issueId, token) {
     }
 }
 
-export async function createComment(data, token) {
+export function createComment(data, token) {
     return async dispatch => {
         dispatch({ type: LOADING_COMMENT })
         try {
@@ -89,7 +89,7 @@ export async function createComment(data, token) {
     }
 }
 
-export async function updateComment(data, token) {
+export function updateComment(data, token) {
     return async dispatch => {
         dispatch({ type: LOADING_COMMENT })
         try {
@@ -109,7 +109,7 @@ export async function updateComment(data, token) {
     }
 }
 
-export async function deleteComment(data, token) {
+export function deleteComment(data, token) {
     return async dispatch => {
         dispatch({ type: LOADING_COMMENT })
         try {

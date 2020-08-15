@@ -106,7 +106,7 @@ export function toggleSuccessfulFlag(id) {
 
 /**********************************  Thunk Actions  ******************************************/
 
-export async function getLabelsAndIssuesGroupByStatus(projectId, token) {
+export function getLabelsAndIssuesGroupByStatus(projectId, token) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -130,7 +130,7 @@ export async function getLabelsAndIssuesGroupByStatus(projectId, token) {
 }
 
 
-export async function getIssuesForProject(projectId, token) {
+export function getIssuesForProject(projectId, token) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -150,7 +150,7 @@ export async function getIssuesForProject(projectId, token) {
     }
 }
 
-export async function createIssue(data) {
+export function createIssue(data) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -173,7 +173,7 @@ export async function createIssue(data) {
     }
 }
 
-export async function getASingleIssue(id) {
+export function getASingleIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -196,7 +196,7 @@ export async function getASingleIssue(id) {
 
 //TODO need to think about the flow.
 //Where to store in the store, and where does the client take it
-export async function getIssueByProjectAndType(id, type) {
+export function getIssueByProjectAndType(id, type) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -218,7 +218,7 @@ export async function getIssueByProjectAndType(id, type) {
 }
 
 
-export async function updateIssue(data) {
+export function updateIssue(data) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -239,7 +239,7 @@ export async function updateIssue(data) {
     }
 }
 
-export async function deleteIssue(id) {
+export function deleteIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
@@ -260,7 +260,7 @@ export async function deleteIssue(id) {
     }
 }
 
-export async function toggleFlag(id) {
+export function toggleFlag(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {

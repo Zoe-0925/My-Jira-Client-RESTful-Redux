@@ -56,7 +56,7 @@ export function dispatchError(data) {
 }
 
 /*****************  Thunk Actions  ****************/
-export async function createProject(id) {
+export function createProject(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
@@ -79,7 +79,7 @@ export async function createProject(id) {
 }
 
 //Get all projects of the user
-export async function getAllProjects(userId) {
+export function getAllProjects(userId) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
@@ -101,7 +101,7 @@ export async function getAllProjects(userId) {
 
 //TODO
 //test to see 
-export async function getASingleProject(id) {
+export function getASingleProject(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
@@ -122,7 +122,7 @@ export async function getASingleProject(id) {
     }
 }
 
-export async function updateProject(id, update) {
+export function updateProject(id, update) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
@@ -143,7 +143,7 @@ export async function updateProject(id, update) {
     }
 }
 
-export async function deleteProject(id) {
+export function deleteProject(id) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
