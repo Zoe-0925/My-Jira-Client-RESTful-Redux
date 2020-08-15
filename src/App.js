@@ -1,6 +1,5 @@
 import { hot } from 'react-hot-loader/root';
 import React from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
 /**     Router    */
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";

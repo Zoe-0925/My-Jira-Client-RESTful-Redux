@@ -4,6 +4,7 @@ import {
 } from "./Actions"
 
 const initialState = {
+    none: true,
     epicFilter: "",
     labelFilter: "",
     assigneeFilter: "",
@@ -12,17 +13,17 @@ const initialState = {
 export default function FilterReducer(state = initialState, action) {
     switch (action.type) {
         case FILTER_BY_EPIC:
-            return { ...state, epicFilter: action.data }
+            return { ...state, epicFilter: action.data, none: false }
         case FILTER_BY_LABEL:
-            return { ...state, labelFilter: action.data }
+            return { ...state, labelFilter: action.data, none: false }
         case FILTER_BY_ASSIGNEE:
-            return { ...state, assigneeFilter: action.data }
+            return { ...state, assigneeFilter: action.data, none: false }
         case GROUP_BY_ASSIGNEE:
-            return { ...state, groupBy: "assignee" }
+            return { ...state, groupBy: "assignee", none: false }
         case GROUP_BY_EPIC:
-            return { ...state, groupBy: "epic" }
+            return { ...state, groupBy: "epic", none: false }
         case GROUP_BY_SUBTASK:
-        return { ...state, groupBy: "subtask" }
+            return { ...state, groupBy: "subtask", none: false }
         case CLEAN_FILTER:
             return initialState
         default:

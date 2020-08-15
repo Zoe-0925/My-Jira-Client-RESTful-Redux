@@ -18,12 +18,6 @@ import {
 import { useDispatch, useSelector } from "react-redux"
 import { updateProject } from "../../Components/Project/Actions"
 
-const projectName = "test project Name" //TODO change to useSelect
-const projectId = "test id"  //TODO change to useSelect
-
-//TODO
-// need to pass project id and name and data to the form
-
 const ProjectDetailForm = props => {
     const category = []
     const categoryItems = category.map(each => <MenuItem value={each}>{each}</MenuItem>)
@@ -132,15 +126,10 @@ const ProjectDetail = withFormik({
 
     // Custom sync validation
     validate: values => {
-
-
         const errors = {}
         if (!values.name) {
             errors.name = 'Required';
         }
-
-        //TODO
-        //Password regex
         return errors;
     },
     handleSubmit: (values, { 'props': { onContinue } }) => {
@@ -152,8 +141,7 @@ const ProjectDetail = withFormik({
 
 const ProjectDetailController = () => {
     const dispatch = useDispatch()
-    const projects = useSelector(state => state.ProjectReducer)
-    const currentProject = projects.currentProject
+    const currentProject = useSelector(state =>selectCurrentProject(state))
 
     const handleUpdate = values => {
         dispatch(updateProject(currentProject._id, values))

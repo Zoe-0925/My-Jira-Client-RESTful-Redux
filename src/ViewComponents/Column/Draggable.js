@@ -33,14 +33,7 @@ function IssueCard({ task, openTaskDetail }) {
   )
 }
 
-const getTasks = ({ statusId, openTaskDetail }) => {
-  const tasks = useSelector(state => state.IssueReducer).issues.find(item => Object.keys(item)[0] === statusId)
-  const items = tasks !== undefined && tasks.length > 0 ?
-    tasks.map(each => <IssueCard task={each} openTaskDetail={openTaskDetail} />) :
-    <div></div>
 
-  return { items }
-}
 
 // fake data generator
 const getItems = (count, offset = 0) =>

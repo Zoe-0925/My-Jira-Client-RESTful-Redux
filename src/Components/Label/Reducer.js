@@ -10,7 +10,7 @@ export default function LabelReducer(state = {
     loading: false,
     authenticated: false,
     errorMessage: "",
-    labels: []
+    labels: ["test label1"]
 }, action) {
     let newState
     switch (action.type) {

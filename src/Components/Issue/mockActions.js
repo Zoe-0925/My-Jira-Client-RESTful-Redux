@@ -43,7 +43,7 @@ export function deleteSuccessfulIssue(id) {
     }
 }
 
-export function updateSuccessfulIssues(data) {
+export function updateSuccessfulIssue(data) {
     return {
         type: UPDATE_SUCCESS_ISSUE,
         data: data

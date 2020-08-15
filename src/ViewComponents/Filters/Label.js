@@ -6,20 +6,10 @@ import { Tooltip, ClickAwayListener, MenuItem, MenuList } from '@material-ui/cor
 export default function Label() {
     const { value, handleTrue, handleFalse } = useSimpleState()
 
-    const items = []
+    const { labels, dispatchFilterByLabel } = uselabelFilter(value)
 
-    //TODO 
-    //Retrieve the available labels
-
+    //TODO
     //If no label exists, show the link to create labels
-
-    const menuItems = items.map(each => {
-        <MenuItem onClick={handleFilter}>Profile</MenuItem>
-    })
-
-    const handleFilter = () => {
-
-    }
 
     const anchorRef = React.useRef(null);
 
@@ -50,7 +40,10 @@ export default function Label() {
             </div>
             <ClickAwayListener onClickAway={handleFalse}>
                 <MenuList autoFocusItem={value} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                    {menuItems}
+                    {labels.map(each => {
+                        <MenuItem onClick={dispatchFilterByLabel}>{each}</MenuItem>
+                    })
+                    }
                 </MenuList>
             </ClickAwayListener>
         </div>

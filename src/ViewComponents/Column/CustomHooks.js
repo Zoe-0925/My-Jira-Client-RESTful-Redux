@@ -1,18 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { useSimpleState } from "../Shared/CustomHooks"
-
-export function useStatusChange() {
-    const dispatch = useDispatch()
-
-
-    const statusReducer = useSelector(state => state.StatusReducer)
-    const loading = statusReducer.loading
-    const status = statusReducer.status
-
-
-    return { loading, status }
-}
 
 export function useColumnController() {
     const { value, handleTrue, handleFalse } = useSimpleState()
@@ -30,7 +18,7 @@ export function useColumnController() {
 
     const [showNewEditable, setShowEditable] = useState(false)
 
-    return { showNewEditable, setShowEditable,  changeColumnSummary ,createNewTask}
+    return { showNewEditable, setShowEditable, changeColumnSummary, createNewTask }
 }
 
 export function useEditText(value) {
@@ -53,9 +41,5 @@ export function useTaskController() {
 
     //Handle issue modal state
 
-    return {  openTaskDetail }
-}
-
-export function useBoardFilter() {
-
+    return { openTaskDetail }
 }

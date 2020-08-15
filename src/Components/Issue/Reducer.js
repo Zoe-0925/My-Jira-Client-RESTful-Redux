@@ -8,13 +8,15 @@ import { DELETE_SUCCESS_STATUS } from "../Status/Actions"
 
 const issues = new Map()
 issues.set("2", {
-    id: "2", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "test Assignee",
+    _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "test Assignee",
     issueType: "task"
 })
 
 export default function IssueReducer(state = {
     loading: false,
     issues: issues, //Map()
+    pastIssues: issues,
+    pastEpics: [],
     epics: [],
     authenticated: false,
 }, action) {

@@ -73,7 +73,7 @@ export function deleteSuccessfulEpic(id) {
     }
 }
 
-export function updateSuccessfulIssues(data) {
+export function updateSuccessfulIssue(data) {
     return {
         type: UPDATE_SUCCESS_ISSUE,
         data: data
@@ -141,10 +141,11 @@ export async function getIssuesForProject(projectId, token) {
     }
 }
 
-export async function createIssue(data, token) {
+export async function createIssue(data) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchCreateIssue(process.env.BASE, data, token))
             if (response.data.success) {
                 let newData = Object.assign({}, data)
@@ -163,10 +164,11 @@ export async function createIssue(data, token) {
     }
 }
 
-export async function getASingleIssue(id, token) {
+export async function getASingleIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchIssueById(process.env.BASE, id, token))
             if (response.data.success) {
                 dispatch(appendSuccessfulIssues(response.data.data))
@@ -185,10 +187,11 @@ export async function getASingleIssue(id, token) {
 
 //TODO need to think about the flow.
 //Where to store in the store, and where does the client take it
-export async function getIssueByProjectAndType(id, type, token) {
+export async function getIssueByProjectAndType(id, type) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchByProjectAndIssueType(process.env.BASE, id, type, token))
             if (response.data.success) {
                 dispatch(appendCurrentIssue(response.data.data))
@@ -206,10 +209,11 @@ export async function getIssueByProjectAndType(id, type, token) {
 }
 
 
-export async function updateIssue(data, token) {
+export async function updateIssue(data) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchUpdateIssue(process.env.BASE, data, token))
             if (response.data.success) {
                 dispatch(updateSuccessfulIssue(data))
@@ -226,10 +230,13 @@ export async function updateIssue(data, token) {
     }
 }
 
-export async function deleteIssue(id, token) {
+
+//Update the state first and if not successful, roll back
+export async function deleteIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         try {
+            const token = localStorage.getItem("token")
             const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
             if (response.data.success) {
                 dispatch(deleteSuccessfulIssues(id))

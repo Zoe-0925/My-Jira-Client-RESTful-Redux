@@ -2,7 +2,6 @@ import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 require('dotenv').config()
 
-
 export const LOADING_STATUS = "LOADING_STATUS"
 export const ERROR_STATUS = "ERROR_STATUS"
 export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
@@ -17,8 +16,6 @@ export const UPDATE_STATUS = "UPDATE_STATUS"
 export const DELETE_STATUS = "UPDATE_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
-export const UNDO_REORDER_ISSUE = "UNDO_REORDER_ISSUE"
-export const UNDO_MOVE_ISSUE = "UNDO_MOVE_ISSUE"
 
 export const createSuccessfulStatus = (data) => {
     return {
@@ -56,16 +53,6 @@ export const appendSuccessfulStatus = (data) => {
     }
 }
 
-export const reorderIssues = (index, startIndex, endIndex) => {
-    console.log("index", index)
-    return {
-        type: REORDER_ISSUES,
-        index: index,
-        startIndex: startIndex,
-        endIndex: endIndex
-    }
-}
-
 export const moveIssues = (source, destination, startIndex, endIndex) => {
     return {
         type: MOVE_ISSUES,
@@ -76,29 +63,17 @@ export const moveIssues = (source, destination, startIndex, endIndex) => {
     }
 }
 
-
-/**************************** Thunk Actions ***************************/
-//TODO not finished yet.
-
-export function updateIssueOrderRequest(id, startIndex, endIndex) {
-    return async dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchUpdateIssueOrders(process.env.BASE, id, startIndex, endIndex, token))
-            if (!response.success) {
-                dispatch({ type: UNDO_REORDER_ISSUE })
-            }
-        }
-        catch (err) {
-            dispatch(dispatchError(err))
-            //TODO
-            //dispatch undo
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
-        }
+export const reorderIssues = (source, startIndex, endIndex) => {
+    return {
+        type: REORDER_ISSUES,
+        index: source,
+        startIndex: startIndex,
+        endIndex: endIndex
     }
 }
+
+
+/**************************** Thunk Actions ***************************/
 
 //TODO not finished yet.
 export function moveIssuesRequest(source, destination, startIndex, endIndex) {
@@ -106,9 +81,18 @@ export function moveIssuesRequest(source, destination, startIndex, endIndex) {
         dispatch({ type: LOADING_STATUS })
         try {
             const token = localStorage.getItem("token")
-            const response = await dispatch(fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token))
-            if (!response.success) {
-                dispatch({ type: UNDO_MOVE_ISSUE })
+            const call = source === destination
+                ? fetchUpdateIssueOrders(process.env.BASE, id, source, startIndex, endIndex, token)
+                : fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token)
+            const response = await dispatch(call)
+            if (response.success && source === destination) {
+                dispatch(reorderIssues(source, startIndex, endIndex))
+            }
+            else if (response.success && source !== destination) {
+                dispatch(moveIssues(source, destination, startIndex, endIndex))
+            }
+            else {
+                dispatch(dispatchError(response.message))
             }
         }
         catch (err) {

@@ -3,11 +3,10 @@ import NavBreadcrumbs from "../ViewComponents/NavBar/NavBreadcrumbs"
 import FilterManager from "../ViewComponents/Filters/FilterManager"
 import Drawer from "../ViewComponents/SideDrawer/Drawer"
 import { Project } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
-import Columns from "../ViewComponents/Column/Column"
 import Container from "../ViewComponents/NavBar/Container"
 import { useEditText } from "../ViewComponents/Column/CustomHooks"
 import { EditableText, Input } from "../ViewComponents/Shared/EditableText"
-import DragAndDrop from "../ViewComponents/Column/DragAndDrop"
+import DragContext from "../ViewComponents/Column/DragContext"
 
 export default function Board() {
     //TODO get project id and name, and then replace the "My EC"
@@ -26,7 +25,7 @@ export default function Board() {
                     <Input state={state} setState={setState} setEdit={setEdit} />
                 </EditableText>
                 <FilterManager />
-                <DragAndDrop />
+                <DragContext />
             </div>
 
         </Fragment>

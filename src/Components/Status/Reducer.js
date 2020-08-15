@@ -1,7 +1,6 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
-    UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES,
-    UNDO_REORDER_ISSUE, UNDO_MOVE_ISSUE
+    UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES
 } from "./Actions"
 
 const status = new Map()
@@ -28,9 +27,6 @@ export default function StatusReducer(state = {
             return Object.assign({}, state, { loading: true })
         case REORDER_ISSUES: //Move the item at the start index to the end index
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            //Update the history
-            newState.pastStatus = newState.status
-            //Update the issue order
             const statusId = newState.statusOrder[action.index]
             status = newState.status.get(statusId)
             let issues = status.issues
@@ -39,15 +35,12 @@ export default function StatusReducer(state = {
             return newState
         case MOVE_ISSUES:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.pastStatus = newState.status
-            newState.pastStatusOrder = newState.statusOrder
             const sourceStatusId = newState.statusOrder[action.sourceIndex]
             const destinationStatusId = newState.statusOrder[action.destinationIndex]
             let sourceIssues = newState.status.get(sourceStatusId).issues
             let destinationIssues = newState.status.get(destinationStatusId).issues
             const [removedToMove] = sourceIssues.splice(action.startIndex, 1);
             destinationIssues.splice(action.endIndex, 0, removedToMove);
-            //Update history
             return newState
         case CREATE_SUCCESS_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
@@ -68,19 +61,8 @@ export default function StatusReducer(state = {
             return newState
         case ERROR_STATUS:
             return Object.assign({}, state, { loading: false, authenticated: false })
-        case UNDO_REORDER_ISSUE:
-            newState = Object.assign({}, state, { loading: false, authenticated: false })
-            newState.status = newState.pastStatus
-            return newState
-        case UNDO_MOVE_ISSUE:
-            newState = Object.assign({}, state, { loading: false, authenticated: false })
-            newState.status = newState.pastStatus
-            newState.statusOrder = newState.pastStatusOrder
-            return newState
         default:
             return state;
     }
-
-
 };
 
