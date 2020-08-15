@@ -6,7 +6,7 @@ import { useSimpleState } from "../Shared/CustomHooks"
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
 import CreateIcon from '@material-ui/icons/Create';
-import history from "../../history"
+import { selectCurrentProjectName } from "../../Components/Selectors"
 
 
 export const Labels = () => {
@@ -45,7 +45,6 @@ export const AvatorCard = ({ user }) => {
 
 }
 
-
 export const Member = ({ user }) => {
     const { value, handleTrue, handleFalse } = useSimpleState()
 
@@ -58,8 +57,7 @@ export const Member = ({ user }) => {
 
 const IssueForm = props => {
     const [formValue, setValue] = useState({
-        email: "",
-        password: ""
+
     })
 
     const {
@@ -86,8 +84,7 @@ const IssueForm = props => {
 
     }
 
-    //TODO get project name
-    const projectName = "test project name"
+    const projectName = useSelector(selectCurrentProjectName)
 
     return <div className="Issue-form-wide">
         <div className="row">
@@ -103,14 +100,14 @@ const IssueForm = props => {
         <Form onSubmit={handleSubmit}>
             <InputLabel className="row" id="state">Project Name*</InputLabel>
             <Field
-                className="form-select"
+                className="form-select row"
                 id="select"
-                className="row"
                 component={TextField}
                 name="projectName"
                 type="text"
                 variant="outlined"
                 size="small"
+                diabled={true}
                 onChange={handleChange}
                 value={values.projectName}
                 margin="normal"
@@ -126,9 +123,8 @@ const IssueForm = props => {
             />
             <InputLabel className="row" id="state">Issue Type*</InputLabel>
             <Field
-                className="form-select"
+                className="form-select row"
                 id="select"
-                className="row"
                 component={TextField}
                 name="issueType"
                 type="text"
@@ -155,8 +151,7 @@ const IssueForm = props => {
             </Box>
             <InputLabel className="row" id="state">Summary*</InputLabel>
             <Field
-                className="form-select"
-                className="row full-length-center summary"
+                className="row form-select full-length-center summary"
                 component={TextField}
                 name="summary"
                 type="text"
@@ -168,7 +163,6 @@ const IssueForm = props => {
             />
             <InputLabel className="row" id="state">description*</InputLabel>
             <Field
-                className="full-length-center"
                 className="row full-length-center summary"
                 component={TextareaAutosize}
                 name="description"
@@ -186,4 +180,35 @@ const IssueForm = props => {
             </div>
         </Form>
     </div>
+}
+
+const IssueView = withFormik({
+    mapPropsToValues: () => ({
+        projectName: "",
+        issueType: "",
+        summary: "",
+        description: ""
+    }),
+
+    // Custom sync validation
+    validate: values => {
+
+        const errors = {}
+
+        return errors;
+    },
+    handleSubmit: (values, { 'props': { onContinue } }) => {
+        onContinue(values);
+    },
+
+    displayName: 'BasicForm',
+})(IssueForm);
+
+export default function IssueModal({ issue }) {
+    return (
+        <CustomModal>
+            <IssueView issue={issue} />
+        </CustomModal>
+    )
+
 }

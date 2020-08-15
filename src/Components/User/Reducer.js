@@ -2,7 +2,6 @@ import {
 	LOADING_USER,
 	LOGIN_SUCCESS_USER,
 	ERROR_USER,
-	SIGNUP_SUCCESS_USER,
 	LOGOUT_SUCCESS_USER,
 	UPDATE_USER
 } from "./Actions"
@@ -15,11 +14,9 @@ const UserReducer = (state = {
 }, action) => {
 	switch (action.type) {
 		case LOADING_USER:
-			return Object.assign({}, state, { loading: true })
+			newState = Object.assign({}, state, { loading: true })
 		case LOGIN_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data.user })
-		case SIGNUP_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true })
+			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data })
 		case LOGOUT_SUCCESS_USER:
 			return Object.assign({}, state, {
 				loading: false, authenticated: false, id: "", user: {}

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch } from "react-redux"
-import { MenuItem} from '@material-ui/core';
+import { MenuItem } from '@material-ui/core';
 import { AddTab, DotIconMenu } from "../Shared/Tabs"
-import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Components/Status/Actions"
+import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Components/Status/mockActions"
+//import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Components/Status/Actions"
 /**--------------Editable Textfiled-------------- */
 import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */
-import {  useEditText, useColumnController } from './CustomHooks';
-
+import { useEditText, useCreateIssue } from './CustomHooks';
 
 /**
  * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 
@@ -17,6 +17,8 @@ function ColumnTitle({ status }) {
     const { state, setState, edit, setEdit } = useEditText(status.name)
     const dispatch = useDispatch()
     console.log("status in title", status)
+
+   //updateSuccessfulStatus
 
     return (
         <div className="flex-row epic-title" id={status !== undefined ? status.id : ""}>
@@ -38,13 +40,12 @@ function ColumnTitle({ status }) {
 
 //Need the status id
 export default function Column({ initialStatus, ...props }) {
-    const { showNewEditable, setShowEditable, createNewTask } = useColumnController()
-    const { state, setState, setEdit } = useEditText()
+    const { state, setState, setEdit } = useEditText(initialStatus.name)
+    const { showNewEditable, setShowEditable, createNewTask } = useCreateIssue(initialStatus._id)
 
     useEffect(() => {
         setState(initialStatus)
-        console.log("initialState", initialStatus)
-    }, [initialStatus])
+    }, [])
 
     return (<div className="epic-box">
         <ColumnTitle status={state} />

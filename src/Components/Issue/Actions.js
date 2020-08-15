@@ -19,6 +19,7 @@ export const APPEND_SUCCESS_CURRENT_EPICS = "APPEND_SUCCESS_CURRENT_EPICS"
 export const APPEND_SUCCESS_ISSUES_PARENT = "APPEND_SUCCESS_ISSUES_PARENT"
 export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
+export const TOGGLE_FLAG = "TOGGLE_FLAG"
 
 /**********************************  Actions  ******************************************/
 
@@ -94,6 +95,14 @@ export function updateIssueGroup(id, data) {
         data: data
     }
 }
+
+export function toggleSuccessfulFlag(id) {
+    return {
+        type: TOGGLE_FLAG,
+        id: id
+    }
+}
+
 
 /**********************************  Thunk Actions  ******************************************/
 
@@ -230,8 +239,6 @@ export async function updateIssue(data) {
     }
 }
 
-
-//Update the state first and if not successful, roll back
 export async function deleteIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
@@ -252,6 +259,29 @@ export async function deleteIssue(id) {
         }
     }
 }
+
+export async function toggleFlag(id) {
+    return async dispatch => {
+        dispatch({ type: LOADING_ISSUE })
+        try {
+            const token = localStorage.getItem("token")
+            const response = await dispatch(fetchToggleFlag(process.env.BASE, id, token))
+            if (response.data.success) {
+                dispatch(toggleSuccessfulFlag(id))
+            }
+            else {
+                dispatch(dispatchError(response.message))
+            }
+
+        }
+        catch (err) {
+            dispatch(dispatchError(err))
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', err);
+        }
+    }
+}
+
 /**********************************  API Call Actions  ******************************************/
 
 function fetchCreateIssue(BASE, item, token) {
@@ -297,9 +327,14 @@ function fetchParent(BASE, id, token) {//fetch all chilren of an Issues
 }
 
 function fetchUpdateIssue(BASE, id, update, token) {//fetch all Issues of a user
-    return put('/issues/' + id, BASE, item, token)
+    return put('/issues/' + id, BASE, update, token)
+}
+
+function fetchToggleFlag(BASE, id, token) {//fetch all Issues of a user
+    return put('/issues/' + id + "/flag", BASE, token)
 }
 
 function fetchDeleteIssue(BASE, id, token) {//fetch all Issues of a user
     return axios.delete(BASE + '/issues/' + id, jwtConfig(token));
 }
+

@@ -8,12 +8,6 @@ export const CREATE_SUCCESS_STATUS = "CREATE_SUCCESS_STATUS"
 export const DELETE_SUCCESS_STATUS = "DELETE_SUCCESS_STATUS"
 export const UPDATE_SUCCESS_STATUS = "UPDATE_SUCCESS_STATUS"
 export const APPEND_SUCCESS_STATUS = "APPEND_SUCCESS_STATUS"
-
-export const CREATE_STATUS = "CREATE_STATUS"
-export const GET_STATUS_BY_ID = "GET_STATUS_BY_ID"
-export const GET_ALL_STATUS = "GET_ALL_STATUS"
-export const UPDATE_STATUS = "UPDATE_STATUS"
-export const DELETE_STATUS = "UPDATE_STATUS"
 export const REORDER_ISSUES = "REORDER_ISSUES"
 export const MOVE_ISSUES = "MOVE_ISSUES"
 
@@ -72,6 +66,14 @@ export const reorderIssues = (source, startIndex, endIndex) => {
     }
 }
 
+export const reorderToBotttom = (source, startIndex) => {
+    return {
+        type: REORDER_ISSUES,
+        index: source,
+        startIndex: startIndex,
+        endIndex: -1
+    }
+}
 
 /**************************** Thunk Actions ***************************/
 

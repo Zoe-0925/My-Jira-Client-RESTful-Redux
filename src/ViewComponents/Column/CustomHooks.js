@@ -1,24 +1,38 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { useSimpleState } from "../Shared/CustomHooks"
+//swap
+import { createIssue } from "../../Components/Issue/mockActions"
+//import {createIssue} from "../../Components/Issue/actions"
+import {selectCurrentProject, selectCurrentUser} from "../../Components/Selectors"
 
-export function useColumnController() {
-    const { value, handleTrue, handleFalse } = useSimpleState()
+export function useCreateIssue(statusId) {
+    const dispatch = useDispatch()
+    const currentProject = useSelector(selectCurrentProject)
+    const currentUser = useSelector(selectCurrentUser)
 
-
-    const changeColumnSummary = (value) => {
-
-        //Dispatch action to update the column summary
+    const createNewTask = (issueName) => {
+        const issue = {
+            project: currentProject,
+            summary: issueName,
+            description: "",
+            issueType: 'task',
+            status: statusId,
+            assignee: currentUser,
+            labels: [],
+            flag: false,
+            startDate: (new Date()).toJSON(),
+            reportee: currentUser,
+            parent: "",
+            chilren: [],
+            comments: []
+        }
+        dispatch(createIssue(issue))
     }
-
-    const createNewTask = () => {
-        //Dispatch action to create a new task
-    }
-
 
     const [showNewEditable, setShowEditable] = useState(false)
 
-    return { showNewEditable, setShowEditable, changeColumnSummary, createNewTask }
+    return { showNewEditable, setShowEditable, createNewTask }
 }
 
 export function useEditText(value) {

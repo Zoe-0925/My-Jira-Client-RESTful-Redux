@@ -6,8 +6,9 @@ import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
     Typography, Link, Grow, Paper, Popper, ClickAwayListener,
-    ListItem, MenuList, IconButton
+    ListItem, MenuList, IconButton, MenuItem
 } from '@material-ui/core';
+import { reorderToBotttom } from "../../Components/Status/Actions"
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
@@ -110,5 +111,17 @@ export function DotIconMenu({ className, ...props }) {
                 )}
             </Popper>
         </div>
+    )
+}
+
+export function IssueDotIconMenu({id, flag}) {
+    return (
+        <DotIconMenu className="dot-icon">
+            <MenuItem onClick={() => dispatch(toggleFlag(id))}>{flag ? "Add flag" : "Remove flag"}</MenuItem>
+            <MenuItem >Add parent</MenuItem>
+            <MenuItem >Add label</MenuItem>
+            <MenuItem onClick={() => dispatch(deleteSuccessfulIssue(id))}>Delete</MenuItem>
+            <MenuItem onClick={() => dispatch(reorderToBotttom(id))} >Bottom of column</MenuItem>
+        </DotIconMenu>
     )
 }

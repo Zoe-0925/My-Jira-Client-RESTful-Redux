@@ -51,7 +51,7 @@ export function updateSuccessfulIssue(data) {
 }
 /**********************************  Thunk Actions  ******************************************/
 
-export async function getIssuesForProject(projectId, token) {
+export async function getIssuesForProject(projectId) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         const data = [
@@ -63,7 +63,7 @@ export async function getIssuesForProject(projectId, token) {
     }
 }
 
-export async function createIssue(data, token) {
+export async function createIssue(data) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         let newData = Object.assign({}, data)
@@ -72,7 +72,7 @@ export async function createIssue(data, token) {
     }
 }
 
-export async function getASingleIssue(id, token) {
+export async function getASingleIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         const data = { id: "2", summary: "test 1", key: "test key 1", labels: ["test"] }
@@ -83,7 +83,7 @@ export async function getASingleIssue(id, token) {
 
 //TODO need to think about the flow.
 //Where to store in the store, and where does the client take it
-export async function getIssueByProjectAndType(id, type, token) {
+export async function getIssueByProjectAndType(id, type) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         const issue = [{ id: "2", summary: "test issue", key: "test key 1", labels: ["test"] }]
@@ -99,14 +99,14 @@ export async function getIssueByProjectAndType(id, type, token) {
 }
 
 
-export async function updateIssue(data, token) {
+export async function updateIssue(data) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         dispatch(updateSuccessfulIssue(data))
     }
 }
 
-export async function deleteIssue(id, token) {
+export async function deleteIssue(id) {
     return async dispatch => {
         dispatch({ type: LOADING_ISSUE })
         dispatch(deleteSuccessfulIssues(id))

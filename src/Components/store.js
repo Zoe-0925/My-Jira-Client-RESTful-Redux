@@ -5,10 +5,8 @@ import thunk from 'redux-thunk';
 import history from "../history"
 import { routerMiddleware } from 'connected-react-router'
 
-//API
-const BASE = 'http://localhost:8080/api'
 const configureStore = () => {
-    let middleware = applyMiddleware(thunk.withExtraArgument(BASE), logger, routerMiddleware(history));
+    let middleware = applyMiddleware(thunk, logger, routerMiddleware(history));
 
     if (process.env.NODE_ENV !== 'production') {
         const devToolsExtension = window.devToolsExtension;

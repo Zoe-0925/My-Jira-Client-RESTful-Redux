@@ -10,7 +10,7 @@ export const selectFilterReducer = state => state.FilterReducer
 
 export const selectLabelReducer = state => state.LabelReducer
 
-
+export const selectUserReducer= state => state.UserReducer
 /****************** Reselectors *********************/
 export const selectStatus = createSelector(
     selectStatusReducer,
@@ -24,7 +24,17 @@ export const selectStatusOrder = createSelector(
 
 export const selectCurrentProject = createSelector(
     selectProjectReducer,
-    reducer => reducer.currentProject
+    reducer => reducer.currentProject._id
+)
+
+export const selectCurrentProjectName = createSelector(
+    selectProjectReducer,
+    reducer => reducer.currentProject.name
+)
+
+export const selectCurrentUser = createSelector(
+    selectUserReducer,
+    reducer => reducer.id
 )
 
 export const selectIssueArray = createSelector(

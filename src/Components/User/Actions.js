@@ -29,7 +29,7 @@ export const DELETE_USER = "UPDATE_USER"
 function loginSuccess(data) {
     return {
         type: LOGIN_SUCCESS_USER,
-        data
+        data:data
     }
 }
 
