@@ -48,11 +48,6 @@ export default function CustomSelect({ label, items, onChange }) {
     const [filter, setFilter] = React.useState('');
     const [open, setOpen] = React.useState(false);
 
-    const handleChange = (event) => {
-        setFilter(event.target.value);
-        onChange(event.target.value)
-    };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -62,7 +57,8 @@ export default function CustomSelect({ label, items, onChange }) {
     };
 
     const click = (value) => {
-        handleChange(value)
+        setFilter(value);
+        onChange(value)
         handleClose()
     }
 

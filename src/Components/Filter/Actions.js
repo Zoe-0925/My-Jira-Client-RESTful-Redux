@@ -25,7 +25,7 @@ export const filterByAssignee = (data) => {
     }
 }
 
-export const groupBy = (value) => {
+export const groupBy = (data) => {
     return {
         type: GROUP_BY,
         data:data
