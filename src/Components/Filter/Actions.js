@@ -28,21 +28,10 @@ export const filterByAssignee = (data) => {
     }
 }
 
-export const groupByAssignee = () => {
+export const groupBy = (value) => {
     return {
-        type: GROUP_BY_ASSIGNEE,
-    }
-}
-
-export const groupByEpic = () => {
-    return {
-        type: GROUP_BY_EPIC,
-    }
-}
-
-export const groupBySubtask = () => {
-    return {
-        type: GROUP_BY_SUBTASK,
+        type: GROUP_BY,
+        data:data
     }
 }
 

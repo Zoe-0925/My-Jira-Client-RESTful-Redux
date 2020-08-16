@@ -9,6 +9,9 @@ import {
     ListItem, MenuList, IconButton, MenuItem
 } from '@material-ui/core';
 import { reorderToBotttom } from "../../Components/Status/Actions"
+import { deleteIssue, toggleFlag } from "../../Components/Issue/mockActions"
+//TODO swap
+//import { deleteIssue, toggleFlag } from "../../Components/Issue/Actions"
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
@@ -120,7 +123,7 @@ export function IssueDotIconMenu({id, flag}) {
             <MenuItem onClick={() => dispatch(toggleFlag(id))}>{flag ? "Add flag" : "Remove flag"}</MenuItem>
             <MenuItem >Add parent</MenuItem>
             <MenuItem >Add label</MenuItem>
-            <MenuItem onClick={() => dispatch(deleteSuccessfulIssue(id))}>Delete</MenuItem>
+            <MenuItem onClick={() => dispatch(deleteIssue(id))}>Delete</MenuItem>
             <MenuItem onClick={() => dispatch(reorderToBotttom(id))} >Bottom of column</MenuItem>
         </DotIconMenu>
     )

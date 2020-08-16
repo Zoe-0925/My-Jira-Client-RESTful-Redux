@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux"
-import  {IssueDotIconMenu} from "../Shared/Tabs"
-import {
-    createSuccessfulStatus, deleteSuccessfulStatus,
-} from "../../Components/Status/Actions"
-import { deleteSuccessfulIssue, toggleFlag } from "../../Components/Issue/Actions"
+import { IssueDotIconMenu } from "../Shared/Tabs"
 import { Tooltip } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AllInboxIcon from '@material-ui/icons/AllInbox';
@@ -19,17 +15,21 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const IssueCard = ({ task, openTaskDetail }) => (
     <div key={uuidv4()} className="epic-body">
-        <p className="summary" onClick={() => openTaskDetail(task._id)}>{task.summary}</p>
-        <div className="labels" onClick={() => openTaskDetail(task._id)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
-        <div className="issueType tab row" onClick={() => openTaskDetail(task._id)}>
-            <div>
-                <Tooltip title={task.issueType} aria-label={task.issueType}>
-                    <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
-                </Tooltip>
-                <p>{task.summary}</p>
+        <div className="col">
+            <p className="summary" onClick={() => openTaskDetail(task._id)}>{task.summary}</p>
+            <div className="labels" onClick={() => openTaskDetail(task._id)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
+            <div className="issueType tab row" onClick={() => openTaskDetail(task._id)}>
+                <div>
+                    <Tooltip title={task.issueType} aria-label={task.issueType}>
+                        <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
+                    </Tooltip>
+                    <p>{task.summary}</p>
+                </div>
             </div>
-            <IssueDotIconMenu id={task._id} flag={task.flag}/>
-            <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task._id)} /></Tooltip>
+            <div className="col">
+                <IssueDotIconMenu id={task._id} flag={task.flag} />
+                <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task._id)} /></Tooltip>
+            </div>
         </div>
     </div>
 )

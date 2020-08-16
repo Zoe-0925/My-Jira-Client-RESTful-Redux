@@ -1,12 +1,14 @@
 import React from 'react'
 import CustomSelect from "../Shared/CustomSelect"
+import { useDispatch } from "react-redux"
+import { groupBy } from "../../Components/Filter/Actions"
 
 export default function GroupBy() {
-    const items = [{ name: "None", value: "" }, { name: "Assignee", value: "Assignee" }, { name: "Subtask", value: "Subtask" }]
-    const handleFilter = (value) => {
-        //TODO
-        // change the board filter 
+    const items = [{ name: "None", value: "" }, { name: "Epic", value: "epic" }, { name: "Assignee", value: "assignee" }]
+    const dispatch = useDispatch()
 
+    const handleFilter = (value) => {
+        dispatch(groupBy(value))
     }
 
     //TODO

@@ -533,9 +533,16 @@ $one-third: 33%;
   }
 
   .epic-body {
+    display:flex;
+    flex-direction: row;
     cursor: pointer;
     z-index: 1;
     background-color:white;
+
+    .col{
+      width:50%;
+      flex-direction: column;
+    }
   }
 
   .epic-body:hover {

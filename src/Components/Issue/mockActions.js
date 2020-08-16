@@ -13,11 +13,16 @@ export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
 
 /**********************************  Actions  ******************************************/
 
-//TODO analyze!!!
-//TODO: optimize the data structure to store issues!
 export function appendSuccessfulIssues(data) {
     return {
         type: APPEND_SUCCESS_ISSUES,
+        data: data
+    }
+}
+
+export function appendSuccessfulEpics(data) {
+    return {
+        type: APPEND_SUCCESS_EPICS,
         data: data
     }
 }
@@ -36,9 +41,23 @@ export function createSuccessfulIssue(data) {
     }
 }
 
+export function createSuccessfulEpic(data) {
+    return {
+        type: CREATE_SUCCESS_EPIC,
+        data: data
+    }
+}
+
 export function deleteSuccessfulIssue(id) {
     return {
         type: DELETE_SUCCESS_ISSUE,
+        id: id
+    }
+}
+
+export function deleteSuccessfulEpic(id) {
+    return {
+        type: DELETE_SUCCESS_EPIC,
         id: id
     }
 }
@@ -49,6 +68,29 @@ export function updateSuccessfulIssue(data) {
         data: data
     }
 }
+
+export function updateSuccessfulEpics(data) {
+    return {
+        type: UPDATE_SUCCESS_EPIC,
+        data: data
+    }
+}
+
+export function updateIssueGroup(id, data) {
+    return {
+        type: UPDATE_ISSUE_GROUP,
+        id: id,
+        data: data
+    }
+}
+
+export function toggleSuccessfulFlag(id) {
+    return {
+        type: TOGGLE_FLAG,
+        id: id
+    }
+}
+
 /**********************************  Thunk Actions  ******************************************/
 
 export async function getIssuesForProject(projectId, token) {
@@ -109,6 +151,13 @@ export function updateIssue(data) {
 export function deleteIssue(id, token) {
     return dispatch => {
         dispatch({ type: LOADING_ISSUE })
-        dispatch(deleteSuccessfulIssues(id))
+        dispatch(deleteSuccessfulIssue(id))
+    }
+}
+
+export function toggleFlag(id) {
+    return async dispatch => {
+        dispatch({ type: LOADING_ISSUE })
+        dispatch(toggleSuccessfulFlag(id))
     }
 }

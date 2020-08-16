@@ -1,6 +1,6 @@
 import React from 'react'
 import { Select, MenuItem, InputBase, InputLabel } from '@material-ui/core';
-import { withStyles,makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -61,9 +61,10 @@ export default function CustomSelect({ label, items, onChange }) {
         setOpen(true);
     };
 
-    const menuItems = items.map(each => {
-        <MenuItem value={each.value}>{each.name}</MenuItem>
-    })
+    const click = (value) => {
+        handleChange(value)
+        handleClose()
+    }
 
     return (
         <div className="row">
@@ -74,10 +75,9 @@ export default function CustomSelect({ label, items, onChange }) {
                 onClose={handleClose}
                 onOpen={handleOpen}
                 value={filter}
-                onChange={handleChange}
                 input={<BootstrapInput />}
             >
-                {menuItems}
+                {items.map(each => <MenuItem key={each.name} onClick={()=>click(each.value)}>{each.name}</MenuItem>)}
             </Select>
         </div>
     )
