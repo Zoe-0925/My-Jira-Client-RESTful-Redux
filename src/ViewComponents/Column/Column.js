@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from "react-redux"
 import { MenuItem } from '@material-ui/core';
 import { AddTab, DotIconMenu } from "../Shared/Tabs"
@@ -16,14 +16,13 @@ import { useEditText, useCreateIssue } from './CustomHooks';
 function ColumnTitle({ status }) {
     const { state, setState, edit, setEdit } = useEditText(status.name)
     const dispatch = useDispatch()
-    console.log("status in title", status)
 
-   //updateSuccessfulStatus
+    //updateSuccessfulStatus
 
     return (
         <div className="flex-row epic-title" id={status !== undefined ? status.id : ""}>
             <EditableText name="epic-summary" className="epic-summary"
-                setEdit={setEdit} edit={edit} value={state.value}>
+                edit={edit} text={state.value||status.name} setEdit={setEdit}>
                 <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
                     dispatch(updateSuccessfulStatus(state.value))
                 }} />
@@ -41,7 +40,8 @@ function ColumnTitle({ status }) {
 //Need the status id
 export default function Column({ initialStatus, ...props }) {
     const { state, setState, setEdit } = useEditText(initialStatus.name)
-    const { showNewEditable, setShowEditable, createNewTask } = useCreateIssue(initialStatus._id)
+    const { createNewTask } = useCreateIssue(initialStatus._id)
+    const [showNewEditable, setShowEditable] = useState(false)
 
     useEffect(() => {
         setState(initialStatus)

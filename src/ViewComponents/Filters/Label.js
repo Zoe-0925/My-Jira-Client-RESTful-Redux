@@ -1,12 +1,13 @@
 import React from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { useSimpleState } from "../Shared/CustomHooks"
 import { Tooltip, ClickAwayListener, MenuItem, MenuList } from '@material-ui/core'
+import { useSimpleState } from "../Shared/CustomHooks"
+import {useLabelFilter} from "../Filters/CustomHooks"
 
 export default function Label() {
     const { value, handleTrue, handleFalse } = useSimpleState()
 
-    const { labels, dispatchFilterByLabel } = uselabelFilter(value)
+    const { labels, dispatchFilterByLabel } = useLabelFilter(value)
 
     //TODO
     //If no label exists, show the link to create labels

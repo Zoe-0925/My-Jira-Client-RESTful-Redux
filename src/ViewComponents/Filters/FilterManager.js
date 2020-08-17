@@ -3,7 +3,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { Tooltip } from '@material-ui/core';
 import IssueFilter from "./IssueFilter"
-import Label from "./Label"
+//import Label from "./Label"
 import GroupBy from "./GroupBy"
 
 export default function FilterManager() {

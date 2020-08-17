@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import { ListItem } from '@material-ui/core';
+import { v4 as uuidv4 } from 'uuid'
 
 export function Input({ state, setState, setEdit, handleSubmit }) {
 
@@ -10,12 +11,6 @@ export function Input({ state, setState, setEdit, handleSubmit }) {
             value={state.value}
             className="editable-input"
             autoFocus
-            onFocus={event => {
-                const value = event.target.value
-                event.target.value = ''
-                event.target.value = value
-                setState({ ...state, backup: state.value })
-            }}
             onChange={event => {
                 setState({ ...state, value: event.target.value })
             }}
@@ -75,17 +70,18 @@ export function Textarea({ state, setState, setEdit, handleSubmit }) {
 }
 
 //Accepts an input or textare and returns an editable text box
-export function EditableText({ edit, value, setEdit, ...props }) {
+export function EditableText({ edit, text, setEdit, ...props }) {
+
     return (
         <Fragment>
             {edit &&
-                <ListItem>
+                <ListItem key={uuidv4()}>
                     {props.children}
                 </ListItem>}
-            {!edit && <ListItem button key="Roadmap" onClick={event => {
+            {!edit && <ListItem button key={uuidv4()} onClick={() => {
                 setEdit(true)
             }}>
-                {value}
+                {text}
             </ListItem>
             }
         </Fragment>

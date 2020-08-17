@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { format, compareAsc } from 'date-fns'
+import { format } from 'date-fns' //, compareAsc
 import crypto from "crypto"
 
 export const jwtConfig = token => {

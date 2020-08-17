@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
-import { appendSuccessfulLabels } from "../Label/Actions"
 import { appendSuccessfulStatus } from "../Status/Actions"
+import {appendSuccessfulLabels} from "../Label/Actions"
 require('dotenv').config()
 
 
@@ -14,6 +14,7 @@ export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
 export const UPDATE_SUCCESS_ISSUE = "UPDATE_SUCCESS_ISSUE"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
+export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
 export const APPEND_SUCCESS_CURRENT_ISSUE = "APPEND_SUCCESS_CURRENT_ISSUE"
 export const APPEND_SUCCESS_CURRENT_EPICS = "APPEND_SUCCESS_CURRENT_EPICS"
 export const APPEND_SUCCESS_ISSUES_PARENT = "APPEND_SUCCESS_ISSUES_PARENT"
@@ -100,6 +101,12 @@ export function toggleSuccessfulFlag(id) {
     return {
         type: TOGGLE_FLAG,
         id: id
+    }
+}
+
+export function dispatchError() {
+    return {
+        type: ERROR_ISSUE
     }
 }
 
@@ -246,7 +253,7 @@ export function deleteIssue(id) {
             const token = localStorage.getItem("token")
             const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
             if (response.data.success) {
-                dispatch(deleteSuccessfulIssues(id))
+                dispatch(deleteSuccessfulIssue(id))
             }
             else {
                 dispatch(dispatchError(response.message))

@@ -7,9 +7,8 @@ export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
+export const APPEND_SUCCESS_CURRENT_PROJECT = "APPEND_SUCCESS_CURRENT_PROJECT"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
-
-
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const GET_PROJECT_BY_ID = "GET_PROJECT_BY_ID"
@@ -36,7 +35,7 @@ export function appendSuccessfulProject(data) {
 
 export function appendCurrentProject(data) {
     return {
-        type: APPEND_SUCCESS_CURRENT_PROJECTS,
+        type: APPEND_SUCCESS_CURRENT_PROJECT,
         data: data //an array
     }
 }
@@ -48,6 +47,13 @@ export function updateSuccessfulProject(data) {
     }
 }
 
+export function deleteSuccessfulProject(id) {
+    return {
+        type: UPDATE_SUCCESS_PROJECT,
+        id:id
+    }
+}
+
 export function dispatchError(data) {
     return {
         type: ERROR_PROJECT,
@@ -56,15 +62,16 @@ export function dispatchError(data) {
 }
 
 /*****************  Thunk Actions  ****************/
-export function createProject(id) {
+export function createProject(data) {
     return async  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         try {
             const token = localStorage.getItem("token")
-            const response = await dispatch(fetchCreateProject(process.env.BASE, id, token))
+            const response = await dispatch(fetchCreateProject(process.env.BASE, data, token))
             if (response.data.success) {
-                data._id = response.data.id
-                dispatch(createSuccessfulProject(data))
+                const newData = Object.assign({},data)
+                newData._id = response.data.id
+                dispatch(createSuccessfulProject(newData))
             }
             else {
                 dispatch(dispatchError(response.data.message))
@@ -86,7 +93,7 @@ export function getAllProjects(userId) {
             const token = localStorage.getItem("token")
             const response = await dispatch(fetchAllProjects(process.env.BASE, userId, token))
             if (response.data.success) {
-                dispatch(appendSuccessfulProjects(response.data.data))
+                dispatch(appendSuccessfulProject(response.data.data))
             }
             else {
                 dispatch(dispatchError(response.data.message))
@@ -106,7 +113,7 @@ export function getASingleProject(id) {
         dispatch({ type: LOADING_PROJECT })
         try {
             const token = localStorage.getItem("token")
-            const response = await dispatch(deleteProjectById(process.env.BASE, id, token))
+            const response = await dispatch(fetchDeleteProject(process.env.BASE, id, token))
             if (response.data.success) {
                 dispatch(appendCurrentProject(response.data.data))
             }
@@ -164,6 +171,10 @@ export function deleteProject(id) {
     }
 }
 /*****************  API Calls****************/
+
+export function fetchAllProjects(BASE) {
+    return axios.get('/projects/', BASE)
+}
 
 export function fetchCreateProject(BASE, item, token) {
     return post('/projects/', BASE, item, token)

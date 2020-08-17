@@ -34,7 +34,7 @@ export function appendSuccessfulProject(data) {
 
 export function appendCurrentProject(data) {
     return {
-        type: APPEND_SUCCESS_CURRENT_PROJECTS,
+        type: APPEND_SUCCESS_CURRENT_PROJECT,
         data: data //an array
     }
 }

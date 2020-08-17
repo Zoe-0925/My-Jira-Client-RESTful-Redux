@@ -1,7 +1,7 @@
 
 import {
     LOADING_PROJECT, ERROR_PROJECT, CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
-    UPDATE_SUCCESS_PROJECT, APPEND_SUCCESS_PROJECTS
+    UPDATE_SUCCESS_PROJECT, APPEND_SUCCESS_CURRENT_PROJECT, APPEND_SUCCESS_PROJECTS
 } from "./Actions"
 
 export default function ProjectReducer(state = {
@@ -20,7 +20,6 @@ export default function ProjectReducer(state = {
     }
 }, action) {
     let newState;
-    let project
     switch (action.type) {
         case LOADING_PROJECT:
             return Object.assign({}, state, { loading: true, errorMessage: "" })
@@ -38,7 +37,7 @@ export default function ProjectReducer(state = {
             return newState
         case UPDATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            project = newState.projects = newState.projects.find(item => item._id === action.data._id)
+            let project = newState.projects = newState.projects.find(item => item._id === action.data._id)
             project = action.data
             return newState
         case ERROR_PROJECT:

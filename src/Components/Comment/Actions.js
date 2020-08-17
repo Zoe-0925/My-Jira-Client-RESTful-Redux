@@ -33,19 +33,27 @@ export function createSuccessfulComment(data) {
     }
 }
 
-export function deleteSuccessfulComments(id) {
+export function deleteSuccessfulComment(id) {
     return {
-        type: DELETE_SUCCESS_COMMENTS,
+        type: DELETE_SUCCESS_COMMENT,
         id: id
     }
 }
 
-export function updateSuccessfulComments(data) {
+export function updateSuccessfulComment(data) {
     return {
-        type: UPDATE_SUCCESS_COMMENTS,
+        type: UPDATE_SUCCESS_COMMENT,
         data: data
     }
 }
+
+export function dispatchError() {
+    return {
+        type: ERROR_COMMENT
+    }
+}
+
+
 /**********************************  Thunk Actions  ******************************************/
 export function getCommentsForIssue(issueId, token) {
     return async dispatch => {
@@ -53,7 +61,7 @@ export function getCommentsForIssue(issueId, token) {
         try {
             const response = await dispatch(fetchCommentsForIssue(process.env.BASE, issueId, token))
             if (response.data.success) {
-                dispatch(appendSuccessfulLabels(response.data))
+                dispatch(appendSuccessfulComments(response.data))
             }
             else {
                 dispatch(dispatchError(response.message))
@@ -115,7 +123,7 @@ export function deleteComment(data, token) {
         try {
             const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
             if (response.data.success) {
-                dispatch(deleteSuccessfulComments(data))
+                dispatch(deleteSuccessfulComment(data))
             }
             else {
                 dispatch(dispatchError(response.message))

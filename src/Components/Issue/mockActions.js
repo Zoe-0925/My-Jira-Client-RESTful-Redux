@@ -1,15 +1,21 @@
 import { v4 as uuidv4 } from 'uuid'
 
-
 export const LOADING_ISSUE = "LOADING_ISSUE"
 export const ERROR_ISSUE = "ERROR_ISSUE"
 export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
+export const CREATE_SUCCESS_EPIC = "CREATE_SUCCESS_EPIC"
 export const DELETE_SUCCESS_ISSUE = "DELETE_SUCCESS_ISSUE"
+export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
 export const UPDATE_SUCCESS_ISSUE = "UPDATE_SUCCESS_ISSUE"
+export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
+export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
 export const APPEND_SUCCESS_CURRENT_ISSUE = "APPEND_SUCCESS_CURRENT_ISSUE"
+export const APPEND_SUCCESS_CURRENT_EPICS = "APPEND_SUCCESS_CURRENT_EPICS"
 export const APPEND_SUCCESS_ISSUES_PARENT = "APPEND_SUCCESS_ISSUES_PARENT"
 export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
+export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
+export const TOGGLE_FLAG = "TOGGLE_FLAG"
 
 /**********************************  Actions  ******************************************/
 
@@ -101,7 +107,7 @@ export async function getIssuesForProject(projectId, token) {
                 "TODO": [{ id: "2", summary: "test 1", key: "test key 1", labels: ["test"] }]
             }
         ]
-        dispatch(appendSuccessfulLabels(data))
+        dispatch(appendSuccessfulIssues(data))
     }
 }
 

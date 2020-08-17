@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 import { useSimpleState } from "../Shared/CustomHooks"
-//swap
+// TODO swap
 import { createIssue } from "../../Components/Issue/mockActions"
 //import {createIssue} from "../../Components/Issue/actions"
-import {selectCurrentProject, selectCurrentUser} from "../../Components/Selectors"
+import { createStatus } from "../../Components/Status/mockActions"
+//TODO swap
+//import {createStatus} from "../../Components/Status/Actions"
+import { selectCurrentProject, selectCurrentUser } from "../../Components/Selectors"
 
 export function useCreateIssue(statusId) {
     const dispatch = useDispatch()
@@ -30,15 +33,29 @@ export function useCreateIssue(statusId) {
         dispatch(createIssue(issue))
     }
 
-    const [showNewEditable, setShowEditable] = useState(false)
+    return { createNewTask }
+}
 
-    return { showNewEditable, setShowEditable, createNewTask }
+export function useCreateStatus(statusId) {
+    const dispatch = useDispatch()
+    const currentProject = useSelector(selectCurrentProject)
+
+    const createNewColumn = (statusName) => {
+        const status = {
+            name: statusName,
+            project: currentProject,
+            issues: []
+        }
+        dispatch(createStatus(status))
+    }
+
+    return { createNewColumn}
 }
 
 export function useEditText(value) {
     const [state, setState] = useState({
-        value: value || "",
-        backup: value || ""
+        value: value!==undefined?value:"",
+        backup: value!==undefined?value:""
     })
     const [edit, setEdit] = useState(false)
 

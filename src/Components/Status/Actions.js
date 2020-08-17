@@ -78,7 +78,7 @@ export const reorderToBotttom = (source, startIndex) => {
 /**************************** Thunk Actions ***************************/
 
 //TODO not finished yet.
-export function moveIssuesRequest(source, destination, startIndex, endIndex) {
+export function moveIssuesRequest(id, source, destination, startIndex, endIndex) {
     return async dispatch => {
         dispatch({ type: LOADING_STATUS })
         try {

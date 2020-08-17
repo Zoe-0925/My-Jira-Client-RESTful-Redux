@@ -40,11 +40,19 @@ $one-third: 33%;
 
 .main {
   position: relative;
-  margin-left: 300px;
   margin-right: 50px;
   margin-top: 50px;
   display: grid;
   grid-auto-flow: row;
+  margin-left: 300px;
+
+  .drawer-open{
+    margin-left: 300px;
+  }
+
+  .drawer-close{
+    margin-left: 50px;
+  }
 
   .board-name {
     cursor: text;
@@ -56,6 +64,17 @@ $one-third: 33%;
   .board-name:hover {
     background-color: $bgc;
   }
+}
+
+.close-drawer{
+  width:100px;
+  background-color: $bgc;
+  color:$bgc;
+}
+
+.open-drawer-icon{
+  padding-top: 50px;
+  margin-top:50px;
 }
 
 .form {
@@ -542,8 +561,14 @@ $one-third: 33%;
     .col{
       width:50%;
       flex-direction: column;
+      z-index:100;
     }
   }
+
+  .flagged{
+    background-color: yellow;
+  }
+
 
   .epic-body:hover {
     background-color: $bgc;

@@ -16,7 +16,8 @@ import {
     Select,
 } from 'formik-material-ui';
 import { useDispatch, useSelector } from "react-redux"
-import { updateProject } from "../../Components/Project/Actions"
+import { updateProject,deleteProject } from "../../Components/Project/Actions"
+import {selectCurrentProject} from "../../Components/Selectors"
 
 const ProjectDetailForm = props => {
     const category = []
@@ -105,14 +106,6 @@ const ProjectDetailForm = props => {
             </Form>
         </div>
     </div>
-}
-
-//TODO: useStore from the store
-const initialValue = {
-    name: "",
-    key: "",
-    category: "",
-    assignee: ""
 }
 
 const ProjectDetail = withFormik({

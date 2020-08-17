@@ -4,7 +4,7 @@ import {
 } from "./Actions"
 
 const status = new Map()
-status.set("1", { _id: "1", name: "TO DO", issues: ["2"] })
+status.set("1", { _id: "1", name: "TO DO", issues: ["hdkahdjaskdh"] })
 status.set("2", { _id: "2", name: "IN PROGRESS", issues: [] })
 status.set("3", { _id: "3", name: "DONE", issues: [] })
 status.set("4", { _id: "4", name: "TEST", issues: [] })
@@ -16,7 +16,8 @@ export default function StatusReducer(state = {
     statusOrder: ["1", "2", "3", "4"],
     status: status,
     pastStatus: status,
-    pastStatusOrder: ["1", "2", "3", "4"]
+    pastStatusOrder: ["1", "2", "3", "4"],
+    issues:[]
 }, action) {
     let newState;
     let status
@@ -44,7 +45,7 @@ export default function StatusReducer(state = {
             return newState
         case CREATE_SUCCESS_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.status = newState.status.push(action.data)
+            newState.status.set(action.data._id, action.data)
             return newState
         case DELETE_SUCCESS_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
@@ -52,12 +53,11 @@ export default function StatusReducer(state = {
             return newState
         case UPDATE_SUCCESS_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.status.detele(action.id)
-            newState.status.push(action.data)
+            newState.status.set(action.data._id, action.data)
             return newState
         case APPEND_SUCCESS_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.status.push(action.data)
+            newState.status.set(action.data._id, action.data)
             return newState
         case ERROR_STATUS:
             return Object.assign({}, state, { loading: false, authenticated: false })

@@ -1,38 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux"
 import { IssueDotIconMenu } from "../Shared/Tabs"
 import { Tooltip } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import AllInboxIcon from '@material-ui/icons/AllInbox';
+import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Column from "./Column"
 import {
-    selectStatus, selectStatusOrder, selectIssues, selectNoneFilter,
+    selectStatus, selectStatusOrder, selectIssues, selectNoneFilter, selectCurrentProject,
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy
 } from "../../Components/Selectors"
 import { v4 as uuidv4 } from 'uuid'
+import IssueModal from "../Issues/IssueModal"
+import { useCreateStatus } from "./CustomHooks"
 
-export const IssueCard = ({ task, openTaskDetail }) => (
-    <div key={uuidv4()} className="epic-body">
-        <div className="col">
-            <p className="summary" onClick={() => openTaskDetail(task._id)}>{task.summary}</p>
-            <div className="labels" onClick={() => openTaskDetail(task._id)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
-            <div className="issueType tab row" onClick={() => openTaskDetail(task._id)}>
-                <div>
-                    <Tooltip title={task.issueType} aria-label={task.issueType}>
-                        <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
-                    </Tooltip>
-                    <p>{task.summary}</p>
+export const IssueCard = ({ task, openTaskDetail }) => {
+    const [taskState, setTask] = useState(task)
+
+    useEffect(() => {
+        setTask(task)
+    }, [task])
+
+    return (
+        <div key={uuidv4()} className={!taskState.flag ? "epic-body" : "epic-body flagged"}>
+            <div className="col">
+                <p className="summary" onClick={() => openTaskDetail(task._id)}>{task.summary}</p>
+                <div className="labels" onClick={() => openTaskDetail(task._id)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
+                <div className="issueType tab row" onClick={() => openTaskDetail(task._id)}>
+                    <div>
+                        <Tooltip title={task.issueType} aria-label={task.issueType}>
+                            <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
+                        </Tooltip>
+                        <p>{task.summary}</p>
+                    </div>
+                </div>
+                <div className="col">
+                    <IssueDotIconMenu id={task._id} flag={task.flag} />
+                    <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task._id)} /></Tooltip>
                 </div>
             </div>
-            <div className="col">
-                <IssueDotIconMenu id={task._id} flag={task.flag} />
-                <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task._id)} /></Tooltip>
-            </div>
         </div>
-    </div>
-)
+    )
+}
 
 export const draggable = (task, index, openTaskDetail) => <Draggable
     className="draggable"
@@ -52,12 +62,7 @@ export const draggable = (task, index, openTaskDetail) => <Draggable
         </div>)}
 </Draggable>
 
-export const useFilter = (listOfIssues) => {
-    const noneFilter = useSelector(selectNoneFilter)
-    const filterByEpic = useSelector(selectFilterByEpic)
-    const filterByAssignee = useSelector(selectFilterByAssignee)
-    const filterByLabel = useSelector(selectFilterByLabel)
-
+export const filter = (listOfIssues, noneFilter, filterByEpic, filterByAssignee, filterByLabel) => {
     return noneFilter ? listOfIssues
         : filterByEpic !== "" ? listOfIssues.filter(item => { item.parent !== filterByEpic })
             : filterByLabel !== "" ? listOfIssues.filter(item => { item.label !== filterByLabel })
@@ -70,18 +75,33 @@ export default function DragAndDrop() {
     const columns = columnOrder.map(each => status.get(each))
     const issues = useSelector(selectIssues)
     const [openModal, setOpenModal] = useState(false)
+    //  const { createNewColumn } = useCreateStatus(initialStatus._id)
+    const [showNewEditable, setShowEditable] = useState(false)
+    const [issueDetailOpened, setIssue] = useState("")
+    const noneFilter = useSelector(selectNoneFilter)
+    const filterByEpic = useSelector(selectFilterByEpic)
+    const filterByAssignee = useSelector(selectFilterByAssignee)
+    const filterByLabel = useSelector(selectFilterByLabel)
+
 
     //----------Filters----------------------
     const groupBy = useSelector(selectGroupBy)
     //TODO
 
+
+    const emptyStatus = {
+        name: "",
+        project: "",
+        issues: []
+    }
+
     const dispatch = useDispatch()
 
-    //TODO onclick open modal
 
-
-    const openTaskDetail = () => {
+    const openTaskDetail = (id) => {
+        console.log("clicked open task detail")
         setOpenModal(true)
+        setIssue(id)
     }
 
     //Add column:
@@ -100,7 +120,7 @@ export default function DragAndDrop() {
                             {...provided.droppableProps}
                         >
                             <Column initialStatus={el}>
-                                {useFilter(el.issues).map((issueId, index) =>
+                                {filter(el.issues, noneFilter, filterByEpic, filterByAssignee, filterByLabel).map((issueId, index) =>
                                     draggable(issues.get(issueId), index, openTaskDetail)
                                 )}
                             </Column>
@@ -109,6 +129,11 @@ export default function DragAndDrop() {
                     )}
                 </Droppable>
             ))}
+            <div className="add-column-icon">
+                {!showNewEditable && <AddBoxRoundedIcon />}
+                {showNewEditable && <Column initialStatus={emptyStatus} />}
+            </div>
+            {openModal && <IssueModal open={openModal} closeModal={() => setOpenModal(true)} issue={issueDetailOpened} />}
         </div>
     );
 }

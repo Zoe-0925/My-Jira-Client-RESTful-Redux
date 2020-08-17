@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import { useSelector} from "react-redux"
+import {selectCurrentProjectName} from "../../Components/Selectors"
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
 /**--------------Icons-------------- */
 import AllInboxIcon from '@material-ui/icons/AllInbox';
@@ -15,10 +17,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
  * @param CurentLocation: enum ("roadmap", "board", "detail")
  */
 export function Project({ currentLocation }) {
-
-    //TODO change this to use selector
-    const projectName = "test project name"
-
+    const projectName = useSelector(selectCurrentProjectName)
+    
     return (
         <Fragment>
             <List>
@@ -52,7 +52,7 @@ export function ProjectSetting({ currentLocation }) {
     return (
         <Fragment>
             <Link color={currentLocation !== "roadmap" ? "inherit" : "primary"} href={"/projects"}>
-                <ListItem button key="ProjectSettings" onClick={() => { handleClick("Project Settings") }}>
+                <ListItem button key="ProjectSettings">
                     <ListItemIcon> <ArrowBackRoundedIcon /></ListItemIcon>
                     <ListItemText primary="Project Settings" />
                 </ListItem>

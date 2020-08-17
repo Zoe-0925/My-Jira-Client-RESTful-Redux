@@ -1,7 +1,7 @@
 import React from 'react'
 import Modal from '@material-ui/core/Modal';
 
-export default function CustomModal({ open, closeModal, body }) {
+export default function CustomModal({ open, closeModal, ...props }) {
     return (
         <div>
             <Modal
@@ -11,7 +11,7 @@ export default function CustomModal({ open, closeModal, body }) {
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
             >
-                {body}
+                {props.children}
             </Modal>
         </div>
     );

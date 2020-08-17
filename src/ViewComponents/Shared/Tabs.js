@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch } from "react-redux"
 import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 //The round version
@@ -117,10 +118,12 @@ export function DotIconMenu({ className, ...props }) {
     )
 }
 
-export function IssueDotIconMenu({id, flag}) {
+export function IssueDotIconMenu({ id, flag }) {
+    const dispatch = useDispatch()
+
     return (
         <DotIconMenu className="dot-icon">
-            <MenuItem onClick={() => dispatch(toggleFlag(id))}>{flag ? "Add flag" : "Remove flag"}</MenuItem>
+            <MenuItem onClick={() => dispatch(toggleFlag(id))}>{!flag ? "Add flag" : "Remove flag"}</MenuItem>
             <MenuItem >Add parent</MenuItem>
             <MenuItem >Add label</MenuItem>
             <MenuItem onClick={() => dispatch(deleteIssue(id))}>Delete</MenuItem>

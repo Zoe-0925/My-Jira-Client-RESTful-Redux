@@ -1,14 +1,13 @@
-import React, { Fragment } from 'react';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import React from 'react';
+import { useSelector } from "react-redux"
+import { selectCurrentProjectName } from "../../Components/Selectors"
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import { ProjectHeaderTab } from "../Shared/Tabs"
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const drawerWidth = 240;
 
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(2),
     },
     hide: {
-        display: 'none',
+        display:"none"
     },
     drawer: {
         width: drawerWidth,
@@ -46,38 +45,16 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0,
     },
 }));
-export default function SideDrawer({ handleClick, ...props }) {
-    const classes = useStyles();
+export default function SideDrawer({ handleClick, open, ...props }) {
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const [selected, setSelected] = React.useState();
+    const classes = useStyles();
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
+    const title = useSelector(selectCurrentProjectName)
 
     return <div className={classes.root}>
-        <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-        >
-            {open ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
-        </IconButton>
         <Drawer
-            variant="permanent"
-            variant="permanent"
-            className={clsx(classes.drawer, {
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-            })}
+            variant="persistent"
+            open={open}
             classes={{
                 paper: clsx({
                     [classes.drawerOpen]: open,
@@ -86,12 +63,23 @@ export default function SideDrawer({ handleClick, ...props }) {
             }}
         >
             <div className="container drawer">
-                <div className= "title">
-                    <ProjectHeaderTab title="test title" subtite="subtite" imgSrc="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" />
+                <div className="title">
+                    <ProjectHeaderTab title={title} subtite="Software project" imgSrc="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" />
+                    <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
                 </div>
                 {props.children}
             </div>
         </Drawer>
-
+        {!open && <Drawer
+            variant="permanent"
+            className="close-drawer"
+            style={{"backgroundColor":"rgb(244, 245, 247)"}}
+        > <IconButton className="open-drawer-icon" onClick={() => { handleClick(true) }}>
+                <ChevronRightIcon />
+            </IconButton>
+        </Drawer>
+        }
     </div>
 }

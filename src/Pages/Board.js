@@ -11,12 +11,13 @@ import DragContext from "../ViewComponents/Column/DragContext"
 export default function Board() {
     //TODO get project id and name, and then replace the "My EC"
     const { state, setState, edit, setEdit } = useEditText("My EC")
+    const [open, setOpen] = React.useState(true);
 
     return (
         <Fragment>
             <Container />
-            <div className="main">
-                <Drawer handleClick={() => { }} onChange={() => { }} >
+            <div className={open ? "main drawer-close" : "main drawer-open"}>
+                <Drawer handleClick={setOpen} open={open}>
                     <Project currentLocation="board" />
                 </Drawer>
                 <NavBreadcrumbs className="row" />

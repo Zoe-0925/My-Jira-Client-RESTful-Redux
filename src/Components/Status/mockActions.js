@@ -20,17 +20,18 @@ export const createSuccessfulStatus = (data) => {
     }
 }
 
-export const updateSuccessfulStatus = () => {
+export const updateSuccessfulStatus = (data) => {
     return {
         type: UPDATE_SUCCESS_STATUS,
         data: data
     }
 }
 
-export const deleteSuccessfulStatus = () => {
+export const deleteSuccessfulStatus = (id, issues) => {
     return {
-        type: ERROR_LABEL,
-        data: data
+        type: DELETE_SUCCESS_STATUS,
+        id: id,
+        issues: issues
     }
 }
 

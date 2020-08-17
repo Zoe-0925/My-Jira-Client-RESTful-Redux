@@ -11,7 +11,7 @@ import {
 } from 'formik-material-ui';
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
-import { manualSignup } from "../../Components/User/Actions"
+import { manualSignup, checkEmail } from "../../Components/User/Actions"
 import { genPassword } from "../../Components/Util"
 
 export const SignupForm = props => {
@@ -81,17 +81,21 @@ export const SignupView = withFormik({
         if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
             errors.email = 'Please enter a valid email address';
         }
-        if(!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(values.password)){
+        if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/.test(values.password)) {
             errors.password = 'Password must contain at least 1 lower case, 1 upper case, 1 number and 1 special character. ';
         }
         if (!values.name) {
             errors.name = 'Required';
         }
-        if (!/^[A-Za-z]/i.test(values.name)){
+        if (!/^[A-Za-z]/i.test(values.name)) {
             errors.name = 'Please enter a valid name';
         }
         if (!values.password) {
             errors.password = 'Required';
+        }
+        const validEmail = checkEmail(values.email)
+        if (!validEmail) {
+            errors.email = 'This email address already existed.';
         }
         //TODO
         //Password regex
@@ -120,6 +124,7 @@ const SignupController = () => {
             hash: hash
         }, "/projects", token))
     }
+
 
     return (
         <SignupView onContinue={handleSignup} />

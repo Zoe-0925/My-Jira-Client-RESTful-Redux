@@ -9,15 +9,10 @@ import Login from "./Pages/Login"
 import Signup from "./Pages/Signup"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
-import Container from "./ViewComponents/NavBar/Container"
 import './App.scss';
 
 
 const App = ({ history, context }) => {
-
-  const onDragEnd = ()=>{
-
-  }
 
   return (
     <div className="App">

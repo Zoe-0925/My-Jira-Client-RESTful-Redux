@@ -3,7 +3,7 @@ import { Button, Link,Paper } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Account from "./Account"
 import SearchBoxController from "./SearchBoxController"
-import CreateIssueModal from "./CreateIssueModal"
+import IssueModal from "../Issues/IssueModal"
 import { useSimpleState } from "./CustomHooks"
 import CustomIconMenu from "../Shared/CustomIconMenu"
 
@@ -11,6 +11,7 @@ export default function Container() {
     //TODO create issue modal
     //TODO loading page
     const { value, handleTrue, handleFalse } = useSimpleState()
+    const emptyIssue = {_id:"", summary:"", description:"", issueType:""}
 
     const handleClick = () => { }
     return (
@@ -38,7 +39,7 @@ export default function Container() {
                     </nav>
                 </div>
             </Paper>
-            <CreateIssueModal open={value} closeModal={handleFalse} />
+            <IssueModal open={value} closeModal={handleFalse} issue={emptyIssue}/>
         </Fragment>
     )
 }

@@ -29,7 +29,7 @@ export const DELETE_USER = "UPDATE_USER"
 function loginSuccess(data) {
     return {
         type: LOGIN_SUCCESS_USER,
-        data:data
+        data: data
     }
 }
 
@@ -47,26 +47,33 @@ export function updateUser(data) {
     }
 }
 
-//TODO check...
-export function update(data) {
+export function dispatchUpdateEmail(email) {
     return {
-        type: UPDATE,
-        data: data
+        type: UPDATE_USER_EMAIL,
+        email: email
+    }
+}
+
+export function dispatchUpdatePassword(salt, hash) {
+    return {
+        type: UPDATE_USER_PASSWORD,
+        salt: salt,
+        hash: hash
     }
 }
 
 /******************* Thunk Actions  *****************************/
 export async function manualLogin(
     data,
-    successPath, // path to redirect to upon successful log in
-    token
+    successPath // path to redirect to upon successful log in
 ) {
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
+            const token = localStorage.getItem("token")
             const response = await fetchLogin(process.env.BASE, data, token)
             if (response.data.success && response.data.data.length > 0) {
-                setLocalStorage(tokenResponse.data.token)
+                setLocalStorage("token", response.data.data.token)
                 dispatch(loginSuccess(response.data.data[0]))
                 history.push(successPath)
             }
@@ -82,10 +89,11 @@ export async function manualLogin(
     }
 }
 
-export async function manualLogout(data, token) {
+export async function manualLogout(data) {
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
+            const token = localStorage.getItem("token")
             const response = await fetchLogout(process.env.BASE, data, token)
             if (response.data.success) {
                 dispatch({ type: LOGOUT_SUCCESS_USER })
@@ -106,10 +114,11 @@ export async function manualLogout(data, token) {
 }
 
 //TODO need to update here to connect passport and 3rd party register
-export async function manualSignup(data, token) {
+export async function manualSignup(data) {
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
+            const token = localStorage.getItem("token")
             const response = await fetchSignUp(process.env.BASE, data, token)
             if (response.data.success) {
                 data._id = response.data.data.id
@@ -128,10 +137,11 @@ export async function manualSignup(data, token) {
     }
 }
 
-export async function updateInfo(data, token) {
+export async function updateInfo(data) {
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
+            const token = localStorage.getItem("token")
             const response = await fetchUpdateUserInfo(process.env.BASE, { name: data.name }, token)
             if (response.data.success) {
                 dispatch(updateInfo(data))
@@ -148,13 +158,14 @@ export async function updateInfo(data, token) {
     }
 }
 
-export async function updateEmail(data, token) {
+export async function updateEmail(data) {
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
-            const response = await fetchUpdateUserEmail(process.env.BASE, { email: data.email }, token)
+            const token = localStorage.getItem("token")
+            const response = await fetchUpdateEmail(process.env.BASE, { email: data.email }, token)
             if (response.data.success) {
-                dispatch(update(response.data.data))
+                dispatch(dispatchUpdateEmail( data.email))
             }
             else {
                 dispatch(dispatchError(response.data.message))
@@ -168,14 +179,15 @@ export async function updateEmail(data, token) {
     }
 }
 
-export async function updatePassword(data, token) {
+export async function updatePassword(data) {
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
-            const response = await fetchUpdateUserPassword(process.env.BASE,
+            const token = localStorage.getItem("token")
+            const response = await fetchUpdatePassword(process.env.BASE,
                 { salt: data.salt, hash: data.hash }, token)
             if (response.data.success) {
-                dispatch(update(data))
+                dispatch(dispatchUpdatePassword(data.salt, data.hash))
             }
             else {
                 dispatch(dispatchError(response.data.message))
@@ -186,6 +198,16 @@ export async function updatePassword(data, token) {
             // Something happened in setting up the request that triggered an Error
             console.log('Error', err);
         }
+    }
+}
+
+export async function checkEmail(email) {
+    try {
+        const token = localStorage.getItem("token")
+        const response = await fetchCheckEmail(process.env.BASE, email, token)
+        return response.data.success //boolean
+    } catch (err) {
+        console.log('Error', err);
     }
 }
 

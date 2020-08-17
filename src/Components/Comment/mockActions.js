@@ -55,7 +55,7 @@ export async function getCommentsForIssue(issueId, token) {
             issue: "1",
             parent: ""
         }
-        dispatch(appendSuccessfulLabels(data))
+        dispatch(appendSuccessfulComments(data))
     }
 }
 

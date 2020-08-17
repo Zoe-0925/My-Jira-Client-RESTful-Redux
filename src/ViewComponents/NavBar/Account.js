@@ -8,18 +8,21 @@ export default function Account({ }) {
     const handleClick = (value) => {
         switch (value) {
             case "Profile":
-            //TODO go to profile page
+                //TODO go to profile page
+                return
             case "Account Settings":
-            //TODO go to profile page
+                //TODO go to profile page
+                return
             case "Log out":
-            //TODO log out
+                //TODO log out
+                return
             default:
                 return
         }
     }
 
     return <CustomIconMenu options={options} click={handleClick}>
-        <AccountCircleIcon fontSize="large"/>
+        <AccountCircleIcon fontSize="large" />
     </CustomIconMenu>
 
 }

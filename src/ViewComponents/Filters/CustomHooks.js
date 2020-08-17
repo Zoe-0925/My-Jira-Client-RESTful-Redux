@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { selectLabels } from "../../Components/Selectors"
 import { filterByLabel } from "../../Components/Filter/Actions"
 
-export const uselabelFilter = (data) => {
+export const useLabelFilter = (data) => {
     const labels = useSelector(state=> selectLabels(state))
 
     const dispatch = useDispatch()

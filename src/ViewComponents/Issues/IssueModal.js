@@ -1,18 +1,34 @@
-import React, { Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
+import React, { useState, Fragment } from 'react';
+import {useSelector} from "react-redux"
+import { Form, Field, withFormik } from 'formik';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {
+    Button,
+    Divider,
+    Box,
+    Link,
+    Breadcrumbs,
+    Typography,
+    InputLabel,
+    InputAdornment,
+    IconButton,
+    TextareaAutosize,
+} from '@material-ui/core';
+import {
+    TextField,
+} from 'formik-material-ui';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import { useSimpleState } from "../Shared/CustomHooks"
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
 import CreateIcon from '@material-ui/icons/Create';
-import { selectCurrentProjectName } from "../../Components/Selectors"
+import CustomModal from "../Shared/CustomModal"
+import { useSimpleState } from "../Shared/CustomHooks"
+import { selectCurrentProjectName ,selectLabels} from "../../Components/Selectors"
 
 
 export const Labels = () => {
     //TODO get labels from the db
 
-    const labelsFromServer = []
+    const labelsFromServer = useSelector(selectLabels)
 
     const contents = labelsFromServer.map(each => <p className="cancel-btn">{each}</p>)
 
@@ -107,7 +123,7 @@ const IssueForm = props => {
                 type="text"
                 variant="outlined"
                 size="small"
-                diabled={true}
+                disabled={true}
                 onChange={handleChange}
                 value={values.projectName}
                 margin="normal"
@@ -204,9 +220,9 @@ const IssueView = withFormik({
     displayName: 'BasicForm',
 })(IssueForm);
 
-export default function IssueModal({ issue }) {
+export default function IssueModal({ open, closeModal, issue }) {
     return (
-        <CustomModal>
+        <CustomModal open={open} closeModal={closeModal}>
             <IssueView issue={issue} />
         </CustomModal>
     )
