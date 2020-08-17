@@ -36,52 +36,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const Labels = () => {
-    //TODO get labels from the db
-
-    const labelsFromServer = useSelector(selectLabels)
-
-    const contents = labelsFromServer.map(each => <p className="cancel-btn">{each}</p>)
-
-    return (
-        <Fragment>
-            <Typography variant="caption" display="block" gutterBottom>Labels</Typography>
-            <div className="grid-row">
-                {contents}
-            </div>
-        </Fragment>
-    )
-}
-
-export const AvatorCard = ({ user }) => {
-
-    return <div className="avator-card">
-        <div className="blue-bg">
-            <Typography variant="h3" gutterBottom>{user.name}</Typography>
-        </div>
-        <AccountCircleIcon className="avator-big" size="inherit" />
-        <div className="white-bg">
-            <Typography className="row" variant="subtitle1" gutterBottom>
-                <MailOutlineIcon size="small" />{user.email}</Typography>
-            <div className="row">
-                <p className="tab">View Profile</p>
-                <p className="tab">Assigned Issues</p>
-            </div>
-        </div>
-    </div>
-
-}
-
-export const Member = ({ user }) => {
-    const { value, handleTrue, handleFalse } = useSimpleState()
-
-    return <div className="row" >
-        {value && <AvatorCard user={user} />}
-        <AccountCircleIcon onMouseOver={handleTrue} onMouseOut={handleFalse} />
-        <Typography variant="h6" display="block" gutterBottom>{user.name}</Typography>
-    </div>
-}
-
 const IssueForm = props => {
     const {
         values,
@@ -228,10 +182,4 @@ const IssueView = withFormik({
     displayName: 'BasicForm',
 })(IssueForm);
 
-export default function IssueModal({ open, closeModal, issue }) {
-    return (
-        <CustomModal open={open} closeModal={closeModal}>
-            <IssueView issue={issue} />
-        </CustomModal>
-    )
-}
+export default IssueView
