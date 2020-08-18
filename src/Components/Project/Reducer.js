@@ -16,7 +16,8 @@ export default function ProjectReducer(state = {
         category: "test category",
         lead: "test lead",
         image: "test image",
-        default_assignee: "test default_assignee"
+        default_assignee: "test default_assignee",
+        members:[ "testUserId"]
     }
 }, action) {
     let newState;

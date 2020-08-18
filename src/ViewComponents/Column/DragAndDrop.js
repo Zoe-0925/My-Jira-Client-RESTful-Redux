@@ -13,6 +13,7 @@ import {
 } from "../../Components/Selectors"
 import { v4 as uuidv4 } from 'uuid'
 import IssueModal from "../Issues/IssueModal"
+import {getUserByIds} from "../../Components/User/mockActions"
 import { useCreateStatus } from "./CustomHooks"
 
 export const IssueCard = ({ task, openTaskDetail }) => {
@@ -25,9 +26,9 @@ export const IssueCard = ({ task, openTaskDetail }) => {
     return (
         <div key={uuidv4()} className={!taskState.flag ? "epic-body" : "epic-body flagged"}>
             <div className="col">
-                <p className="summary" onClick={() => openTaskDetail(task._id)}>{task.summary}</p>
-                <div className="labels" onClick={() => openTaskDetail(task._id)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
-                <div className="issueType tab row" onClick={() => openTaskDetail(task._id)}>
+                <p className="summary" onClick={() => openTaskDetail(task)}>{task.summary}</p>
+                <div className="labels" onClick={() => openTaskDetail(task)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
+                <div className="issueType tab row" onClick={() => openTaskDetail(task)}>
                     <div>
                         <Tooltip title={task.issueType} aria-label={task.issueType}>
                             <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
@@ -37,7 +38,7 @@ export const IssueCard = ({ task, openTaskDetail }) => {
                 </div>
                 <div className="col">
                     <IssueDotIconMenu id={task._id} flag={task.flag} />
-                    <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task._id)} /></Tooltip>
+                    <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task)} /></Tooltip>
                 </div>
             </div>
         </div>
@@ -98,10 +99,11 @@ export default function DragAndDrop() {
     const dispatch = useDispatch()
 
 
-    const openTaskDetail = (id) => {
-        console.log("clicked open task detail")
+    const openTaskDetail = (task) => {
         setOpenModal(true)
-        setIssue(id)
+        setIssue(task)
+        if(task.assignee===task._id && task.reportee===task._id){return}
+        dispatch(getUserByIds([task.assignee, task.reportee]))
     }
 
     //Add column:

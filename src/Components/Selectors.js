@@ -10,7 +10,7 @@ export const selectFilterReducer = state => state.FilterReducer
 
 export const selectLabelReducer = state => state.LabelReducer
 
-export const selectUserReducer= state => state.UserReducer
+export const selectUserReducer = state => state.UserReducer
 /****************** Reselectors *********************/
 export const selectStatus = createSelector(
     selectStatusReducer,
@@ -27,6 +27,23 @@ export const selectCurrentProject = createSelector(
     reducer => reducer.currentProject._id
 )
 
+export const selectProjectMembers = createSelector(
+    selectProjectReducer,
+    reducer => reducer.currentProject.members
+)
+
+//TODO debug
+export const selectMemberNames = createSelector(
+    selectProjectMembers,
+    selectUserReducer,
+    (members, userReducer) => members.map(each => {
+        if (userReducer.user._id === each) { return userReducer.user.name }
+        else {
+            userReducer.otherUsers.find(user => user._id === each)
+        }
+    })
+)
+
 export const selectCurrentProjectName = createSelector(
     selectProjectReducer,
     reducer => reducer.currentProject.name
@@ -34,7 +51,16 @@ export const selectCurrentProjectName = createSelector(
 
 export const selectCurrentUser = createSelector(
     selectUserReducer,
-    reducer => reducer.id
+    reducer => reducer.user._id
+)
+
+export const selectUserById = (id) => createSelector(
+    selectUserReducer,
+    selectCurrentUser,
+    (reducer, currentUserId) => {
+        if (currentUserId === id) { return reducer.user }
+        else { return reducer.otherUsers.find(user => user._id === id) }
+    }
 )
 
 export const selectIssueArray = createSelector(
@@ -55,6 +81,11 @@ export const selectIssues = createSelector(
 export const selectLabels = createSelector(
     selectLabelReducer,
     reducer => reducer.labels
+)
+
+export const selectLabelNames = createSelector(
+    selectLabels,
+    labels => labels.map(each => each.name)
 )
 
 /****************** Reselectors - Filters *********************/

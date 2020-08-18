@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { post, put, jwtConfig } from "../Util"
 import { appendSuccessfulStatus } from "../Status/Actions"
-import {appendSuccessfulLabels} from "../Label/Actions"
+import { appendSuccessfulLabels } from "../Label/Actions"
 require('dotenv').config()
 
 
@@ -112,182 +112,167 @@ export function dispatchError() {
 
 
 /**********************************  Thunk Actions  ******************************************/
-
-export function getLabelsAndIssuesGroupByStatus(projectId, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const response = await dispatch(fetchLabelsAndIssuesGroupByStatus(process.env.BASE, projectId, token))
-            if (response.data.success) {
-                dispatch(appendSuccessfulLabels(response.data.labels)) //Array
-                dispatch(appendSuccessfulStatus(response.data.status)) //Array
-                dispatch(appendSuccessfulEpics(response.data.epics)) //Array
-                dispatch(appendSuccessfulIssues(response.data.issues)) // Map()
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const response = await dispatch(fetchLabelsAndIssuesAndStatus(process.env.BASE, projectId, token))
+        if (response.data.success) {
+            dispatch(appendSuccessfulLabels(response.data.labels)) //Array
+            dispatch(appendSuccessfulStatus(response.data.status)) //Array
+            dispatch(appendSuccessfulEpics(response.data.epics)) //Array
+            dispatch(appendSuccessfulIssues(response.data.issues)) // Map()
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
 
-export function getIssuesForProject(projectId, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const response = await dispatch(fetchProjectsIssues(process.env.BASE, projectId, token))
-            if (response.data.success) {
-                dispatch(appendSuccessfulIssues(response.data.data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const constgetIssuesForProject = (projectId, token) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const response = await dispatch(fetchProjectsIssues(process.env.BASE, projectId, token))
+        if (response.data.success) {
+            dispatch(appendSuccessfulIssues(response.data.data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function createIssue(data) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchCreateIssue(process.env.BASE, data, token))
-            if (response.data.success) {
-                let newData = Object.assign({}, data)
-                newData._id = response.id
-                dispatch(createSuccessfulIssue(newData))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const createIssue = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchCreateIssue(process.env.BASE, data, token))
+        if (response.data.success) {
+            let newData = Object.assign({}, data)
+            newData._id = response.id
+            dispatch(createSuccessfulIssue(newData))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function getASingleIssue(id) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchIssueById(process.env.BASE, id, token))
-            if (response.data.success) {
-                dispatch(appendSuccessfulIssues(response.data.data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const getASingleIssue = (id) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchIssueById(process.env.BASE, id, token))
+        if (response.data.success) {
+            dispatch(appendSuccessfulIssues(response.data.data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
     }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
+    }
 }
+
 
 //TODO need to think about the flow.
 //Where to store in the store, and where does the client take it
-export function getIssueByProjectAndType(id, type) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchByProjectAndIssueType(process.env.BASE, id, type, token))
-            if (response.data.success) {
-                dispatch(appendCurrentIssue(response.data.data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const getIssueByProjectAndType = (id, type) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchByProjectAndIssueType(process.env.BASE, id, type, token))
+        if (response.data.success) {
+            dispatch(appendCurrentIssue(response.data.data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
 
-export function updateIssue(data) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchUpdateIssue(process.env.BASE, data, token))
-            if (response.data.success) {
-                dispatch(updateSuccessfulIssue(data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const updateIssue = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchUpdateIssue(process.env.BASE, data, token))
+        if (response.data.success) {
+            dispatch(updateSuccessfulIssue(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function deleteIssue(id) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
-            if (response.data.success) {
-                dispatch(deleteSuccessfulIssue(id))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const deleteIssue = (id) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
+        if (response.data.success) {
+            dispatch(deleteSuccessfulIssue(id))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function toggleFlag(id) {
-    return async dispatch => {
-        dispatch({ type: LOADING_ISSUE })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchToggleFlag(process.env.BASE, id, token))
-            if (response.data.success) {
-                dispatch(toggleSuccessfulFlag(id))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const toggleFlag = (id) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchToggleFlag(process.env.BASE, id, token))
+        if (response.data.success) {
+            dispatch(toggleSuccessfulFlag(id))
+        }
+        else {
+            dispatch(dispatchError(response.message))
+        }
 
-        }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
-        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
+
 
 /**********************************  API Call Actions  ******************************************/
 
@@ -304,8 +289,8 @@ function fetchIssueById(BASE, id, token) {//fetch all Issues of a user
     return axios.get(BASE + '/issues/' + id, jwtConfig(token));
 }
 
-function fetchLabelsAndIssuesGroupByStatus(BASE, id, token) {//fetch all labels, issues and status
-    return axios.get(BASE + '/issues/project/board' + id, jwtConfig(token));
+function fetchLabelsAndIssuesAndStatus(BASE, id, token) {//fetch all labels, issues and status
+    return axios.get(BASE + '/issues/project/board/' + id, jwtConfig(token));
 }
 
 

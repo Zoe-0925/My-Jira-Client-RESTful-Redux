@@ -8,8 +8,8 @@ import { DELETE_SUCCESS_STATUS } from "../Status/Actions"
 
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
-    _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "test Assignee",
-    issueType: "task", flag: false
+    _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
+    issueType: "task", flag: false, reportee: "testUserId", project:"test id"
 })
 
 export default function IssueReducer(state = {

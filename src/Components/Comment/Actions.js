@@ -55,85 +55,77 @@ export function dispatchError() {
 
 
 /**********************************  Thunk Actions  ******************************************/
-export function getCommentsForIssue(issueId, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_COMMENT })
-        try {
-            const response = await dispatch(fetchCommentsForIssue(process.env.BASE, issueId, token))
-            if (response.data.success) {
-                dispatch(appendSuccessfulComments(response.data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const getCommentsForIssue = (issueId, token) => async  dispatch => {
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        const response = await dispatch(fetchCommentsForIssue(process.env.BASE, issueId, token))
+        if (response.data.success) {
+            dispatch(appendSuccessfulComments(response.data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function createComment(data, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_COMMENT })
-        try {
-            const response = await dispatch(fetchCreateComment(process.env.BASE, data, token))
-            if (response.data.success) {
-                let newData = Object.assign({}, data)
-                newData._id = response.id
-                dispatch(createSuccessfulComment(newData))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const createComment = (data, token) => async  dispatch => {
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        const response = await dispatch(fetchCreateComment(process.env.BASE, data, token))
+        if (response.data.success) {
+            let newData = Object.assign({}, data)
+            newData._id = response.id
+            dispatch(createSuccessfulComment(newData))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function updateComment(data, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_COMMENT })
-        try {
-            const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
-            if (response.data.success) {
-                dispatch(updateSuccessfulComment(data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const updateComment = (data, token) => async  dispatch => {
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
+        if (response.data.success) {
+            dispatch(updateSuccessfulComment(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function deleteComment(data, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_COMMENT })
-        try {
-            const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
-            if (response.data.success) {
-                dispatch(deleteSuccessfulComment(data))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const deleteComment = (data, token) => async  dispatch => {
+    dispatch({ type: LOADING_COMMENT })
+    try {
+        const response = await dispatch(fetchUpdateComment(process.env.BASE, data, token))
+        if (response.data.success) {
+            dispatch(deleteSuccessfulComment(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 

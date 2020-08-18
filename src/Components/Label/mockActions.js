@@ -61,7 +61,7 @@ const mockLabels = [
 
 /**    Thunk Actions    */
 export function createLabel(data, token) {
-    return async dispatch => {
+    return dispatch => {
         dispatch({ type: LOADING_LABEL })
         let newData = Object.assign({}, data)
         newData._id = uuidv4()
@@ -70,14 +70,14 @@ export function createLabel(data, token) {
 }
 
 export function deleteLabel(id, token) {
-    return async  dispatch => {
+    return  dispatch => {
         dispatch({ type: LOADING_LABEL })
         dispatch(deleteSuccessfulLabel(id))
     }
 }
 
 export function getAllLabels(projectId, token) {
-    return async  dispatch => {
+    return  dispatch => {
         dispatch({ type: LOADING_LABEL })
         dispatch(appendSuccessfulLabels(mockLabels))
     }

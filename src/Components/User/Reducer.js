@@ -5,14 +5,17 @@ import {
 	LOGOUT_SUCCESS_USER,
 	UPDATE_USER,
 	UPDATE_USER_EMAIL,
-	UPDATE_USER_PASSWORD
+	UPDATE_USER_PASSWORD,
+	ADD_OTHER_USERS,
+	SIGNUP_SUCCESS_USER
 } from "./Actions"
 
 const UserReducer = (state = {
 	loading: false,
 	authenticated: false,
 	id: "",
-	user: {}
+	user: { _id: "testUserId", name: "userName", email: "test email" },
+	otherUsers: []
 }, action) => {
 	let newState
 	switch (action.type) {
@@ -20,6 +23,8 @@ const UserReducer = (state = {
 			newState = Object.assign({}, state, { loading: true })
 			return newState
 		case LOGIN_SUCCESS_USER:
+			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data })
+		case SIGNUP_SUCCESS_USER:
 			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data })
 		case LOGOUT_SUCCESS_USER:
 			return Object.assign({}, state, {
@@ -36,6 +41,9 @@ const UserReducer = (state = {
 			newState.user.salt = action.salt
 			newState.user.hash = action.hash
 			return newState
+		case ADD_OTHER_USERS:
+			newState = Object.assign({}, state, { loading: false, authenticated: true })
+			newState.otherUsers.concat(action.data)
 		case ERROR_USER:
 			return Object.assign({}, state, { loading: false, authenticated: false })
 		default:

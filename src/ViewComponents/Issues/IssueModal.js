@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import { useSelector } from "react-redux"
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {
@@ -13,17 +13,21 @@ import {
     InputAdornment,
     IconButton,
     TextareaAutosize,
+    ListItem
 } from '@material-ui/core';
+import * as Yup from 'yup';
 import {
     TextField,
 } from 'formik-material-ui';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import CreateIcon from '@material-ui/icons/Create';
-import CustomModal from "../Shared/CustomModal"
-import { useSimpleState } from "../Shared/CustomHooks"
-import { selectCurrentProjectName, selectLabels } from "../../Components/Selectors"
 import { makeStyles } from '@material-ui/core/styles';
+import CreateIcon from '@material-ui/icons/Create';
+import { SingleSelect, MultiSelect } from "./CustomSelect"
+import CustomModal from "../Shared/CustomModal"
+import {
+    selectCurrentProjectName, selectMemberNames, selectLabelNames, selectUserById
+} from "../../Components/Selectors"
+import { Member } from "./AvatorCard"
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -36,68 +40,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export const Labels = () => {
-    //TODO get labels from the db
-
-    const labelsFromServer = useSelector(selectLabels)
-
-    const contents = labelsFromServer.map(each => <p className="cancel-btn">{each}</p>)
-
-    return (
-        <Fragment>
-            <Typography variant="caption" display="block" gutterBottom>Labels</Typography>
-            <div className="grid-row">
-                {contents}
-            </div>
-        </Fragment>
-    )
-}
-
-export const AvatorCard = ({ user }) => {
-
-    return <div className="avator-card">
-        <div className="blue-bg">
-            <Typography variant="h3" gutterBottom>{user.name}</Typography>
-        </div>
-        <AccountCircleIcon className="avator-big" size="inherit" />
-        <div className="white-bg">
-            <Typography className="row" variant="subtitle1" gutterBottom>
-                <MailOutlineIcon size="small" />{user.email}</Typography>
-            <div className="row">
-                <p className="tab">View Profile</p>
-                <p className="tab">Assigned Issues</p>
-            </div>
-        </div>
-    </div>
-
-}
-
-export const Member = ({ user }) => {
-    const { value, handleTrue, handleFalse } = useSimpleState()
-
-    return <div className="row" >
-        {value && <AvatorCard user={user} />}
-        <AccountCircleIcon onMouseOver={handleTrue} onMouseOut={handleFalse} />
-        <Typography variant="h6" display="block" gutterBottom>{user.name}</Typography>
-    </div>
-}
-
 const IssueForm = props => {
     const {
         values,
         handleChange,
         handleSubmit,
-        closeModal
+        closeModal,
+        setFieldValue,
+        setFieldTouched,
+        isSubmitting,
+        issue,
     } = props
 
+    const [clicked, setClicked] = useState({ assignee: false, labels: false, reportee: false })
 
-    function importIssue() {
-
-    }
-
-    function openFields() {
-
-    }
+    const assignee = useSelector(selectUserById(issue.assignee))
+    const reportee = useSelector(selectUserById(issue.reportee))
+    const memberNames = useSelector(selectMemberNames)
+    const labelNames = useSelector(selectLabelNames)
+    const projectName = useSelector(selectCurrentProjectName)
 
     function showEpic() {
 
@@ -107,7 +68,7 @@ const IssueForm = props => {
 
     }
 
-    const projectName = useSelector(selectCurrentProjectName)
+
     const classes = useStyles();
 
     return <div className={classes.paper + " Issue-form-wide"}>
@@ -121,117 +82,132 @@ const IssueForm = props => {
                 <Typography color="textPrimary">{projectName}</Typography>
             </Breadcrumbs>
         </div>
-        <Form onSubmit={handleSubmit}>
-            <InputLabel className="row" id="state">Project Name*</InputLabel>
-            <Field
-                className="form-select row"
-                id="select"
-                component={TextField}
-                name="projectName"
-                type="text"
-                variant="outlined"
-                size="small"
-                disabled={true}
-                onChange={handleChange}
-                value={values.projectName}
-                margin="normal"
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment>
-                            <IconButton>
-                                <ExpandMoreIcon fontSize="small" />
-                            </IconButton>
-                        </InputAdornment>
-                    )
-                }}
-            />
-            <InputLabel className="row" id="state">Issue Type*</InputLabel>
-            <Field
-                className="form-select row"
-                id="select"
-                component={TextField}
-                name="issueType"
-                type="text"
-                variant="outlined"
-                size="small"
-                onChange={handleChange}
-                value={values.issueType}
-                margin="normal"
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment>
-                            <IconButton>
-                                <ExpandMoreIcon fontSize="small" />
-                            </IconButton>
-                        </InputAdornment>
-                    )
-                }}
-            />
-
-
-            <Typography className="row" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-            <Box margin={1}>
-                <Divider />
-            </Box>
-            <InputLabel className="row" id="state">Summary*</InputLabel>
-            <Field
-                className="row form-select full-length-center summary"
-                component={TextField}
-                name="summary"
-                type="text"
-                variant="outlined"
-                size="small"
-                onChange={handleChange}
-                value={values.summary}
-                margin="normal"
-            />
-            <InputLabel className="row" id="state">description*</InputLabel>
-            <Field
-                className="row full-length-center summary"
-                component={TextareaAutosize}
-                name="description"
-                type="text"
-                variant="outlined"
-                size="small"
-                onChange={handleChange}
-                value={values.description}
-                margin="normal"
-                aria-label="minimum height" rowsMin={15}
-            />
-            <div className="row right-align btn-row">
-                <p className="cancel-btn" onClick={closeModal}>Cancel</p>
-                <Button className="navbar-create-btn" onClick={handleSubmit}>Create</Button>
-            </div>
-        </Form>
+        <div className="left">
+            <Form onSubmit={handleSubmit}>
+                <InputLabel className="row" id="state">Project Name*</InputLabel>
+                <Field
+                    className="form-select row"
+                    id="project-name"
+                    component={TextField}
+                    name="projectName"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    disabled={true}
+                    onChange={handleChange}
+                    value={issue.project || values.project}
+                    margin="normal"
+                />
+                <InputLabel className="row" id="state">Issue Type*</InputLabel>
+                <Field
+                    className="form-select row"
+                    id="select"
+                    component={TextField}
+                    name="issueType"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={handleChange}
+                    value={issue.issueType || values.issueType}
+                    margin="normal"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment>
+                                <IconButton>
+                                    <ExpandMoreIcon fontSize="small" />
+                                </IconButton>
+                            </InputAdornment>
+                        )
+                    }}
+                />
+                <Typography className="row" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
+                <Box margin={1}>
+                    <Divider />
+                </Box>
+                <InputLabel className="row" id="state">Summary*</InputLabel>
+                <Field
+                    className="row form-select full-length-center summary"
+                    component={TextField}
+                    name="summary"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={handleChange}
+                    value={issue.summary|| values.summary}
+                    margin="normal"
+                />
+                <InputLabel className="row" id="state">description*</InputLabel>
+                <Field
+                    className="row full-length-center"
+                    component={TextareaAutosize}
+                    name="description"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={handleChange}
+                    value={issue.description || values.description}
+                    margin="normal"
+                    aria-label="minimum height" rowsMin={15}
+                />
+                <div className="row right-align btn-row">
+                    <ListItem><p className="cancel-btn" onClick={closeModal}>Cancel</p></ListItem>
+                    <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
+                </div>
+            </Form>
+        </div>
+        <div className="right">
+            <Typography variant="caption" display="block" gutterBottom>Assignee</Typography>
+            {!clicked.assignee &&
+                <Member user={assignee} onClick={() => setClicked({ assignee: true, labels: false, reportee: false })} />}
+            {clicked.assignee &&
+                <SingleSelect onChange={setFieldValue} onBlur={setFieldTouched} defaultValue={assignee.name} options={memberNames} type="assignee" />}
+            <Typography variant="caption" display="block" gutterBottom>Labels</Typography>
+            {!clicked.labels && <Member user={assignee} onClick={() => setClicked({ assignee: false, labels: true, reportee: false })} />}
+            {clicked.labels &&
+                <MultiSelect onChange={setFieldValue} onBlur={setFieldTouched} options={labelNames} type="labels" />}
+            <Typography variant="caption" display="block" gutterBottom>Reporter</Typography>
+            {!clicked.reportee && <Member user={assignee} onClick={() => setClicked({ assignee: true, labels: false, reportee: false })} />}
+            {clicked.reportee &&
+                <SingleSelect onChange={setFieldValue} onBlur={setFieldTouched} defaultValue={reportee.name} options={memberNames} type="reportee" />}
+        </div>
     </div>
 }
 
 const IssueView = withFormik({
-    mapPropsToValues: () => ({
-        projectName: "",
-        issueType: "",
-        summary: "",
-        description: ""
+    validationSchema: Yup.object().shape({
+        summary: Yup.string()
+            .required('Summary is required!')
     }),
-
-    // Custom sync validation
-    validate: values => {
-
-        const errors = {}
-
-        return errors;
-    },
+    mapPropsToValues: (issue) => ({
+        projectName: issue.projectName,
+        issueType: issue.issueType,
+        summary: issue.summary,
+        description: issue.description,
+        assignee: issue.assignee,
+        labels: issue.labels,
+        reportee: issue.reportee,
+    }),
     handleSubmit: (values, { 'props': { onContinue } }) => {
-        onContinue(values);
+        onContinue(values)
     },
-
-    displayName: 'BasicForm',
+    displayName: 'MyForm',
 })(IssueForm);
 
+
 export default function IssueModal({ open, closeModal, issue }) {
+    const dispatch = useDispatch()
+
+    const submitIssueUpdate = () => {
+        // TODO
+        //dispatch update issue
+
+    }
+
     return (
-        <CustomModal open={open} closeModal={closeModal}>
-            <IssueView issue={issue} />
-        </CustomModal>
+        <div>
+            <CustomModal open={open} closeModal={closeModal}>
+                <IssueView issue={issue} onContinue={submitIssueUpdate} />
+            </CustomModal>
+        </div>
     )
 }

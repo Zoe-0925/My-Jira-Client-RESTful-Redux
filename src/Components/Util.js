@@ -60,9 +60,3 @@ export function genPassword(password) {
         hash: genHash
     };
 }
-
-export function getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    const expiresAt = JSON.parse(expiration);
-    return format(expiresAt, 'MM/dd/yyyy-H:mm:ss');
-}

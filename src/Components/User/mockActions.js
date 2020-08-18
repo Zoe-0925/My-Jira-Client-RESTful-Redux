@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid'
+
 import history from "../../history"
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"
@@ -8,6 +10,7 @@ export const UPDATE_USER_INFO = "UPDATE_USER_INFO"
 export const UPDATE_USER_EMAIL = "UPDATE_USER_EMAIL"
 export const UPDATE_USER_PASSWORD = "UPDATE_USER_PASSWORD"
 export const UPDATE_USER = "UPDATE_USER"
+export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
 
 export const CREATE_USER = "CREATE_USER"
 
@@ -18,12 +21,17 @@ export const DELETE_USER = "UPDATE_USER"
 //export const CHECK_EMAIL_EXIST = "CHECK_EMAIL_EXIST"
 //-------------------------------------------------------
 
-
-
 function loginSuccess(data) {
     return {
         type: LOGIN_SUCCESS_USER,
-        data
+        data: data
+    }
+}
+
+function dispatchSignupSuccess(data) {
+    return {
+        type: SIGNUP_SUCCESS_USER,
+        data: data
     }
 }
 
@@ -41,36 +49,46 @@ export function updateUser(data) {
     }
 }
 
-//TODO check...
-export function update(data) {
+export function dispatchUpdateEmail(email) {
     return {
-        type: UPDATE,
-        data: data
+        type: UPDATE_USER_EMAIL,
+        email: email
     }
 }
 
-
-const mockUser = {
-    name: "mock user name",
-    email: "mockEmail@gmail.com",
-    hash: "mock hash",
-    salt: "mock salt"
+export function dispatchUpdatePassword(salt, hash) {
+    return {
+        type: UPDATE_USER_PASSWORD,
+        salt: salt,
+        hash: hash
+    }
 }
+
+export function dispatchAddOtherUsers(userList) {
+    return {
+        type: ADD_OTHER_USERS,
+        data: userList
+    }
+}
+
+const mockUser = { _id: "testUserId", name: "userName", email: "test email", salt: "test salt", hash: "test hash" }
+
 /******************* Thunk Actions  *****************************/
-export async function manualLogin(
+export  function manualLogin(
     data,
     successPath, // path to redirect to upon successful log in
-    token
 ) {
-    return async  dispatch => {
+    return dispatch => {
         dispatch({ type: LOADING_USER })
-        dispatch(loginSuccess(mockUser))
+        localStorage.setItem("token", "test token")
+        const newData = { _id: uuidv4(), email: data.email, name: "test name", project: ["test id"] }
+        dispatch(loginSuccess(newData))
         history.push(successPath)
     }
 }
 
-export async function manualLogout(data, token) {
-    return async  dispatch => {
+export  function manualLogout(data) {
+    return dispatch => {
         dispatch({ type: LOADING_USER })
         dispatch({ type: LOGOUT_SUCCESS_USER })
         history.push("./login")
@@ -78,39 +96,53 @@ export async function manualLogout(data, token) {
 }
 
 //TODO need to update here to connect passport and 3rd party register
-export async function manualSignup(data, token) {
-    return async  dispatch => {
+export function manualSignup(data, token) {
+    return dispatch => {
         dispatch({ type: LOADING_USER })
-        data._id = uuidv4()
-        dispatch({ type: SIGNUP_SUCCESS_USER })
-        dispatch(manualLogin(data, "/projects"))
+        const newData = { _id: uuidv4(), email: data.email, name: data.name, projects: data.projects }
+        dispatch(dispatchSignupSuccess(newData))
+        history.push("/projects")
     }
 }
 
-export async function updateInfo(data, token) { // data = {name:"..."}
-    return async  dispatch => {
+export function updateInfo(data, token) { // data = {name:"..."}
+    return dispatch => {
         dispatch({ type: LOADING_USER })
         let newData = Object.assign({}, mockUser)
         newData.name = data.name
-        dispatch(update(newData))
+        dispatch(updateUser(newData))
     }
 }
 
-export async function updateEmail(data, token) {// data = {email:"..."}
+export function updateEmail(data, token) {// data = {email:"..."}
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         let newData = Object.assign({}, mockUser)
         newData.email = data.email
-        dispatch(update(newData))
+        dispatch(dispatchUpdateEmail(newData))
     }
 }
 
-export async function updatePassword(data, token) {//data = {password:"..."}
+export function updatePassword(data, token) {//data = {password:"..."}
     return async  dispatch => {
         dispatch({ type: LOADING_USER })
         let newData = Object.assign({}, mockUser)
         newData.hash = "updated hash"
         newData.salt = "updated salt"
-        dispatch(update(newData))
+        dispatch(dispatchUpdatePassword(newData))
+    }
+}
+
+export function getUserByIds(idList) {
+    return async  dispatch => {
+        const trimmedList = [new Set(...idList)]
+        let response = (trimmedList.length > 1) ?
+            [{ _id: "testID2", name: "userName2", email: "test email2" },
+            { _id: "testID3", name: "userName3", email: "test email3" }] :
+            (trimmedList.length === 1) ?
+                [{ _id: "testUserId", name: "userName", email: "test email" }] :
+                ""
+        dispatch(dispatchAddOtherUsers(response))
+
     }
 }

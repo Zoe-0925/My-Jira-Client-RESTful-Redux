@@ -51,64 +51,57 @@ export function dispatchError(data) {
 //export const GET_ALL_LABELS = "GET_ALL_LABELS"
 
 /**    Thunk Actions    */
-export function createLabel(data, token) {
-    return async dispatch => {
-        dispatch({ type: LOADING_LABEL })
-        try {
-            const response = await dispatch(fetchCreateLabel(process.env.BASE, data, token))
-            if (response.data.success) {
-                data._id = response.data.data.id
-                dispatch(createSuccessfulLabel(data))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const createLabel = (data, token) => async  dispatch => {
+    dispatch({ type: LOADING_LABEL })
+    try {
+        const response = await dispatch(fetchCreateLabel(process.env.BASE, data, token))
+        if (response.data.success) {
+            data._id = response.data.data.id
+            dispatch(createSuccessfulLabel(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
     }
-
-}
-
-export function deleteLabel(id, token) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_LABEL })
-        try {
-            const response = await dispatch(deleteLabelById(process.env.BASE, id, token))
-            if (response.data.success) {
-                dispatch(deleteSuccessfulLabel(id))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
-        }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
-        }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function getAllLabels(projectId, token) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_LABEL })
-        try {
-            const response = await dispatch(fetchAllLabels(process.env.BASE, projectId, token))
-            if (response.data.success) {
-                dispatch(appendSuccessfulLabels(response.data.data))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const deleteLabel = (id, token) => async  dispatch => {
+    dispatch({ type: LOADING_LABEL })
+    try {
+        const response = await dispatch(deleteLabelById(process.env.BASE, id, token))
+        if (response.data.success) {
+            dispatch(deleteSuccessfulLabel(id))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
+    }
+}
+
+export const getAllLabels = (projectId, token) => async  dispatch => {
+    dispatch({ type: LOADING_LABEL })
+    try {
+        const response = await dispatch(fetchAllLabels(process.env.BASE, projectId, token))
+        if (response.data.success) {
+            dispatch(appendSuccessfulLabels(response.data.data))
+        }
+        else {
+            dispatch(dispatchError(response.data.message))
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        console.log('Error', err);
     }
 }
 /****************************************************************************/

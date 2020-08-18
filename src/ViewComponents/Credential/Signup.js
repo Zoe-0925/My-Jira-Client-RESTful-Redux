@@ -11,7 +11,8 @@ import {
 } from 'formik-material-ui';
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
-import { manualSignup, checkEmail } from "../../Components/User/Actions"
+//import { manualSignup} from "../../Components/User/Actions"   //Maybe add checkEmail
+import { manualSignup } from "../../Components/User/mockActions"
 import { genPassword } from "../../Components/Util"
 
 export const SignupForm = props => {
@@ -93,10 +94,10 @@ export const SignupView = withFormik({
         if (!values.password) {
             errors.password = 'Required';
         }
-        const validEmail = checkEmail(values.email)
+      /**   const validEmail = checkEmail(values.email)
         if (!validEmail) {
             errors.email = 'This email address already existed.';
-        }
+        }*/
         //TODO
         //Password regex
         return errors;

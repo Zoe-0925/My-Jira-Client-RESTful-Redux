@@ -67,8 +67,8 @@ const mockProject = {
 }
 
 /*****************  Thunk Actions  ****************/
-export async function createProject(id) {
-    return async  dispatch => {
+export function createProject(id) {
+    return dispatch => {
         dispatch({ type: LOADING_PROJECT })
         data._id = uuidv4()
         dispatch(createSuccessfulProject(data))
@@ -76,32 +76,31 @@ export async function createProject(id) {
 }
 
 //Get all projects of the user
-export async function getAllProjects(userId) {
-    return async  dispatch => {
+export function getAllProjects(userId) {
+    return dispatch => {
         dispatch({ type: LOADING_PROJECT })
         dispatch(appendSuccessfulProjects([mockProject]))
 
     }
 }
 
-//TODO
-//test to see 
-export async function getASingleProject(id) {
-    return async  dispatch => {
+
+export function getASingleProject(id) {
+    return dispatch => {
         dispatch({ type: LOADING_PROJECT })
         dispatch(appendCurrentProject(mockProject))
     }
 }
 
-export async function updateProject(id, update) {
-    return async  dispatch => {
+export function updateProject(id, update) {
+    return dispatch => {
         dispatch({ type: LOADING_PROJECT })
         dispatch(updateSuccessfulProject(mockProject))
     }
 }
 
-export async function deleteProject(id) {
-    return async  dispatch => {
+export function deleteProject(id) {
+    return  dispatch => {
         dispatch({ type: LOADING_PROJECT })
         dispatch(deleteSuccessfulProject(id))
     }

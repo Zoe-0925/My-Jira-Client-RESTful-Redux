@@ -7,7 +7,9 @@ import {
 } from '@material-ui/core';
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
-import { manualLogin } from "../../Components/User/Actions"
+//TODO swap
+//import { manualLogin } from "../../Components/User/Actions"
+import { manualLogin } from "../../Components/User/mockActions"
 import { genPassword } from "../../Components/Util"
 
 const LoginForm = props => {
@@ -80,13 +82,12 @@ const LoginController = () => {
     const dispatch = useDispatch()
 
     const handleLogin = (values) => {
-        const token = localStorage.getItem("token")
         const { salt, hash } = genPassword(values.password)
         dispatch(manualLogin({
             email: values.email,
             salt: salt,
             hash: hash
-        }, "/projects", token))
+        }, "/projects"))
     }
 
     return (

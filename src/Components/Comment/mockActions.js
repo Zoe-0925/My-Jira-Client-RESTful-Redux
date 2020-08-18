@@ -44,8 +44,8 @@ export function updateSuccessfulComments(data) {
     }
 }
 /**********************************  Thunk Actions  ******************************************/
-export async function getCommentsForIssue(issueId, token) {
-    return async dispatch => {
+export function getCommentsForIssue(issueId, token) {
+    return dispatch => {
         dispatch({ type: LOADING_COMMENT })
         const data = {
             _id: "test id",
@@ -59,8 +59,8 @@ export async function getCommentsForIssue(issueId, token) {
     }
 }
 
-export async function createComment(data, token) {
-    return async dispatch => {
+export function createComment(data, token) {
+    return dispatch => {
         dispatch({ type: LOADING_COMMENT })
         let newData = Object.assign({}, data)
         newData._id = uuidv4()
@@ -68,15 +68,15 @@ export async function createComment(data, token) {
     }
 }
 
-export async function updateComment(data, token) {
-    return async dispatch => {
+export function updateComment(data, token) {
+    return dispatch => {
         dispatch({ type: LOADING_COMMENT })
         dispatch(updateSuccessfulComment(data))
     }
 }
 
-export async function deleteComment(data, token) {
-    return async dispatch => {
+export function deleteComment(data, token) {
+    return  dispatch => {
         dispatch({ type: LOADING_COMMENT })
         dispatch(deleteSuccessfulComments(data))
     }

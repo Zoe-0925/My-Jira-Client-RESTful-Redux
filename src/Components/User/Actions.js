@@ -14,6 +14,7 @@ export const UPDATE_USER_INFO = "UPDATE_USER_INFO"
 export const UPDATE_USER_EMAIL = "UPDATE_USER_EMAIL"
 export const UPDATE_USER_PASSWORD = "UPDATE_USER_PASSWORD"
 export const UPDATE_USER = "UPDATE_USER"
+export const ADD_OTHER_USERS = "ADD_OTHER_USERS"
 
 export const CREATE_USER = "CREATE_USER"
 
@@ -62,16 +63,19 @@ export function dispatchUpdatePassword(salt, hash) {
     }
 }
 
+export function dispatchAddOtherUsers(userList) {
+    return {
+        type: ADD_OTHER_USERS,
+        data: userList
+    }
+}
+
 /******************* Thunk Actions  *****************************/
-export async function manualLogin(
-    data,
-    successPath // path to redirect to upon successful log in
-) {
-    return async  dispatch => {
+export const manualLogin = (data, successPath) => // path to redirect to upon successful log in
+    async  dispatch => {
         dispatch({ type: LOADING_USER })
         try {
-            const token = localStorage.getItem("token")
-            const response = await fetchLogin(process.env.BASE, data, token)
+            const response = await fetchLogin(process.env.BASE, data)
             if (response.data.success && response.data.data.length > 0) {
                 setLocalStorage("token", response.data.data.token)
                 dispatch(loginSuccess(response.data.data[0]))
@@ -87,121 +91,112 @@ export async function manualLogin(
             console.log('Error', err);
         }
     }
-}
 
-export async function manualLogout(data) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await fetchLogout(process.env.BASE, data, token)
-            if (response.data.success) {
-                dispatch({ type: LOGOUT_SUCCESS_USER })
-                localStorage.removeItem("token");
-                localStorage.removeItem("expires_at");
-                history.push("./login")
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const manualLogout = (data) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await fetchLogout(process.env.BASE, data, token)
+        if (response.data.success) {
+            dispatch({ type: LOGOUT_SUCCESS_USER })
+            localStorage.removeItem("token");
+            localStorage.removeItem("expires_at");
+            history.push("./login")
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-//TODO need to update here to connect passport and 3rd party register
-export async function manualSignup(data) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await fetchSignUp(process.env.BASE, data, token)
-            if (response.data.success) {
-                data._id = response.data.data.id
-                dispatch({ type: SIGNUP_SUCCESS_USER })
-                dispatch(manualLogin(data, "/projects"))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const manualSignup = (data) => async  dispatch => {
+    //TODO need to update here to connect passport and 3rd party register
+
+    dispatch({ type: LOADING_USER })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await fetchSignUp(process.env.BASE, data, token)
+        if (response.data.success) {
+            data._id = response.data.data.id
+            dispatch({ type: SIGNUP_SUCCESS_USER, data: data })
+            history.push("/projects")
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export async function updateInfo(data) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await fetchUpdateUserInfo(process.env.BASE, { name: data.name }, token)
-            if (response.data.success) {
-                dispatch(updateInfo(data))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const updateInfo = (data) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await fetchUpdateUserInfo(process.env.BASE, { name: data.name }, token)
+        if (response.data.success) {
+            dispatch(updateInfo(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export async function updateEmail(data) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await fetchUpdateEmail(process.env.BASE, { email: data.email }, token)
-            if (response.data.success) {
-                dispatch(dispatchUpdateEmail( data.email))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const updateEmail = (data) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await fetchUpdateEmail(process.env.BASE, { email: data.email }, token)
+        if (response.data.success) {
+            dispatch(dispatchUpdateEmail(data.email))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export async function updatePassword(data) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_USER })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await fetchUpdatePassword(process.env.BASE,
-                { salt: data.salt, hash: data.hash }, token)
-            if (response.data.success) {
-                dispatch(dispatchUpdatePassword(data.salt, data.hash))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const updatePassword = (data) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await fetchUpdatePassword(process.env.BASE,
+            { salt: data.salt, hash: data.hash }, token)
+        if (response.data.success) {
+            dispatch(dispatchUpdatePassword(data.salt, data.hash))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export async function checkEmail(email) {
+export const checkEmail = (email) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
     try {
         const token = localStorage.getItem("token")
         const response = await fetchCheckEmail(process.env.BASE, email, token)
@@ -210,6 +205,25 @@ export async function checkEmail(email) {
         console.log('Error', err);
     }
 }
+
+export const getUserByIds = (idList) => async  dispatch => {
+    dispatch({ type: LOADING_USER })
+    try {
+        const token = localStorage.getItem("token")
+        const trimmedList = [new Set(...idList)]
+        let response = (trimmedList.length > 1) ?
+            await fetchUserByIdList(process.env.BASE, trimmedList, token) :
+            (trimmedList.length === 1) ?
+                await fetchUserById(process.env.BASE, trimmedList[0], token) :
+                ""
+        if (response !== "" && response.data.success) {
+            dispatch(dispatchAddOtherUsers(response.data))
+        }
+    } catch (err) {
+        console.log('Error', err);
+    }
+}
+
 
 /********************* API calls *************************/
 
@@ -221,7 +235,7 @@ export function fetchLogin(BASE, item, token) {
     return post('/users/login', BASE, item, token)
 }
 
-export function fetchLogout(BASE, item, token) {
+export function fetchLogout(BASE, item) {
     return post('/users/logout', BASE, item, "")
 }
 
@@ -232,6 +246,10 @@ export function createUser(BASE, item) {
 
 export function fetchUserById(BASE, id, token) {//fetch all USERs of a user
     return axios.get(BASE + '/users/' + id, jwtConfig(token));
+}
+
+export function fetchUserByIdList(BASE, idList, token) {//fetch all USERs of a user
+    return post('/users/multiple', BASE, idList, token)
 }
 
 export function fetchUserByEmail(BASE, email, token) {//fetch all USERs of a user
