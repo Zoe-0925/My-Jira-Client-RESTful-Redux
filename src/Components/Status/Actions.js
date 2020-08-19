@@ -78,120 +78,110 @@ export const reorderToBotttom = (source, startIndex) => {
 /**************************** Thunk Actions ***************************/
 
 //TODO not finished yet.
-export function moveIssuesRequest(id, source, destination, startIndex, endIndex) {
-    return async dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        try {
-            const token = localStorage.getItem("token")
-            const call = source === destination
-                ? fetchUpdateIssueOrders(process.env.BASE, id, source, startIndex, endIndex, token)
-                : fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token)
-            const response = await dispatch(call)
-            if (response.success && source === destination) {
-                dispatch(reorderIssues(source, startIndex, endIndex))
-            }
-            else if (response.success && source !== destination) {
-                dispatch(moveIssues(source, destination, startIndex, endIndex))
-            }
-            else {
-                dispatch(dispatchError(response.message))
-            }
+export const moveIssuesRequest = (id, source, destination, startIndex, endIndex) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const token = localStorage.getItem("token")
+        const call = source === destination
+            ? fetchUpdateIssueOrders(process.env.BASE, id, source, startIndex, endIndex, token)
+            : fetchUpdateMultipleIssueOrders(process.env.BASE, source, destination, startIndex, endIndex, token)
+        const response = await dispatch(call)
+        if (response.success && source === destination) {
+            dispatch(reorderIssues(source, startIndex, endIndex))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            //TODO
-            //dispatch undo
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else if (response.success && source !== destination) {
+            dispatch(moveIssues(source, destination, startIndex, endIndex))
         }
+        else {
+            dispatch(dispatchError(response.message))
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        //TODO
+        //dispatch undo
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-
-export function createStatus(data) {
-    return async dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchCreateStatus(process.env.BASE, data, token))
-            if (response.data.success) {
-                data._id = response.data.data.id
-                dispatch(createSuccessfulStatus(data))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const createStatus = (data) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchCreateStatus(process.env.BASE, data, token))
+        if (response.data.success) {
+            data._id = response.data.data.id
+            dispatch(createSuccessfulStatus(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function updateStatus(data) {
-    return async dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchUpdateStatus(process.env.BASE, data, token))
-            if (response.data.success) {
-                data._id = response.data.data.id
-                dispatch(updateSuccessfulStatus(data))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const updateStatus = (data) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchUpdateStatus(process.env.BASE, data, token))
+        if (response.data.success) {
+            data._id = response.data.data.id
+            dispatch(updateSuccessfulStatus(data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function deleteStatus(id) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(deleteStatusById(process.env.BASE, id, token))
-            if (response.data.success) {
-                dispatch(deleteSuccessfulStatus(id))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const deleteStatus = (id) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(deleteStatusById(process.env.BASE, id, token))
+        if (response.data.success) {
+            dispatch(deleteSuccessfulStatus(id))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
     }
 }
 
-export function getAllStatus(projectId) {
-    return async  dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        try {
-            const token = localStorage.getItem("token")
-            const response = await dispatch(fetchAllStatus(process.env.BASE, projectId, token))
-            if (response.data.success) {
-                dispatch(appendSuccessfulStatus(response.data.data))
-            }
-            else {
-                dispatch(dispatchError(response.data.message))
-            }
+export const getAllStatus = (projectId) => async  dispatch => {
+    dispatch({ type: LOADING_STATUS })
+    try {
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchAllStatus(process.env.BASE, projectId, token))
+        if (response.data.success) {
+            dispatch(appendSuccessfulStatus(response.data.data))
         }
-        catch (err) {
-            dispatch(dispatchError(err))
-            console.log('Error', err);
+        else {
+            dispatch(dispatchError(response.data.message))
         }
     }
+    catch (err) {
+        dispatch(dispatchError(err))
+        console.log('Error', err);
+    }
 }
+
 
 /************************ API call Actions ****************************/
 export async function fetchCreateStatus(BASE, item, token) {
