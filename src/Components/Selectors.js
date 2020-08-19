@@ -32,15 +32,14 @@ export const selectProjectMembers = createSelector(
     reducer => reducer.currentProject.members
 )
 
-//TODO debug
 export const selectMemberNames = createSelector(
     selectProjectMembers,
     selectUserReducer,
     (members, userReducer) => {
         const memberNames = members.map(each => {
-            if (userReducer.user._id === each) { return userReducer.user.name }
+            if (userReducer.currentUser._id === each) { return userReducer.currentUser.name }
             else {
-                return userReducer.otherUsers.find(user => user._id === each)
+                return userReducer.users.find(user => user._id === each)
             }
         })
         return memberNames
@@ -54,15 +53,15 @@ export const selectCurrentProjectName = createSelector(
 
 export const selectCurrentUser = createSelector(
     selectUserReducer,
-    reducer => reducer.user._id
+    reducer => reducer.currentUser._id
 )
 
 export const selectUserById = (id) => createSelector(
     selectUserReducer,
     selectCurrentUser,
     (reducer, currentUserId) => {
-        if (currentUserId === id) { return reducer.user }
-        else { return reducer.otherUsers.find(user => user._id === id) }
+        if (currentUserId === id) { return reducer.currentUser }
+        else { return reducer.users.find(user => user._id === id) }
     }
 )
 

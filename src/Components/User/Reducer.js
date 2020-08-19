@@ -13,9 +13,8 @@ import {
 const UserReducer = (state = {
 	loading: false,
 	authenticated: false,
-	id: "",
-	user: { _id: "testUserId", name: "userName", email: "test email" },
-	otherUsers: []
+	currentUser: { _id: "testUserId" },
+	users: [{ _id: "testUserId", name: "userName", email: "test email" }]
 }, action) => {
 	let newState
 	switch (action.type) {
@@ -23,27 +22,27 @@ const UserReducer = (state = {
 			newState = Object.assign({}, state, { loading: true })
 			return newState
 		case LOGIN_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data })
+			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data })
 		case SIGNUP_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data })
+			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data })
 		case LOGOUT_SUCCESS_USER:
 			return Object.assign({}, state, {
-				loading: false, authenticated: false, id: "", user: {}
+				loading: false, authenticated: false, id: "", currentUser: {}
 			})
 		case UPDATE_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, user: action.data.user })
+			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data.user })
 		case UPDATE_USER_EMAIL:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			newState.user.email = action.email
+			newState.currentUser.email = action.email
 			return newState
 		case UPDATE_USER_PASSWORD:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			newState.user.salt = action.salt
-			newState.user.hash = action.hash
+			newState.currentUser.salt = action.salt
+			newState.currentUser.hash = action.hash
 			return newState
 		case ADD_OTHER_USERS:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			newState.otherUsers.concat(action.data)
+			newState.users.concat(action.data)
 			return newState
 		case ERROR_USER:
 			return Object.assign({}, state, { loading: false, authenticated: false })

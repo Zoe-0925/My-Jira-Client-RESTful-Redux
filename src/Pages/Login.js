@@ -1,12 +1,15 @@
 import React from 'react'
 import history from "../history"
-import {isLoggedIn} from "../ViewComponents/Credential/Auth.service"
+import { isLoggedIn } from "../ViewComponents/Credential/Auth.service"
 import LoginController from "../ViewComponents/Credential/Login"
 
 export default function Login() {
-    if (isLoggedIn()){
+    //const authenticated = useSelector(state => state.state)
+
+
+    if (isLoggedIn()) {
         history.push("/projects")
-      }
+    }
 
     return (
         <div className="Login-Page">

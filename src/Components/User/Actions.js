@@ -71,6 +71,7 @@ export function dispatchAddOtherUsers(userList) {
 }
 
 /******************* Thunk Actions  *****************************/
+/**
 export const manualLogin = (data, successPath) => // path to redirect to upon successful log in
     async  dispatch => {
         dispatch({ type: LOADING_USER })
@@ -91,6 +92,7 @@ export const manualLogin = (data, successPath) => // path to redirect to upon su
             console.log('Error', err);
         }
     }
+    */
 
 export const manualLogout = (data) => async  dispatch => {
     dispatch({ type: LOADING_USER })

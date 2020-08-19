@@ -9,13 +9,10 @@ export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
 export const APPEND_SUCCESS_CURRENT_PROJECT = "APPEND_SUCCESS_CURRENT_PROJECT"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
+export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
-export const GET_PROJECT_BY_ID = "GET_PROJECT_BY_ID"
-export const GET_USERS_PROJECT = "GET_USERS_PROJECT"
-export const UPDATE_PROJECT = "UPDATE_PROJECT"
-export const DELETE_PROJECT = "UPDATE_PROJECT"
-export const LEAVE_PROJECT = "LEAVE_PROJECT"
+export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
 
 
 /***************** Actions  ***********************/
@@ -84,9 +81,10 @@ export const createProject = (data) => async  dispatch => {
 }
 
 //Get all projects of the user
-export const getAllProjects = (userId) => async  dispatch => {
+export const getAllProjects = () => async  (dispatch, getState) => {
     dispatch({ type: LOADING_PROJECT })
     try {
+        const userId = getState().UserReducer.user._id
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchAllProjects(process.env.BASE, userId, token))
         if (response.data.success) {

@@ -40,7 +40,6 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "socket.io-client": "^2.3.0",
     "uuid": "^8.3.0",
     "yup": "^0.29.3"
   },
@@ -64,5 +63,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0"
+  },
+  "transpile": "babel src/index.js --out-file src/index-transpiled.js"
 }

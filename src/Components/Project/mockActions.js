@@ -5,16 +5,13 @@ export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
+export const APPEND_SUCCESS_CURRENT_PROJECT = "APPEND_SUCCESS_CURRENT_PROJECT"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
-
-
+export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 
 export const CREATE_PROJECT = "CREATE_PROJECT"
-export const GET_PROJECT_BY_ID = "GET_PROJECT_BY_ID"
-export const GET_USERS_PROJECT = "GET_USERS_PROJECT"
-export const UPDATE_PROJECT = "UPDATE_PROJECT"
-export const DELETE_PROJECT = "UPDATE_PROJECT"
-export const LEAVE_PROJECT = "LEAVE_PROJECT"
+export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
+
 
 
 /***************** Actions  ***********************/
@@ -67,7 +64,7 @@ const mockProject = {
 }
 
 /*****************  Thunk Actions  ****************/
-export function createProject(id) {
+export function createProject(data) {
     return dispatch => {
         dispatch({ type: LOADING_PROJECT })
         data._id = uuidv4()
@@ -76,14 +73,13 @@ export function createProject(id) {
 }
 
 //Get all projects of the user
-export function getAllProjects(userId) {
+export function getAllProjects() {
     return dispatch => {
         dispatch({ type: LOADING_PROJECT })
         dispatch(appendSuccessfulProjects([mockProject]))
 
     }
 }
-
 
 export function getASingleProject(id) {
     return dispatch => {
@@ -95,7 +91,7 @@ export function getASingleProject(id) {
 export function updateProject(id, update) {
     return dispatch => {
         dispatch({ type: LOADING_PROJECT })
-        dispatch(updateSuccessfulProject(mockProject))
+        dispatch(updateSuccessfulProject(update))
     }
 }
 
