@@ -44,6 +44,7 @@ const UserReducer = (state = {
 		case ADD_OTHER_USERS:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
 			newState.otherUsers.concat(action.data)
+			return newState
 		case ERROR_USER:
 			return Object.assign({}, state, { loading: false, authenticated: false })
 		default:

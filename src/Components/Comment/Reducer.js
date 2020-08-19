@@ -27,7 +27,7 @@ export default function CommentReducer(state = initialState, action) {
             return newState
         case DELETE_SUCCESS_COMMENT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.comments = newState.comments.filter(item => item._id === action.id)
+            newState.comments = newState.comments.filter(item => item._id !== action.id)
             return newState
         case APPEND_SUCCESS_COMMENTS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })

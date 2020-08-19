@@ -1,4 +1,4 @@
-import { parseJSON, isValid, isBefore, addDays } from 'date-fns'
+import { parseISO, isValid, isBefore, addDays } from 'date-fns'
 
 export function setLocalStorage(token) {
     //expiresIn is "1 day"
@@ -13,8 +13,7 @@ export function logout() {
 }
 
 export function isLoggedIn() {
-    const expires_at = getExpiration()
-    if (expires_at === undefined || !isBefore(getExpiration(), new Date())) { return false }
+    if (getExpiration() === "" || isBefore(getExpiration(), new Date())) { return false }
     return true
 }
 
@@ -23,15 +22,9 @@ export function isLoggedOut() {
 }
 
 export function getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
-    if (expiration === null || !isValid(new Date(expiration))) { return "" }
-    return new Date(expiration)
-}
-
-export function getExpirationOld() {
-    const expiration = localStorage.getItem("expires_at");
-    const expiresAt = JSON.parse(expiration);
-    return format(expiresAt, 'MM/dd/yyyy-H:mm:ss');
+    const expiration = parseISO(localStorage.getItem("expires_at"))
+    if (!isValid(expiration)) { return "" }
+    return expiration
 }
 
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import history from "../history"
 import {isLoggedIn} from "../ViewComponents/Credential/Auth.service"
 import LoginController from "../ViewComponents/Credential/Login"
 

@@ -13,8 +13,7 @@ import {
 } from "../../Components/Selectors"
 import { v4 as uuidv4 } from 'uuid'
 import IssueModal from "../Issues/IssueModal"
-import {getUserByIds} from "../../Components/User/mockActions"
-import { useCreateStatus } from "./CustomHooks"
+import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
 
 export const IssueCard = ({ task, openTaskDetail }) => {
     const [taskState, setTask] = useState(task)
@@ -63,22 +62,13 @@ export const draggable = (task, index, openTaskDetail) => <Draggable
         </div>)}
 </Draggable>
 
-export const filter = (listOfIssues, noneFilter, filterByEpic, filterByAssignee, filterByLabel) => {
-    return noneFilter ? listOfIssues
-        : filterByEpic !== "" ? listOfIssues.filter(item => { item.parent !== filterByEpic })
-            : filterByLabel !== "" ? listOfIssues.filter(item => { item.label !== filterByLabel })
-                : filterByAssignee !== "" ? listOfIssues.filter(item => { item.filterByAssignee !== filterByAssignee }) : []
-}
-
 export default function DragAndDrop() {
     const columnOrder = useSelector(selectStatusOrder) // droppableId = the index of each column in order
     const status = useSelector(selectStatus)
     const columns = columnOrder.map(each => status.get(each))
     const issues = useSelector(selectIssues)
-    const [openModal, setOpenModal] = useState(false)
     //  const { createNewColumn } = useCreateStatus(initialStatus._id)
     const [showNewEditable, setShowEditable] = useState(false)
-    const [issueDetailOpened, setIssue] = useState("")
     const noneFilter = useSelector(selectNoneFilter)
     const filterByEpic = useSelector(selectFilterByEpic)
     const filterByAssignee = useSelector(selectFilterByAssignee)
@@ -89,27 +79,29 @@ export default function DragAndDrop() {
     const groupBy = useSelector(selectGroupBy)
     //TODO
 
-
     const emptyStatus = {
         name: "",
         project: "",
         issues: []
     }
 
-    const dispatch = useDispatch()
-
-
-    const openTaskDetail = (task) => {
-        setOpenModal(true)
-        setIssue(task)
-        if(task.assignee===task._id && task.reportee===task._id){return}
-        dispatch(getUserByIds([task.assignee, task.reportee]))
-    }
-
+    const { openModal, setOpenModal, issueDetailOpened, openTaskDetail } = useIssueDetailModal()
     //Add column:
     // dispatch(createSuccessfulStatus(statusName))
     //Delete column: 
     // dispatch(deleteSuccessfulStatus(statusId))
+
+    /**
+     *     {filterByEpic !== "" && el.issues.filter(item => { item.parent === filterByEpic }).map((issueId, index) =>
+                                    draggable(issues.get(issueId), index, openTaskDetail)
+                                )}
+                                {filterByLabel !== "" && el.issues.filter(item => { item.label === filterByLabel }).map((issueId, index) =>
+                                    draggable(issues.get(issueId), index, openTaskDetail)
+                                )}
+                                {filterByAssignee && el.issues.filter(item => { item.filterByAssignee === filterByAssignee }).map((issueId, index) =>
+                                    draggable(issues.get(issueId), index, openTaskDetail)
+                                )}
+     */
 
     return (
         <div className="epic-list">
@@ -122,9 +114,9 @@ export default function DragAndDrop() {
                             {...provided.droppableProps}
                         >
                             <Column initialStatus={el}>
-                                {filter(el.issues, noneFilter, filterByEpic, filterByAssignee, filterByLabel).map((issueId, index) =>
-                                    draggable(issues.get(issueId), index, openTaskDetail)
-                                )}
+                                {noneFilter && el.issues.map((issueId, index) =>{
+                                   return draggable(issues.get(issueId), index, openTaskDetail)
+                                })}
                             </Column>
                             {provided.placeholder}
                         </div>
@@ -135,7 +127,7 @@ export default function DragAndDrop() {
                 {!showNewEditable && <AddBoxRoundedIcon />}
                 {showNewEditable && <Column initialStatus={emptyStatus} />}
             </div>
-            {openModal && <IssueModal open={openModal} closeModal={() => setOpenModal(true)} issue={issueDetailOpened} />}
+            {openModal && <IssueModal open={openModal} closeModal={() => setOpenModal(false)} issue={issueDetailOpened} />}
         </div>
     );
 }

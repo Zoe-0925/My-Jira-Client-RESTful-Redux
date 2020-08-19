@@ -8,7 +8,7 @@ export const SingleSelect = ({ onChange, onBlur, defaultValue, options, type }) 
         onChange(type, value);
     };
 
-    const handleBlur = () => {
+    const handleBlur = (value) => {
         if (value === defaultValue) { return }
         // this is going to call setFieldTouched and manually update touched.topcis
         onBlur(type, true);

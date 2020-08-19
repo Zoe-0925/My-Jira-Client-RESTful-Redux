@@ -1,7 +1,7 @@
 import {
     LOADING_ISSUE, CREATE_SUCCESS_ISSUE, CREATE_SUCCESS_EPIC, DELETE_SUCCESS_ISSUE,
     UPDATE_SUCCESS_ISSUE, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
-    APPEND_SUCCESS_CURRENT_ISSUE, APPEND_SUCCESS_ISSUES_PARENT, APPEND_SUCCESS_ISSUES_CHILDREN,
+    APPEND_SUCCESS_ISSUES_PARENT, APPEND_SUCCESS_ISSUES_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG
 } from "./Actions"
 import { DELETE_SUCCESS_STATUS } from "../Status/Actions"
@@ -9,7 +9,7 @@ import { DELETE_SUCCESS_STATUS } from "../Status/Actions"
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
     _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
-    issueType: "task", flag: false, reportee: "testUserId", project:"test id"
+    issueType: "task", flag: false, reportee: "testUserId", project: "test id"
 })
 
 export default function IssueReducer(state = {
@@ -36,7 +36,7 @@ export default function IssueReducer(state = {
             return newState
         case DELETE_SUCCESS_EPIC:
             newState = { ...state, authenticated: true, loading: false }
-            newState.epics.filter(item => item._id = action.id)
+            newState.epics.filter(item => item._id !== action.id)
             return newState
         case UPDATE_SUCCESS_ISSUE:
             newState = { ...state, authenticated: true, loading: false }
@@ -45,13 +45,8 @@ export default function IssueReducer(state = {
         case DELETE_SUCCESS_STATUS:
             //accpets a list of issueIds (issues) and a new status id (id)
             newState = { ...state, authenticated: true, loading: false }
-
-            //TODO fix
-            action.issues.map(each => {
-                let issue = newState.issues.get(each)
-                issue.status = action.id
-                newState.issues.set(each, issue)
-            })
+            let issuesToUpdate = newState.issues.filter(item => !action.issues.includes(item._id))
+            issuesToUpdate.map(each => each.status = action.id)
             return newState
         case UPDATE_SUCCESS_EPIC:
             newState = { ...state, authenticated: true, loading: false }
@@ -63,8 +58,6 @@ export default function IssueReducer(state = {
             const change = newState.issues.get(action.id)
             newState.splice(newState.indexOf(change), 1, action.data);
             return newState
-        case APPEND_SUCCESS_CURRENT_ISSUE:
-            return state;
         case APPEND_SUCCESS_ISSUES_PARENT:
             return state;
         case APPEND_SUCCESS_ISSUES_CHILDREN:
@@ -74,6 +67,7 @@ export default function IssueReducer(state = {
             let issue = newState.issues.get(action.id)
             console.log("action.id", action.id, "issue", issue)
             issue.flag = !issue.flag
+            return newState;
         case ERROR_ISSUE:
             return { ...state, authenticated: false, loading: false }
         default:

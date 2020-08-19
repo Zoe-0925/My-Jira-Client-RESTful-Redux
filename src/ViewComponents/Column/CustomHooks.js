@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import { useSimpleState } from "../Shared/CustomHooks"
 // TODO swap
 import { createIssue } from "../../Components/Issue/mockActions"
 //import {createIssue} from "../../Components/Issue/actions"
 import { createStatus } from "../../Components/Status/mockActions"
 //TODO swap
 //import {createStatus} from "../../Components/Status/Actions"
+import { getUserByIds } from "../../Components/User/mockActions"
 import { selectCurrentProject, selectCurrentUser } from "../../Components/Selectors"
 
 export function useCreateIssue(statusId) {
@@ -49,13 +49,13 @@ export function useCreateStatus(statusId) {
         dispatch(createStatus(status))
     }
 
-    return { createNewColumn}
+    return { createNewColumn }
 }
 
 export function useEditText(value) {
     const [state, setState] = useState({
-        value: value!==undefined?value:"",
-        backup: value!==undefined?value:""
+        value: value !== undefined ? value : "",
+        backup: value !== undefined ? value : ""
     })
     const [edit, setEdit] = useState(false)
 
@@ -73,4 +73,21 @@ export function useTaskController() {
     //Handle issue modal state
 
     return { openTaskDetail }
+}
+
+export const useIssueDetailModal = () => {
+    const dispatch = useDispatch()
+
+    const [openModal, setOpenModal] = useState(false)
+    const [issueDetailOpened, setIssue] = useState("")
+    
+    const openTaskDetail = (task) => {
+        setOpenModal(true)
+        setIssue(task)
+        if (task.assignee === task._id && task.reportee === task._id) { return }
+        dispatch(getUserByIds([task.assignee, task.reportee]))
+    }
+
+    return { openModal, setOpenModal, issueDetailOpened,  openTaskDetail}
+
 }

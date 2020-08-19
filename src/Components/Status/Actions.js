@@ -29,7 +29,7 @@ export const deleteSuccessfulStatus = (id, issues) => {
     return {
         type: DELETE_SUCCESS_STATUS,
         id: id,
-        issues: issues
+        issues: issues //issue ids
     }
 }
 

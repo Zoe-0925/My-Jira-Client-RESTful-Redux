@@ -17,13 +17,17 @@ export default function ProjectReducer(state = {
         lead: "test lead",
         image: "test image",
         default_assignee: "test default_assignee",
-        members:[ "testUserId"]
+        members: ["testUserId"]
     }
 }, action) {
     let newState;
     switch (action.type) {
         case LOADING_PROJECT:
             return Object.assign({}, state, { loading: true, errorMessage: "" })
+        case APPEND_SUCCESS_CURRENT_PROJECT:
+            newState = Object.assign({}, state, { loading: false, authenticated: true })
+            newState.currentProject = action.data
+            return newState
         case CREATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects.push(action.data)
