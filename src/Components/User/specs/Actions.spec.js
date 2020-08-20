@@ -6,6 +6,7 @@ import {
 
 
 } from '../Actions';
+import mockAxios from 'jest-mock-axios';
 import configureStore from 'redux-mock-store'
 import { post, put, jwtConfig } from "../../Util"
 const axios = require('axios');
@@ -89,9 +90,48 @@ describe.skip("dispatchAddOtherUsers(userList)", () => {
     })
 })
 
+describe('async actions', () => {
+    let BASE = "http://localhost:8080/api"
+    let token = "test token"
 
-jest.mock('axios');
-jest.mock('post');
+    afterEach(() => {
+        mockAxios.reset();
+    })
+
+    it('fetchSignUp(BASE, item, token) should get the user id from the server', () => {
+        let catchFn = jest.fn(),
+            thenFn = jest.fn();
+
+        let item = {
+            name: "test name",
+            email: "test@email.com",
+            hash: "test hash",
+            salt: "test dalt",
+        }
+
+        fetchSignUp(BASE, item, token)
+            .then(thenFn)
+            .catch(catchFn);
+
+        expect(mockAxios.post).toHaveBeenCalledWith({
+            method: 'post',
+            url: "http://localhost:8080/api/users/signup",
+            data: item,
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+
+        let responseObj = { success: true, data: 'test id' };
+        mockAxios.mockResponse(responseObj);
+
+        expect(thenFn).toHaveBeenCalledWith('test id');
+        expect(catchFn).not.toHaveBeenCalled();
+    })
+})
+
+
+
 
 describe.skip("signUp", () => {
     it('validates the inputs and ensures the correct syntax of the email and password', () => {
@@ -145,8 +185,11 @@ describe("logout", () => {
 })
 
 //TODO Bug
-describe.skip("api callls", () => {
-    it("fetchSignUp should get data from the server", async () => {
+describe("api callls", () => {
+
+
+
+    it("fetchSignUp(BASE, item, token) should get the user id from the server", async () => {
         let BASE = "http://localhost:8080/api"
         let item = {
             name: "test name",
@@ -155,6 +198,26 @@ describe.skip("api callls", () => {
             salt: "test dalt",
         }
         let token = "test token"
+
+        let catchFn = jest.fn(),
+            thenFn = jest.fn();
+
+        // using the component, which should make a server response
+        let clientMessage = 'client is saying hello!';
+
+        UppercaseProxy(clientMessage)
+            .then(thenFn)
+            .catch(catchFn);
+
+        // since `post` method is a spy, we can check if the server request was correct
+        // a) the correct method was used (post)
+        // b) went to the correct web service URL ('/web-service-url/')
+        // c) if the payload was correct ('client is saying hello!')
+        expect(mockAxios.post).toHaveBeenCalledWith('/web-service-url/', { data: clientMessage });
+
+        // simulating a server response
+        let responseObj = { data: 'server says hello!' };
+        mockAxios.mockResponse(responseObj);
 
 
         axios.post.mockResolvedValue({
@@ -203,3 +266,53 @@ describe.skip("api callls", () => {
 
     })
 })
+
+export function fetchSignUp(BASE, item, token) {
+    return post('/users/signup', BASE, item, token)
+}
+
+export function fetchLogin(BASE, item, token) {
+    return post('/users/login', BASE, item, token)
+}
+
+export function fetchLogout(BASE, item) {
+    return post('/users/logout', BASE, item, "")
+}
+
+//TODO for testing purpose
+export function createUser(BASE, item) {
+    return post('/users/', BASE, item, "")
+}
+
+export function fetchUserById(BASE, id, token) {//fetch all USERs of a user
+    return axios.get(BASE + '/users/' + id, jwtConfig(token));
+}
+
+export function fetchUserByIdList(BASE, idList, token) {//fetch all USERs of a user
+    return post('/users/multiple', BASE, idList, token)
+}
+
+export function fetchUserByEmail(BASE, email, token) {//fetch all USERs of a user
+    return axios.get(BASE + '/users/email' + email, jwtConfig(token));
+}
+
+// @return: {result:boolean}
+export function fetchCheckEmail(BASE, email, token) {//fetch all USERs of a user
+    return post('/users/checkEmail', BASE, email, token)
+}
+
+export function fetchUpdateUserInfo(BASE, id, update, token) {//fetch all USERs of a user
+    return put('/users/info/' + id, BASE, update, token)
+}
+
+export function fetchUpdateEmail(BASE, id, update, token) {//fetch all USERs of a user
+    return put('/users/email/' + id, BASE, update, token)
+}
+
+export function fetchUpdatePassword(BASE, id, update, token) {//fetch all USERs of a user
+    return put('/users/password' + id, BASE, update, token)
+}
+
+export function deleteUser(BASE, id, token) {//fetch all USERs of a user
+    return axios.delete(BASE + '/users/' + id, jwtConfig(token));
+}
