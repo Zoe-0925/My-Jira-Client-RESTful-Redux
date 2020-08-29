@@ -1,6 +1,137 @@
 import mockAxios from 'jest-mock-axios';
-import { fetchIssueById } from "../Actions"
+import {
+    fetchIssueById, appendSuccessfulIssues, appendSuccessfulEpics, appendCurrentIssue,
+    createSuccessfulIssue, createSuccessfulEpic, deleteSuccessfulIssue, deleteSuccessfulEpic,
+    updateSuccessfulIssue, updateIssueGroup, toggleSuccessfulFlag, dispatchError
+} from "../Actions"
 import { jwtConfig } from "../../Util"
+
+const data = {}
+const id = "test id"
+
+describe.skip("appendSuccessfulIssues(data)", () => {
+    it("Creates an action", () => {
+        const result = appendSuccessfulIssues(data)
+        expect(result).toEqual({
+            type: "APPEND_SUCCESS_ISSUES",
+            data: data
+        })
+    })
+})
+
+describe.skip("appendSuccessfulEpics(data)", () => {
+    it("Creates an action", () => {
+        const result = appendSuccessfulEpics(data)
+        expect(result).toEqual({
+            type: "APPEND_SUCCESS_EPICS",
+            data: data
+        })
+    })
+})
+
+describe.skip("appendCurrentIssue(data)", () => {
+    it("Creates an action", () => {
+        const result = appendCurrentIssue(data)
+        expect(result).toEqual({
+            type: "APPEND_SUCCESS_CURRENT_ISSUE",
+            data: data
+        })
+    })
+})
+
+describe.skip("createSuccessfulIssue(data)", () => {
+    it("Creates an action", () => {
+        const result = createSuccessfulIssue(data)
+        expect(result).toEqual({
+            type: "CREATE_SUCCESS_ISSUE",
+            data: data
+        })
+    })
+})
+
+describe.skip("createSuccessfulEpic(data)", () => {
+    it("Creates an action", () => {
+        const result = createSuccessfulEpic(data)
+        expect(result).toEqual({
+            type: "CREATE_SUCCESS_EPIC",
+            data: data
+        })
+    })
+})
+
+describe.skip("deleteSuccessfulIssue(id)", () => {
+    it("Creates an action", () => {
+        const result = deleteSuccessfulIssue(id)
+        expect(result).toEqual({
+            type: "DELETE_SUCCESS_ISSUE",
+            id: id
+        })
+    })
+})
+
+
+describe.skip("deleteSuccessfulEpic(id)", () => {
+    it("Creates an action", () => {
+        const result = deleteSuccessfulEpic(id)
+        expect(result).toEqual({
+            type: "DELETE_SUCCESS_EPIC",
+            id: id
+        })
+    })
+})
+
+describe.skip("updateSuccessfulIssue(data)", () => {
+    it("Creates an action", () => {
+        const result = updateSuccessfulIssue(data)
+        expect(result).toEqual({
+            type: "UPDATE_SUCCESS_ISSUE",
+            data: data
+        })
+    })
+})
+
+describe.skip("updateSuccessfulEpic(data)", () => {
+    it("Creates an action", () => {
+        const result = updateSuccessfulEpic(data)
+        expect(result).toEqual({
+            type: "UPDATE_SUCCESS_EPIC",
+            data: data
+        })
+    })
+})
+
+describe.skip("updateIssueGroup(id, data) ", () => {
+    it("Creates an action", () => {
+        const result = updateIssueGroup(id, data) 
+        expect(result).toEqual({
+            type: "UPDATE_ISSUE_GROUP",
+            id: id,
+            data: data
+        })
+    })
+})
+
+describe.skip("toggleSuccessfulFlag(id) ", () => {
+    it("Creates an action", () => {
+        const result = toggleSuccessfulFlag(id)
+        expect(result).toEqual({
+            type: "TOGGLE_FLAG",
+            id: id
+        })
+    })
+})
+
+describe.skip("dispatchError() ", () => {
+    it("Creates an action", () => {
+        const result = dispatchError()
+        expect(result).toEqual({
+            type: "ERROR_ISSUE"
+        })
+    })
+})
+
+
+
 
 afterEach(() => {
     // cleaning up the mess left behind the previous test

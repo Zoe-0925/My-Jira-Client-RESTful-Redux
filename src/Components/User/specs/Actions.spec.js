@@ -6,6 +6,7 @@ import {
 
 
 } from '../Actions';
+import thunk from 'redux-thunk'
 import mockAxios from 'jest-mock-axios';
 import configureStore from 'redux-mock-store'
 import { post, put, jwtConfig } from "../../Util"
@@ -90,6 +91,7 @@ describe.skip("dispatchAddOtherUsers(userList)", () => {
     })
 })
 
+//TODO bug...
 describe('async actions', () => {
     let BASE = "http://localhost:8080/api"
     let token = "test token"
@@ -203,116 +205,8 @@ describe("api callls", () => {
             thenFn = jest.fn();
 
         // using the component, which should make a server response
-        let clientMessage = 'client is saying hello!';
-
-        UppercaseProxy(clientMessage)
-            .then(thenFn)
-            .catch(catchFn);
-
-        // since `post` method is a spy, we can check if the server request was correct
-        // a) the correct method was used (post)
-        // b) went to the correct web service URL ('/web-service-url/')
-        // c) if the payload was correct ('client is saying hello!')
-        expect(mockAxios.post).toHaveBeenCalledWith('/web-service-url/', { data: clientMessage });
-
-        // simulating a server response
-        let responseObj = { data: 'server says hello!' };
-        mockAxios.mockResponse(responseObj);
-
-
-        axios.post.mockResolvedValue({
-            data: [
-                {
-                    userId: 1,
-                    id: 1,
-                    title: 'My First Album'
-                },
-                {
-                    userId: 1,
-                    id: 2,
-                    title: 'Album: The Sequel'
-                }
-            ]
-        });
-        post.mockResolvedValue({
-            data: [
-                {
-                    userId: 1,
-                    id: 1,
-                    title: 'My First Album'
-                },
-                {
-                    userId: 1,
-                    id: 2,
-                    title: 'Album: The Sequel'
-                }
-            ]
-        });
-        const response = await fetchSignUp('/users/signup', BASE, item, token).data
-        expect(response).toEqual({
-            data: [
-                {
-                    userId: 1,
-                    id: 1,
-                    title: 'My First Album'
-                },
-                {
-                    userId: 1,
-                    id: 2,
-                    title: 'Album: The Sequel'
-                }
-            ]
-        });
+       
 
     })
 })
 
-export function fetchSignUp(BASE, item, token) {
-    return post('/users/signup', BASE, item, token)
-}
-
-export function fetchLogin(BASE, item, token) {
-    return post('/users/login', BASE, item, token)
-}
-
-export function fetchLogout(BASE, item) {
-    return post('/users/logout', BASE, item, "")
-}
-
-//TODO for testing purpose
-export function createUser(BASE, item) {
-    return post('/users/', BASE, item, "")
-}
-
-export function fetchUserById(BASE, id, token) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/' + id, jwtConfig(token));
-}
-
-export function fetchUserByIdList(BASE, idList, token) {//fetch all USERs of a user
-    return post('/users/multiple', BASE, idList, token)
-}
-
-export function fetchUserByEmail(BASE, email, token) {//fetch all USERs of a user
-    return axios.get(BASE + '/users/email' + email, jwtConfig(token));
-}
-
-// @return: {result:boolean}
-export function fetchCheckEmail(BASE, email, token) {//fetch all USERs of a user
-    return post('/users/checkEmail', BASE, email, token)
-}
-
-export function fetchUpdateUserInfo(BASE, id, update, token) {//fetch all USERs of a user
-    return put('/users/info/' + id, BASE, update, token)
-}
-
-export function fetchUpdateEmail(BASE, id, update, token) {//fetch all USERs of a user
-    return put('/users/email/' + id, BASE, update, token)
-}
-
-export function fetchUpdatePassword(BASE, id, update, token) {//fetch all USERs of a user
-    return put('/users/password' + id, BASE, update, token)
-}
-
-export function deleteUser(BASE, id, token) {//fetch all USERs of a user
-    return axios.delete(BASE + '/users/' + id, jwtConfig(token));
-}

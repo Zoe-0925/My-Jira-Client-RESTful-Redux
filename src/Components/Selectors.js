@@ -75,6 +75,8 @@ export const selectEpics = createSelector(
     reducer => reducer.epics
 )
 
+//TODO: This should select a wrong key/value array
+// Check usage and maybe use selectIssueA
 export const selectIssues = createSelector(
     selectIssueReducer,
     issueReducer => issueReducer.issues

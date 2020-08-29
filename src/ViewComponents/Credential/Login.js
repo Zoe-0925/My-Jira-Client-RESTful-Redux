@@ -3,14 +3,13 @@ import { Form, withFormik } from 'formik';
 import {
     Button,
     Divider,
-    Link
 } from '@material-ui/core';
+import {Link} from 'react-router-dom'
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
 //TODO swap
 //import { manualLogin } from "../../Components/User/Actions"
 import { manualLogin } from "../../Components/User/mockActions"
-import { genPassword } from "../../Components/Util"
 
 const LoginForm = props => {
 
@@ -20,28 +19,31 @@ const LoginForm = props => {
         handleSubmit,
     } = props
 
-    return <div className="form">
-        <Form onSubmit={handleSubmit}>
-            <p className="title">Log in to your account</p>
-            <EmailField handleChange={handleChange} value={values.email} />
-            <PasswordField placeholder="Enter Password"
-                handleChange={handleChange} value={values.password} />
-            <Button
-                className="row main-submit-btn"
-                onClick={handleSubmit}
-            >Log in</Button>
-            <Divider />
-            <Button
-                className="row submit-btn"
-                onClick={handleSubmit}
-            >Log in with Google</Button>
-            <Button
-                className="row submit-btn"
-                onClick={handleSubmit}
-            >Log in with Git hub</Button>
-            <Divider />
-            <Link href="/signup" className="link"><p className="link">Sign up for an account</p></Link>
-        </Form>
+    return <div className="login-wrapper">
+        <div className="form">
+            <Form onSubmit={handleSubmit}>
+                <image className="logo" src="../../../images/logo.png" alt="logo" />
+                <p className="title">Log in to your account</p>
+                <EmailField handleChange={handleChange} value={values.email} />
+                <PasswordField placeholder="Enter Password"
+                    handleChange={handleChange} value={values.password} />
+                <Button
+                    className="row main-submit-btn"
+                    onClick={handleSubmit}
+                >Log in</Button>
+                <Divider />
+                <Button
+                    className="row submit-btn"
+                    onClick={handleSubmit}
+                >Log in with Google</Button>
+                <Button
+                    className="row submit-btn"
+                    onClick={handleSubmit}
+                >Log in with Git hub</Button>
+                <Divider />
+                <Link href="/signup" className="link"><p className="link">Sign up for an account</p></Link>
+            </Form>
+        </div>
     </div>
 }
 
@@ -82,11 +84,9 @@ const LoginController = () => {
     const dispatch = useDispatch()
 
     const handleLogin = (values) => {
-        const { salt, hash } = genPassword(values.password)
         dispatch(manualLogin({
             email: values.email,
-            salt: salt,
-            hash: hash
+            password: values.password
         }, "/projects"))
     }
 

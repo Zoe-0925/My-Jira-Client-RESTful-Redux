@@ -82,7 +82,7 @@ export function updateSuccessfulIssue(data) {
     }
 }
 
-export function updateSuccessfulEpics(data) {
+export function updateSuccessfulEpic(data) {
     return {
         type: UPDATE_SUCCESS_EPIC,
         data: data
