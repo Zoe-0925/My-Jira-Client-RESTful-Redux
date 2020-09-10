@@ -1,7 +1,7 @@
 import {
     appendSuccessfulComments, createSuccessfulComment, deleteSuccessfulComment,
     updateSuccessfulComment, dispatchError
-} from "../Actions"
+} from "../CommentActions"
 
 const data = {
 

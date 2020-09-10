@@ -5,7 +5,7 @@ import {
     UPDATE_SUCCESS_COMMENT,
     LOADING_COMMENT,
     ERROR_COMMENT
-} from "./Actions"
+} from "../Actions/CommentActions"
 
 //TODO intial state should be from the local storage???
 const initialState = {
