@@ -15,29 +15,27 @@ import './App.scss';
 
 const App = ({ history, context }) => {
 
-  useEffect(() => {
-    if (isLoggedOut()) {
-      history.push("/")
-    }
-  }, [])
+  //useEffect(() => {
+  //  if (isLoggedOut()) {
+  //    history.push("/login")
+   // }
+  //}, [])
 
   return (
     <div className="App">
       <ConnectedRouter history={history} context={context}>
         <Router history={history}>
           <Switch>
-            <Route path="/" exact component={Signup} />
+            <Route path="/" exact component={Board} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/projects" exact component={Board} />
-            <Route path="/project/:id" exact component={App} />
-            <Route path="/project/:id/roadmap" exact component={App} />
-            <Route path="/project/:id/detail" exact component={App} />
+            <Route path="/project/detail" exact component={App} />
             <Route path="/ManageCategory" exact component={App} />
-            <Route path="/projects/:projectName/roadmap" component={App} />
-            <Route path="/projects/:projectName/board" exact component={Board} />
-            <Route path="/projects/:projectName/settings/details" exact component={ProjectDetail} />
-            <Route path="/projects/:projectName/settings/issuetypes/:issueType" exact component={App} />
+            <Route path="/projects/roadmap" component={App} />
+            <Route path="/projects/board" exact component={Board} />
+            <Route path="/projects/settings/details" exact component={ProjectDetail} />
+            <Route path="/projects/settings/issuetypes/:issueType" exact component={App} />
           </Switch>
         </Router>
       </ConnectedRouter>

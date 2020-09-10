@@ -22,7 +22,7 @@ function ColumnTitle({ status }) {
     return (
         <div className="flex-row epic-title" id={status !== undefined ? status.id : ""}>
             <EditableText name="epic-summary" className="epic-summary"
-                edit={edit} text={state.value||status.name} setEdit={setEdit}>
+                edit={edit} text={state.value || status.name} setEdit={setEdit}>
                 <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
                     dispatch(updateSuccessfulStatus(state.value))
                 }} />

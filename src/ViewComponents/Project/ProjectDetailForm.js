@@ -16,12 +16,10 @@ import {
     Select,
 } from 'formik-material-ui';
 import { useDispatch, useSelector } from "react-redux"
-import { updateProject,deleteProject } from "../../Components/Project/Actions"
-import {selectCurrentProject} from "../../Components/Selectors"
+import { updateProject, deleteProject } from "../../Components/Project/Actions"
+import { selectCurrentProjectObject } from "../../Components/Selectors"
 
 const ProjectDetailForm = props => {
-    const category = []
-    const categoryItems = category.map(each => <MenuItem value={each}>{each}</MenuItem>)
 
     const {
         values,
@@ -30,6 +28,7 @@ const ProjectDetailForm = props => {
         project,
         removeProject
     } = props
+
 
     return <div className="project-detail-form">
         <div className="row">
@@ -76,19 +75,9 @@ const ProjectDetailForm = props => {
                     onChange={handleChange}
                     value={values.key}
                 />
-                <InputLabel className="row" id="category">Category</InputLabel>
-                <Field
-                    className="select full"
-                    component={Select}
-                    labelId="category" id="select" name="category"
-                    variant="outlined"
-                    onChange={handleChange}
-                    value={values.category}
-                >
-                    {categoryItems}
-                </Field>
                 <InputLabel className="row" id="default_assignee">Default Assignee</InputLabel>
                 <Field
+                    initialValues={{ default_assignee: project.default_assignee }}
                     className="select full"
                     component={Select}
                     labelId="default_assignee" id="default_assignee" name="default_assignee"
@@ -96,7 +85,8 @@ const ProjectDetailForm = props => {
                     onChange={handleChange}
                     value="Project Lead"
                 >
-                    {categoryItems}
+                    <MenuItem>Project Lead</MenuItem>
+                    <MenuItem>None</MenuItem>
                 </Field>
                 <Divider />
                 <Button
@@ -113,8 +103,7 @@ const ProjectDetail = withFormik({
     mapPropsToValues: ({ project }) => ({
         name: project.name,
         key: project.key,
-        category: project.category,
-        assignee: project.default_assignee
+        default_assignee: project.default_assignee
     }),
 
     // Custom sync validation
@@ -134,7 +123,7 @@ const ProjectDetail = withFormik({
 
 const ProjectDetailController = () => {
     const dispatch = useDispatch()
-    const currentProject = useSelector(state =>selectCurrentProject(state))
+    const currentProject = useSelector(selectCurrentProjectObject)
 
     const handleUpdate = values => {
         dispatch(updateProject(currentProject._id, values))

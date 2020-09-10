@@ -11,7 +11,15 @@ export default function ProjectReducer(state = {
     projects: [],
     errorMessage: "",
     currentProject: {
-        _id: "test id"
+        _id: "test id",
+        name:"test project name",
+        key:"test key",
+        lead:"testUserId",
+        members:["testUserId"],
+        image: "",
+        issues:[],
+        default_assignee: "Project Lead",
+        start_date:new Date() 
     }
 }, action) {
     let newState;

@@ -27,6 +27,11 @@ export const selectCurrentProject = createSelector(
     reducer => reducer.currentProject._id
 )
 
+export const selectCurrentProjectObject = createSelector(
+    selectProjectReducer,
+    reducer => reducer.currentProject
+)
+
 export const selectProjectMembers = createSelector(
     selectProjectReducer,
     reducer => reducer.currentProject.members

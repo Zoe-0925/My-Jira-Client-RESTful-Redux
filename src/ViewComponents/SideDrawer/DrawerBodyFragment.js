@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import { useSelector} from "react-redux"
-import {selectCurrentProjectName} from "../../Components/Selectors"
+import { useSelector } from "react-redux"
+import { selectCurrentProjectName } from "../../Components/Selectors"
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
+import history from "../../history"
 /**--------------Icons-------------- */
 import AllInboxIcon from '@material-ui/icons/AllInbox';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
@@ -16,25 +17,25 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
  * @param projectName: current project's name
  * @param CurentLocation: enum ("roadmap", "board", "detail")
  */
-export function Project({ currentLocation }) {
+export function DrawerBody({ currentLocation }) {
     const projectName = useSelector(selectCurrentProjectName)
-    
+
     return (
         <Fragment>
             <List>
-                <Link color={currentLocation !== "roadmap" ? "inherit" : "primary"} href={"/projects/" + projectName + "/roadmap"}>
+                <Link color={currentLocation !== "roadmap" ? "inherit" : "primary"} onClick={() => history.push("/projects/roadmap")}>
                     <ListItem button key="Roadmap" selected={currentLocation === "roadmap"}>
                         <ListItemIcon> <ClearAllIcon /></ListItemIcon>
                         <ListItemText primary="Roadmap" />
                     </ListItem>
                 </Link>
-                <Link color={currentLocation !== "board" ? "inherit" : "primary"} href={"/projects/" + projectName + "/board"}>
+                <Link color={currentLocation !== "board" ? "inherit" : "primary"} onClick={() => history.push("/projects/board")}>
                     <ListItem button key="Board" selected={currentLocation === "board"}>
                         <ListItemIcon>  <AssignmentIcon /></ListItemIcon>
                         <ListItemText primary="Board" />
                     </ListItem>
                 </Link>
-                <Link color={currentLocation !== "detail" ? "inherit" : "primary"} href={"/projects/" + projectName + "/settings/details"}>
+                <Link color={currentLocation !== "detail" ? "inherit" : "primary"} onClick={() => history.push("/projects/settings/details")}>
                     <ListItem button className="project-settings"
                         key="Project Details" selected={currentLocation === "detail"}>
                         <ListItemIcon>   <SettingsIcon /></ListItemIcon>

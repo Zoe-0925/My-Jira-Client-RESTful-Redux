@@ -5,7 +5,7 @@ import Modal from '@material-ui/core/Modal';
 export default function CustomModal({ open, closeModal, ...props }) {
     return (
         <Modal
-            className={"modal"}
+            className="modal"
             open={open}
             onClose={closeModal}
             aria-labelledby="modal-title"

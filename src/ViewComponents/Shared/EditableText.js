@@ -74,15 +74,14 @@ export function EditableText({ edit, text, setEdit, ...props }) {
 
     return (
         <Fragment>
-            {edit &&
+            {edit ?
                 <ListItem key={uuidv4()}>
                     {props.children}
-                </ListItem>}
-            {!edit && <ListItem button key={uuidv4()} onClick={() => {
-                setEdit(true)
-            }}>
-                {text}
-            </ListItem>
+                </ListItem> : <ListItem button key={uuidv4()} onClick={() => {
+                    setEdit(true)
+                }}>
+                    {text}
+                </ListItem>
             }
         </Fragment>
     )
