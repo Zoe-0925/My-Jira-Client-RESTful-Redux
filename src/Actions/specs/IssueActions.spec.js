@@ -3,8 +3,8 @@ import {
     fetchIssueById, appendSuccessfulIssues, appendSuccessfulEpics, appendCurrentIssue,
     createSuccessfulIssue, createSuccessfulEpic, deleteSuccessfulIssue, deleteSuccessfulEpic,
     updateSuccessfulIssue, updateIssueGroup, toggleSuccessfulFlag, dispatchError
-} from "../Actions"
-import { jwtConfig } from "../../Util"
+} from "../IssueActions"
+import { jwtConfig } from "../../Components/Util"
 
 const data = {}
 const id = "test id"

@@ -3,8 +3,8 @@ import {
     UPDATE_SUCCESS_ISSUE, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
     APPEND_SUCCESS_ISSUES_PARENT, APPEND_SUCCESS_ISSUES_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG
-} from "./Actions"
-import { DELETE_SUCCESS_STATUS } from "../Status/Actions"
+} from "../Actions/IssueActions"
+import { DELETE_SUCCESS_STATUS } from "../Actions/StatusActions"
 
 const issues = new Map()
 issues.set("hdkahdjaskdh", {

@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Util"
-import { appendSuccessfulStatus } from "../Status/Actions"
-import { appendSuccessfulLabels } from "../Label/Actions"
+import { post, put, jwtConfig } from "../Components/Util"
+import { appendSuccessfulStatus } from "../Components/Status/Actions"
+import { appendSuccessfulLabels } from "../Components/Label/Actions"
 require('dotenv').config()
 
 
