@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
 import { useSelector } from "react-redux"
-import Drawer from "../ViewComponents/SideDrawer/Drawer"
-import ProjectDetailForm from "../ViewComponents/Project/ProjectDetailForm"
-import { ProjectSetting } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
-import Container from "../ViewComponents/NavBar/Container"
-import { selectCurrentProjectName } from "../Components/Selectors"
+import Drawer from "../Components/SideDrawer/Drawer"
+import ProjectDetailForm from "../Components/Project/ProjectDetailForm"
+import { ProjectSetting } from "../Components/SideDrawer/DrawerBodyFragment"
+import Container from "../Components/NavBar/Container"
+import { selectCurrentProjectName } from "../Reducers/Selectors"
 
 export default function ProjectDetail() {
     const [open, setOpen] = React.useState(true);

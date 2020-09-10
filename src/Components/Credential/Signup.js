@@ -11,8 +11,8 @@ import {
 } from 'formik-material-ui';
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
-//import { manualSignup} from "../../Components/User/Actions"   //Maybe add checkEmail
-import { manualSignup } from "../../Components/User/mockActions"
+//import { manualSignup} from "../../Actions/UserActions"   //Maybe add checkEmail
+import { manualSignup } from "../../Actions/mockUserActions"
 
 export const SignupForm = props => {
     const {

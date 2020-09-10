@@ -10,7 +10,7 @@ import Column from "./Column"
 import {
     selectStatus, selectStatusOrder, selectIssues, selectNoneFilter, selectCurrentProject,
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy
-} from "../../Components/Selectors"
+} from "../../Reducers/Selectors"
 import { v4 as uuidv4 } from 'uuid'
 import IssueModal from "../Issues/IssueModal"
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"

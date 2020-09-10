@@ -3,7 +3,7 @@ import {
     LOADING_PROJECT, ERROR_PROJECT, CREATE_SUCCESS_PROJECT, DELETE_SUCCESS_PROJECT,
     UPDATE_SUCCESS_PROJECT, APPEND_SUCCESS_CURRENT_PROJECT, APPEND_SUCCESS_PROJECTS,
     SET_CURRENT_PROJECT
-} from "./Actions"
+} from "../Actions/ProjectActions"
 
 export default function ProjectReducer(state = {
     loading: false,

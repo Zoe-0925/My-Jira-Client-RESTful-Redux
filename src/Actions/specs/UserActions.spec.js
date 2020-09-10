@@ -9,7 +9,7 @@ import {
 import thunk from 'redux-thunk'
 import mockAxios from 'jest-mock-axios';
 import configureStore from 'redux-mock-store'
-import { post, put, jwtConfig } from "../../ViewComponents/Util"
+import { post, put, jwtConfig } from "../../Components/Util"
 const axios = require('axios');
 
 

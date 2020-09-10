@@ -25,7 +25,7 @@ import { SingleSelect, MultiSelect } from "./CustomSelect"
 import CustomModal from "../Shared/CustomModal"
 import {
     selectCurrentProjectName, selectMemberNames, selectLabelNames, selectUserById
-} from "../../Components/Selectors"
+} from "../../Reducers/Selectors"
 import { Member } from "./AvatorCard"
 
 

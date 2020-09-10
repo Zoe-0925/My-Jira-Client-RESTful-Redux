@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader/root';
 import React, {useEffect} from 'react';
-import { isLoggedOut } from "./ViewComponents/Credential/Auth.service"
+import { isLoggedOut } from "./Components/Credential/Auth.service"
 /**     Router    */
 import { Router } from 'react-router-dom';
 import { Switch, Route } from "react-router-dom";

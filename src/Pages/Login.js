@@ -1,7 +1,7 @@
 import React from 'react'
 import history from "../history"
-import { isLoggedIn } from "../ViewComponents/Credential/Auth.service"
-import LoginController from "../ViewComponents/Credential/Login"
+import { isLoggedIn } from "../Components/Credential/Auth.service"
+import LoginController from "../Components/Credential/Login"
 
 export default function Login() {
     //const authenticated = useSelector(state => state.state)

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentProjectName } from "../../Components/Selectors"
+import { selectCurrentProjectName } from "../../Reducers/Selectors"
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';

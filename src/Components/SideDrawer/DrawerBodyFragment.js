@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useSelector } from "react-redux"
-import { selectCurrentProjectName } from "../../Components/Selectors"
+import { selectCurrentProjectName } from "../../Reducers/Selectors"
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
 import history from "../../history"
 /**--------------Icons-------------- */

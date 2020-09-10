@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import ProjectReducer from ".ProjectReducer"
+import ProjectReducer from "./ProjectReducer"
 import IssueReducer from "./IssueReducer"
 import CommentReducer from "./CommentReducer"
 import LabelReducer from "./LabelReducer"

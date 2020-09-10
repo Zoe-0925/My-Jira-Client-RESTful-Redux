@@ -1,4 +1,4 @@
-import { filterByEpic, filterByLabel, filterByAssignee, groupBy, cleanFilter } from "../Actions"
+import { filterByEpic, filterByLabel, filterByAssignee, groupBy, cleanFilter } from "../FilterActions"
 
 const data = "test data"
 

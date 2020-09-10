@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 // TODO swap
-import { createIssue } from "../../Components/Issue/mockActions"
-//import {createIssue} from "../../Components/Issue/actions"
-import { createStatus } from "../../Components/Status/mockActions"
+import { createIssue } from "../../Actions/mockIssueActions"
+//import {createIssue} from "../../Actions/IssueActions"
+import { createStatus } from "../../Actions/mockStatusActions"
 //TODO swap
-//import {createStatus} from "../../Components/Status/Actions"
-import { getUserByIds } from "../../Components/User/mockActions"
-import { selectCurrentProject, selectCurrentUser } from "../../Components/Selectors"
+//import {createStatus} from "../../Actions/StatusActions"
+import { getUserByIds } from "../../Actions/mockUserActions"
+import { selectCurrentProject, selectCurrentUser } from "../../Reducers/Selectors"
 
 export function useCreateIssue(statusId) {
     const dispatch = useDispatch()

@@ -1,7 +1,7 @@
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES
-} from "./Actions"
+} from "../Actions/StatusActions"
 
 const status = new Map()
 status.set("1", { _id: "1", name: "TO DO", issues: ["hdkahdjaskdh"] })

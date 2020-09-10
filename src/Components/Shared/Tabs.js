@@ -9,8 +9,8 @@ import {
     Typography, Link, Grow, Paper, Popper, ClickAwayListener,
     ListItem, MenuList, IconButton, MenuItem
 } from '@material-ui/core';
-import { reorderToBotttom } from "../../Components/Status/Actions"
-import { deleteIssue, toggleFlag } from "../../Components/Issue/mockActions"
+import { reorderToBotttom } from "../../Actions/StatusActions"
+import { deleteIssue, toggleFlag } from "../../Actions/mockIssueActions"
 //TODO swap
 //import { deleteIssue, toggleFlag } from "../../Components/Issue/Actions"
 

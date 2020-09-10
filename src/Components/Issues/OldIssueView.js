@@ -22,7 +22,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import CreateIcon from '@material-ui/icons/Create';
 import CustomModal from "../Shared/CustomModal"
 import { useSimpleState } from "../Shared/CustomHooks"
-import { selectCurrentProjectName, selectLabels } from "../../Components/Selectors"
+import { selectCurrentProjectName, selectLabels } from "../../Reducers/Selectors"
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({

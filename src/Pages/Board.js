@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react'
-import NavBreadcrumbs from "../ViewComponents/NavBar/NavBreadcrumbs"
-import FilterManager from "../ViewComponents/Filters/FilterManager"
-import Drawer from "../ViewComponents/SideDrawer/Drawer"
-import { DrawerBody } from "../ViewComponents/SideDrawer/DrawerBodyFragment"
-import Container from "../ViewComponents/NavBar/Container"
-import { useEditText } from "../ViewComponents/Column/CustomHooks"
-import { EditableText, Input } from "../ViewComponents/Shared/EditableText"
-import DragContext from "../ViewComponents/Column/DragContext"
+import NavBreadcrumbs from "../Components/NavBar/NavBreadcrumbs"
+import FilterManager from "../Components/Filters/FilterManager"
+import Drawer from "../Components/SideDrawer/Drawer"
+import { DrawerBody } from "../Components/SideDrawer/DrawerBodyFragment"
+import Container from "../Components/NavBar/Container"
+import { useEditText } from "../Components/Column/CustomHooks"
+import { EditableText, Input } from "../Components/Shared/EditableText"
+import DragContext from "../Components/Column/DragContext"
 
 export default function Board() {
     //TODO get project id and name, and then replace the "My EC"
