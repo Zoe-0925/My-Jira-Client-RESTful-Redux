@@ -1,7 +1,7 @@
 import {
     createSuccessfulProject, appendSuccessfulProject, appendCurrentProject, updateSuccessfulProject,
     deleteSuccessfulProject, dispatchError
-} from "../Actions"
+} from "../ProjectActions"
 
 const data = {}
 const id = "test id"

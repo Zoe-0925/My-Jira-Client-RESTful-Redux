@@ -5,11 +5,11 @@ import {
     loginSuccess, dispatchError, updateUser, dispatchUpdateEmail, dispatchUpdatePassword,
 
 
-} from '../Actions';
+} from '../UserActions';
 import thunk from 'redux-thunk'
 import mockAxios from 'jest-mock-axios';
 import configureStore from 'redux-mock-store'
-import { post, put, jwtConfig } from "../../Util"
+import { post, put, jwtConfig } from "../../ViewComponents/Util"
 const axios = require('axios');
 
 

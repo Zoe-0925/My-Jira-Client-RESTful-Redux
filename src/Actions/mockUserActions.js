@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 
-import history from "../../history"
+import history from "../history"
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"
 export const LOGIN_SUCCESS_USER = "LOGIN_SUCCESS_USER"

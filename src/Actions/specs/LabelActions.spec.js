@@ -1,6 +1,6 @@
 import {
     createSuccessfulLabel, appendSuccessfulLabels, deleteSuccessfulLabel, dispatchError
-} from "../Actions"
+} from "../LabelActions"
 
 describe.skip("createSuccessfulLabel(data)", () => {
     it("Creates an action", () => {

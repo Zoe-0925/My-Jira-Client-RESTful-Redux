@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Util"
+import { post, put, jwtConfig } from "../ViewComponents/Util"
 
 
 export const LOADING_PROJECT = "LOADING_PROJECT"

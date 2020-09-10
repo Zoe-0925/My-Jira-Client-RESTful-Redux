@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Util"
-import history from "../../history"
-import { setLocalStorage } from "../../ViewComponents/Credential/Auth.service"
+import { post, put, jwtConfig } from "../ViewComponents/Util"
+import history from "../history"
+import { setLocalStorage } from "../ViewComponents/Credential/Auth.service"
 require('dotenv').config()
 
 
