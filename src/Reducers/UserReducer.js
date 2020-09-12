@@ -7,7 +7,6 @@ import {
 	UPDATE_USER_EMAIL,
 	UPDATE_USER_PASSWORD,
 	ADD_OTHER_USERS,
-	SIGNUP_SUCCESS_USER
 } from "../Actions/UserActions"
 
 const UserReducer = (state = {
@@ -19,26 +18,29 @@ const UserReducer = (state = {
 	let newState
 	switch (action.type) {
 		case LOADING_USER:
-			newState = Object.assign({}, state, { loading: true })
+			newState = Object.assign({}, state, { loading: true, authenticated: false })
 			return newState
 		case LOGIN_SUCCESS_USER:
 			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data })
-		case SIGNUP_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data })
 		case LOGOUT_SUCCESS_USER:
 			return Object.assign({}, state, {
-				loading: false, authenticated: false, id: "", currentUser: {}
+				loading: false, authenticated: false, currentUser: {}, users: []
 			})
 		case UPDATE_USER:
 			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data.user })
 		case UPDATE_USER_EMAIL:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			newState.currentUser.email = action.email
+			const userToUpdateEmail = Object.assign({}, newState.currentUser, { email: action.email })
+			newState.currentUser = userToUpdateEmail
+			newState.users.filter(item => item._id === userToUpdateEmail._id)
+			newState.users.push(userToUpdateEmail)
 			return newState
 		case UPDATE_USER_PASSWORD:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			newState.currentUser.salt = action.salt
-			newState.currentUser.hash = action.hash
+			const userToUpdatePassword = Object.assign({}, newState.currentUser, { password: action.password })
+			newState.currentUser = userToUpdatePassword
+			newState.users.filter(item => item._id === userToUpdatePassword._id)
+			newState.users.push(userToUpdatePassword)
 			return newState
 		case ADD_OTHER_USERS:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })

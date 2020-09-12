@@ -17,16 +17,17 @@ export default function StatusReducer(state = {
     status: status,
     pastStatus: status,
     pastStatusOrder: ["1", "2", "3", "4"],
-    issues:[]
+    issues: []
 }, action) {
     let newState;
     let status
-
-
     switch (action.type) {
         case LOADING_STATUS:
             return Object.assign({}, state, { loading: true })
         case REORDER_ISSUES: //Move the item at the start index to the end index
+            //TODO did not conduct validation: if index is invalid, do not change the state.
+
+
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             const statusId = newState.statusOrder[action.index]
             status = newState.status.get(statusId)
@@ -35,6 +36,9 @@ export default function StatusReducer(state = {
             issues.splice(action.endIndex, 0, removedToReorder);
             return newState
         case MOVE_ISSUES:
+            //TODO did not conduct validation: if index is invalid, do not change the state.
+
+
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             const sourceStatusId = newState.statusOrder[action.sourceIndex]
             const destinationStatusId = newState.statusOrder[action.destinationIndex]

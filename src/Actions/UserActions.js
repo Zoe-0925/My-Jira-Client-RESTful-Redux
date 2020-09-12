@@ -9,7 +9,6 @@ const { post, put, jwtConfig } = Util
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"
 export const LOGIN_SUCCESS_USER = "LOGIN_SUCCESS_USER"
-export const SIGNUP_SUCCESS_USER = "SIGNUP_SUCCESS_USER"
 export const LOGOUT_SUCCESS_USER = "LOGOUT_SUCCESS_USER"
 export const UPDATE_USER_INFO = "UPDATE_USER_INFO"
 export const UPDATE_USER_EMAIL = "UPDATE_USER_EMAIL"
@@ -126,7 +125,7 @@ export const manualSignup = (data) => async  dispatch => {
         const response = await fetchSignUp(process.env.BASE, data, token)
         if (response.data.success) {
             data._id = response.data.data.id
-            dispatch({ type: SIGNUP_SUCCESS_USER, data: data })
+            dispatch({ type: LOGIN_SUCCESS_USER, data: data })
             history.push("/projects")
         }
         else {
