@@ -1,4 +1,4 @@
-describe("create a status", () => {
+describe.skip("create a status", () => {
     it("renders a column when the plus button is clicked", () => {
 
     })

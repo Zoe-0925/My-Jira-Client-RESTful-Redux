@@ -1,7 +1,15 @@
 import {
     appendSuccessfulComments, createSuccessfulComment, deleteSuccessfulComment,
-    updateSuccessfulComment, dispatchError
+    updateSuccessfulComment, dispatchError, getCommentsForIssue, 
+    fetchCreateComment
 } from "../CommentActions"
+import React from 'react'
+import { render, waitForElement, fireEvent } from '@testing-library/react'
+import axios from 'axios';
+import Util from "../../Components/Util"
+
+
+jest.mock('axios');
 
 const data = {
 
@@ -59,12 +67,31 @@ describe.skip("dispatchError()", () => {
 })
 
 /******************** Thunks  ********************************/
+describe('fetchCreateComment', () => {
+    it('fetches data successfully from an API', async () => {
+        const data = [
+            {
+                _id: "1",
+                author: "author1",
+                description: "comment 1",
+                date: new Date(),
+                issue: "issue1",
+                parent: ""
+            },
+            {
+                _id: "2",
+                author: "author2",
+                description: "comment 2",
+                date: new Date(),
+                issue: "issue2",
+                parent: ""
+            }
+        ]
+        const post = jest.spyOn(Util, "post");
 
+        post.mockImplementationOnce(() => Promise.resolve(data));
+        await expect(fetchCreateComment(process.env.BASE, data, "test token")).resolves.toEqual(data);
+    });
 
-
-
-
-/******************** API calls  ********************************/
-
-
+});
 

@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Components/Util"
+import Util from "../Components/Util"
 import history from "../history"
 import { setLocalStorage } from "../Components/Credential/Auth.service"
 require('dotenv').config()
 
+const { post, put, jwtConfig } = Util
 
 export const ERROR_USER = "ERROR_USER"
 export const LOADING_USER = "LOADING_USER"

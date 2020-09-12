@@ -1,6 +1,8 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Components/Util"
+import Util from "../Components/Util"
 require('dotenv').config()
+
+const { post, put, jwtConfig } = Util
 
 
 export const LOADING_LABEL = "LOADING_LABEL"

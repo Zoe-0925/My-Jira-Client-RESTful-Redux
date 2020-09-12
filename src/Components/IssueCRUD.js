@@ -1,4 +1,4 @@
-describe("create an issue", () => {
+describe.skip("create an issue", () => {
     it("renders an editable text field when the CREATE-ISSUE button is clicked", () => {
 
     })

@@ -37,15 +37,14 @@ export const selectProjectMembers = createSelector(
     reducer => reducer.currentProject.members
 )
 
+//TODO bug
 export const selectMemberNames = createSelector(
     selectProjectMembers,
     selectUserReducer,
-    (members, userReducer) => {
+    (projectMembers, userReducer) => {
+        const members = projectMembers
         const memberNames = members.map(each => {
-            if (userReducer.currentUser._id === each) { return userReducer.currentUser.name }
-            else {
-                return userReducer.users.find(user => user._id === each)
-            }
+            return userReducer.users.find(user => user._id === each).name
         })
         return memberNames
     }
@@ -63,15 +62,13 @@ export const selectCurrentUser = createSelector(
 
 export const selectUserById = (id) => createSelector(
     selectUserReducer,
-    selectCurrentUser,
-    (reducer, currentUserId) => {
-        if (currentUserId === id) { return reducer.currentUser }
-        else { return reducer.users.find(user => user._id === id) }
-    }
+    reducer => reducer.users.find(user => user._id === id)
 )
 
 export const selectIssueArray = createSelector(
     selectIssueReducer,
+
+    //TODO bug
     reducer => reducer.issues.values()
 )
 

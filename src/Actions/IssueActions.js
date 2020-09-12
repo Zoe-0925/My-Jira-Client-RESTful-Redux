@@ -1,8 +1,11 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Components/Util"
+import Util from "../Components/Util"
 import { appendSuccessfulStatus } from "./StatusActions"
 import { appendSuccessfulLabels } from "./LabelActions"
 require('dotenv').config()
+
+const { post, put, jwtConfig } = Util
+
 
 
 export const LOADING_ISSUE = "LOADING_ISSUE"

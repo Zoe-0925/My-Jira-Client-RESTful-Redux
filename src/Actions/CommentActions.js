@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Components/Util"
+import Util from "../Components/Util"
 require('dotenv').config()
 
+const { post, put, jwtConfig } = Util
 
 export const LOADING_COMMENT = "LOADING_COMMENT"
 export const ERROR_COMMENT = "ERROR_COMMENT"

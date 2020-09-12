@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { post, put, jwtConfig } from "../Components/Util"
+import Util from "../Components/Util"
+const { post, put, jwtConfig } = Util
 
 
 export const LOADING_PROJECT = "LOADING_PROJECT"
