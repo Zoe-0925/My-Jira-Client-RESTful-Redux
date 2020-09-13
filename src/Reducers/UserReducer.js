@@ -12,8 +12,9 @@ import {
 const UserReducer = (state = {
 	loading: false,
 	authenticated: true,
-	currentUser: { _id: "testUserId" },
-	users: [{ _id: "testUserId", name: "userName", email: "test email" }]
+	currentUser: "testUserId",
+	users: [{ _id: "testUserId", name: "userName", email: "test email" }],
+	errorMessage: ""
 }, action) => {
 	let newState
 	switch (action.type) {
@@ -21,33 +22,44 @@ const UserReducer = (state = {
 			newState = Object.assign({}, state, { loading: true, authenticated: false })
 			return newState
 		case LOGIN_SUCCESS_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data })
+			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data._id, users: [action.data] })
 		case LOGOUT_SUCCESS_USER:
 			return Object.assign({}, state, {
 				loading: false, authenticated: false, currentUser: {}, users: []
 			})
 		case UPDATE_USER:
-			return Object.assign({}, state, { loading: false, authenticated: true, currentUser: action.data.user })
-		case UPDATE_USER_EMAIL:
+
+			//TODO bug
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			const userToUpdateEmail = Object.assign({}, newState.currentUser, { email: action.email })
+			const initialUsers = [...newState.users]
+			newState.users = initialUsers.filter(item => item._id === action.data._id).push(action.data)
+			return newState
+		case UPDATE_USER_EMAIL:
+
+			//TODO bug
+			newState = Object.assign({}, state, { loading: false, authenticated: true })
+			const userToUpdateEmail = { ...newState.currentUser, email: action.email }
 			newState.currentUser = userToUpdateEmail
-			newState.users.filter(item => item._id === userToUpdateEmail._id)
-			newState.users.push(userToUpdateEmail)
+			let newUsersForEmail = newState.users.filter(item => item._id !== userToUpdateEmail._id)
+			newUsersForEmail = newState.users.push(userToUpdatePassword)
+			newState.users = newUsersForEmail
 			return newState
 		case UPDATE_USER_PASSWORD:
+			//TODO bug
+
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
 			const userToUpdatePassword = Object.assign({}, newState.currentUser, { password: action.password })
 			newState.currentUser = userToUpdatePassword
-			newState.users.filter(item => item._id === userToUpdatePassword._id)
-			newState.users.push(userToUpdatePassword)
+			let newUsersForPassword = newState.users.filter(item => item._id !== userToUpdatePassword._id)
+			newUsersForPassword = newState.users.push(userToUpdatePassword)
+			newState.users = newUsersForPassword
 			return newState
 		case ADD_OTHER_USERS:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			newState.users.concat(action.data)
+			newState.users = newState.users.concat(action.data)
 			return newState
 		case ERROR_USER:
-			return Object.assign({}, state, { loading: false, authenticated: false })
+			return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })
 		default:
 			return state
 	}

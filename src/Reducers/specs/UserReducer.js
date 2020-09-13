@@ -10,34 +10,29 @@ import {
     ADD_OTHER_USERS,
 } from "../../Actions/UserActions"
 
+
 const initialUser = { _id: "testUserId", name: "userName", email: "test email" }
 const newUser = { _id: "new user id", name: "new userName", email: "new test email" }
-const newEmail = { email: "newEmail@test.com" }
+const newEmail = "newEmail@test.com"
 const newPassword = "testtestesttest"
+const initialState = {
+    loading: false,
+    authenticated: false,
+    currentUser: initialUser._id,
+    users: [initialUser],
+    errorMessage: ""
+}
 
 describe('User Reducer', () => {
     it.skip('should return the initial state', () => {
-        expect(UserReducer(undefined, {})).toEqual(
-            {
-                loading: false,
-                authenticated: true,
-                currentUser: { _id: "testUserId" },
-                users: [initialUser]
-            }
-        )
+        expect(UserReducer(undefined, {})).toEqual(initialState)
     })
 
     it.skip('should handle LOADING_USER', () => {
+        const updatedState = { ...initialState, loading: true, authenticated: false }
         expect(
             UserReducer(undefined, { type: LOADING_USER })
-        ).toEqual(
-            {
-                loading: true,
-                authenticated: false,
-                currentUser: { _id: "testUserId" },
-                users: [initialUser]
-            }
-        )
+        ).toEqual(updatedState)
     })
 
     it.skip('should handle LOGIN_SUCCESS_USER', () => {
@@ -47,8 +42,8 @@ describe('User Reducer', () => {
             {
                 loading: false,
                 authenticated: true,
-                currentUser: newUser,
-                users: [initialUser]
+                currentUser: newUser._id,
+                users: [newUser]
             }
         )
     })
@@ -66,14 +61,11 @@ describe('User Reducer', () => {
         )
     })
 
-    it.skip('should handle UPDATE_USER', () => {
+    it('should handle UPDATE_USER', () => {
         expect(
             UserReducer(undefined, { type: UPDATE_USER, data: { user: newUser } })
         ).toEqual(
-            {
-                loading: false, authenticated: true, currentUser: newUser,
-                users: [initialUser]
-            }
+            { ...initialState, authenticated: true, users: [newUser] }
         )
     })
 
@@ -83,11 +75,11 @@ describe('User Reducer', () => {
             UserReducer(undefined, { type: UPDATE_USER_EMAIL, email: newEmail })
         ).toEqual(
             {
-                loading: false, authenticated: true, currentUser: userAfterUpdate,
-                users: [userAfterUpdate]
+                ...initialState, authenticated: true, currentUser: userAfterUpdate, users: [userAfterUpdate]
             }
         )
     })
+
 
     it('should handle UPDATE_USER_PASSWORD', () => {
         const userAfterUpdate = { _id: "testUserId", name: "userName", password: newPassword }
@@ -95,32 +87,26 @@ describe('User Reducer', () => {
             UserReducer(undefined, { type: UPDATE_USER_PASSWORD, password: newPassword })
         ).toEqual(
             {
-                loading: false, authenticated: true, currentUser: userAfterUpdate,
+                ...initialState, authenticated: true, currentUser: userAfterUpdate,
                 users: [userAfterUpdate]
             }
         )
     })
 
-    it('should handle ADD_OTHER_USERS', () => {
+    it.skip('should handle ADD_OTHER_USERS', () => {
         expect(
             UserReducer(undefined, { type: ADD_OTHER_USERS, data: [newUser] })
         ).toEqual(
             {
-                loading: false, authenticated: true, currentUser: userAfterUpdate,
-                users: [userAfterUpdate, newUser]
+                ...initialState, loading: false, authenticated: true, users: [initialUser, newUser]
             }
         )
     })
 
-    it('should handle ERROR_USER', () => {
-      expect(
-            UserReducer(undefined, { type: ERROR_USER })
-        ).toEqual(
-            {
-                loading: false, authenticated: false, currentUser: initialUser,
-                users: [initialUser]
-            }
-        )
+    it.skip('should handle ERROR_USER', () => {
+        expect(
+            UserReducer(undefined, { type: ERROR_USER, data: "err" })
+        ).toEqual({ ...initialState, errorMessage: "err" })
     })
 })
 

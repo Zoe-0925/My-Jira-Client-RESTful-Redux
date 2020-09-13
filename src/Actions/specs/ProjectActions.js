@@ -26,16 +26,6 @@ describe.skip("appendSuccessfulProject(data)", () => {
     })
 })
 
-describe.skip("appendCurrentProject(data)", () => {
-    it("Creates an action", () => {
-        const result = appendCurrentProject(data)
-        expect(result).toEqual({
-            type: "APPEND_SUCCESS_CURRENT_PROJECT",
-            data: data //an array
-        })
-    })
-})
-
 describe.skip("updateSuccessfulProject(data)", () => {
     it("Creates an action", () => {
         const result = updateSuccessfulProject(data)

@@ -15,15 +15,14 @@ export default function StatusReducer(state = {
     authenticated: false,
     statusOrder: ["1", "2", "3", "4"],
     status: status,
-    pastStatus: status,
-    pastStatusOrder: ["1", "2", "3", "4"],
-    issues: []
+    issues: [],
+    errorMessage:""
 }, action) {
     let newState;
     let status
     switch (action.type) {
         case LOADING_STATUS:
-            return Object.assign({}, state, { loading: true })
+            return Object.assign({}, state, { loading: true, authenticated: false })
         case REORDER_ISSUES: //Move the item at the start index to the end index
             //TODO did not conduct validation: if index is invalid, do not change the state.
 
@@ -48,10 +47,15 @@ export default function StatusReducer(state = {
             destinationIssues.splice(action.endIndex, 0, removedToMove);
             return newState
         case CREATE_SUCCESS_STATUS:
+            //TODO append it to the status order as well
+
+
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.set(action.data._id, action.data)
             return newState
         case DELETE_SUCCESS_STATUS:
+            //TODO remove it from the status order as well
+
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.status.detele(action.id)
             return newState
@@ -61,10 +65,11 @@ export default function StatusReducer(state = {
             return newState
         case APPEND_SUCCESS_STATUS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.status.set(action.data._id, action.data)
+            newState.status = action.data
+            newState.statusOrder = action.order
             return newState
         case ERROR_STATUS:
-            return Object.assign({}, state, { loading: false, authenticated: false })
+            return Object.assign({}, state, { loading: false, authenticated: false,	errorMessage:action.data })
         default:
             return state;
     }

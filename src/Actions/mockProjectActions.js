@@ -5,7 +5,6 @@ export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
-export const APPEND_SUCCESS_CURRENT_PROJECT = "APPEND_SUCCESS_CURRENT_PROJECT"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 
@@ -25,13 +24,6 @@ export function createSuccessfulProject(data) {
 export function appendSuccessfulProject(data) {
     return {
         type: APPEND_SUCCESS_PROJECTS,
-        data: data //an array
-    }
-}
-
-export function appendCurrentProject(data) {
-    return {
-        type: APPEND_SUCCESS_CURRENT_PROJECT,
         data: data //an array
     }
 }

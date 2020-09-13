@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Util from "../Components/Util"
-import { appendSuccessfulStatus } from "./StatusActions"
+import { createSuccessfulStatus } from "./StatusActions"
 import { appendSuccessfulLabels } from "./LabelActions"
 require('dotenv').config()
 
@@ -121,7 +121,7 @@ export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  disp
         const response = await dispatch(fetchLabelsAndIssuesAndStatus(process.env.BASE, projectId, token))
         if (response.data.success) {
             dispatch(appendSuccessfulLabels(response.data.labels)) //Array
-            dispatch(appendSuccessfulStatus(response.data.status)) //Array
+            dispatch(createSuccessfulStatus(response.data.status)) //Array
             dispatch(appendSuccessfulEpics(response.data.epics)) //Array
             dispatch(appendSuccessfulIssues(response.data.issues)) // Map()
         }

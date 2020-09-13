@@ -1,6 +1,6 @@
 import {
     createSuccessfulStatus, updateSuccessfulStatus, deleteSuccessfulStatus, dispatchError,
-    appendSuccessfulStatus, moveIssues, reorderIssues, reorderToBotttom
+  moveIssues, reorderIssues, reorderToBotttom
 } from "../StatusActions"
 
 const data = {}
@@ -52,15 +52,6 @@ describe.skip("dispatchError(data)", () => {
     })
 })
 
-describe.skip("appendSuccessfulStatus(data)", () => {
-    it("Creates an action", () => {
-        const result = appendSuccessfulStatus(data)
-        expect(result).toEqual({
-            type: "APPEND_SUCCESS_STATUS",
-            data: data
-        })
-    })
-})
 
 describe.skip("moveIssues(source, destination, startIndex, endIndex)", () => {
     it("Creates an action", () => {

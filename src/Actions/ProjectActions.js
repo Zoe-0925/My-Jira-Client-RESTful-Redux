@@ -8,7 +8,6 @@ export const ERROR_PROJECT = "ERROR_PROJECT"
 export const CREATE_SUCCESS_PROJECT = "CREATE_SUCCESS_PROJECT"
 export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
-export const APPEND_SUCCESS_CURRENT_PROJECT = "APPEND_SUCCESS_CURRENT_PROJECT"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
 
@@ -31,13 +30,6 @@ export function appendSuccessfulProject(data) {
     }
 }
 
-export function appendCurrentProject(data) {
-    return {
-        type: APPEND_SUCCESS_CURRENT_PROJECT,
-        data: data //an array
-    }
-}
-
 export function updateSuccessfulProject(data) {
     return {
         type: UPDATE_SUCCESS_PROJECT,
@@ -51,6 +43,14 @@ export function deleteSuccessfulProject(id) {
         id: id
     }
 }
+
+export function setCurrentProject(data) {
+    return {
+        type: SET_CURRENT_PROJECT,
+        data: data
+    }
+}
+
 
 export function dispatchError(data) {
     return {

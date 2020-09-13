@@ -36,16 +36,17 @@ export const deleteSuccessfulStatus = (id, issues) => {
     }
 }
 
-export function dispatchError(data) {
+export const appendSuccessfulStatus = (id, issues) => {
     return {
-        type: ERROR_STATUS,
-        data: data
+        type: APPEND_SUCCESS_STATUS,
+        data: data,
+        order: order
     }
 }
 
-export const appendSuccessfulStatus = (data) => {
+export function dispatchError(data) {
     return {
-        type: APPEND_SUCCESS_STATUS,
+        type: ERROR_STATUS,
         data: data
     }
 }
@@ -173,7 +174,9 @@ export const getAllStatus = (projectId) => async  dispatch => {
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchAllStatus(process.env.BASE, projectId, token))
         if (response.data.success) {
-            dispatch(appendSuccessfulStatus(response.data.data))
+            //TODO check
+
+            dispatch(createSuccessfulStatus(response.data.data))
         }
         else {
             dispatch(dispatchError(response.data.message))

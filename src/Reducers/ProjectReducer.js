@@ -12,28 +12,26 @@ export default function ProjectReducer(state = {
     errorMessage: "",
     currentProject: {
         _id: "test id",
-        name:"test project name",
-        key:"test key",
-        lead:"testUserId",
-        members:["testUserId"],
+        name: "test project name",
+        key: "test key",
+        lead: "testUserId",
+        members: ["testUserId"],
         image: "",
-        issues:[],
+        issues: [],
         default_assignee: "Project Lead",
-        start_date:new Date() 
+        start_date: ""
     }
 }, action) {
     let newState;
     switch (action.type) {
         case LOADING_PROJECT:
-            return Object.assign({}, state, { loading: true, errorMessage: "" })
-        case APPEND_SUCCESS_CURRENT_PROJECT:
-            newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.projects.push(action.data)
-            newState.currentProject = action.data._id
-            return newState
+            return Object.assign({}, state, { loading: true, errorMessage: "", authenticated: false })
         case SET_CURRENT_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.currentProject = action.id
+            newState.currentProject = action.data
+
+            //TODO do I need to check if projects contain this project
+            //If not contained, add it
             return newState
         case CREATE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
@@ -42,8 +40,8 @@ export default function ProjectReducer(state = {
         case DELETE_SUCCESS_PROJECT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects = newState.projects.filter(item => item._id !== action.id)
-            if (newState.currentProject === action.id) {
-                newState.currentProject = ""
+            if (newState.currentProject._id === action.id) {
+                newState.currentProject = {}
             }
             return newState
         case APPEND_SUCCESS_PROJECTS:
@@ -54,6 +52,9 @@ export default function ProjectReducer(state = {
             newState = Object.assign({}, state, { loading: false, authenticated: true })
             newState.projects.filter(item => item._id !== action.data._id)
             newState.projects.push(action.data)
+            if(newState.currentProject._id===action.data._id){
+                newState.currentProject= action.data
+            }
             return newState
         case ERROR_PROJECT:
             return Object.assign({}, state, { loading: false, authenticated: false, errorMessage: action.data })

@@ -42,14 +42,6 @@ export function dispatchError(id) {
     }
 }
 
-export const appendSuccessfulStatus = (data) => {
-    return {
-        type: APPEND_SUCCESS_STATUS,
-        data: data
-    }
-}
-
-
 /**************************** Thunk Actions ***************************/
 export function createStatus(data) {
     return async dispatch => {
@@ -98,6 +90,6 @@ export function getAllStatus(projectId) {
                 project: "1"
             },
         ]
-        dispatch(appendSuccessfulStatus(allStatus))
+        dispatch(createSuccessfulStatus(allStatus))
     }
 }
