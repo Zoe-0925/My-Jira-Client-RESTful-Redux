@@ -8,17 +8,23 @@ import {
     selectFilterByEpic,
 } from "../Selectors"
 
-let issues = new Map()
-issues.set("test issue id1", "test issue value1")
-issues.set("test issue id2", "test issue value2")
+let tasks = new Map()
+tasks.set("test issue id1", "test issue value1")
+tasks.set("test issue id2", "test issue value2")
 const state = {
     StatusReducer: {
         status: "test status",
         statusOrder: [1, 2, 3, 4]
     },
-    IssueReducer: { issues: issues, epics: [] },
+    IssueReducer: {
+        loading: false,
+        tasks: tasks, //Map()
+        epics: [],
+        authenticated: false,
+        errorMessage: ""
+    },
     ProjectReducer: {
-        currentProject: { _id: "test id", name: "current project name", members:["test id1", "test id2"] },
+        currentProject: "test id",
         members: ["test id1", "test id2"]
     },
     FilterReducer: {
@@ -29,7 +35,7 @@ const state = {
         groupBy: "test group by"
     },
     LabelReducer: {
-        labels: [{ name: "test label1" }]
+        labels: [{ _id: "test label id", name: "test label1" }]
     },
     UserReducer: {
         currentUser: "test id3",
@@ -130,20 +136,6 @@ describe.skip("selectCurrentUser", () => {
     it("should select the current user successfully", () => {
         const result = selectCurrentUser(state)
         expect(result).toEqual(state.UserReducer.currentUser._id)
-    })
-})
-
-//TODO
-describe("selectUserById(id)", () => {
-    it("should select a user other than the current user successfully", () => {
-        const result = selectUserById(state, "test id1")
-        expect(result).toEqual({ _id: "test id1", name: "test name1" })
-  })
-
-
-    it("should select the current user successfully", () => {
-        const result = selectUserById(state, "test id3")
-        expect(result).toEqual({ _id: "test id3", name: "test name3" })
     })
 })
 

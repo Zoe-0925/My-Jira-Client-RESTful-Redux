@@ -15,7 +15,6 @@ export default function StatusReducer(state = {
     authenticated: false,
     statusOrder: ["1", "2", "3", "4"],
     status: status,
-    issues: [],
     errorMessage:""
 }, action) {
     let newState;
