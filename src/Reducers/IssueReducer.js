@@ -1,6 +1,6 @@
 import {
-    LOADING_ISSUE, CREATE_SUCCESS_ISSUE, CREATE_SUCCESS_EPIC, DELETE_SUCCESS_ISSUE,
-    UPDATE_SUCCESS_ISSUE, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
+    LOADING_ISSUE, CREATE_SUCCESS_TASK, CREATE_SUCCESS_EPIC, DELETE_SUCCESS_TASK,
+    UPDATE_SUCCESS_TASK, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
     APPEND_SUCCESS_ISSUES_PARENT, APPEND_SUCCESS_ISSUES_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG
 } from "../Actions/IssueActions"
@@ -14,7 +14,7 @@ issues.set("hdkahdjaskdh", {
 
 export default function IssueReducer(state = {
     loading: false,
-    issues: issues, //Map()
+    tasks: tasks, //Map()
     epics: [],
     authenticated: false,
     errorMessage:""
@@ -23,15 +23,15 @@ export default function IssueReducer(state = {
     switch (action.type) {
         case LOADING_ISSUE:
             return { ...state, loading: true }
-        case CREATE_SUCCESS_ISSUE:
+        case CREATE_SUCCESS_TASK:
             newState = { ...state, authenticated: true, loading: false }
-            newState.issues.set(action.data._id, action.data)
+            newState.tasks.set(action.data._id, action.data)
             return newState
         case CREATE_SUCCESS_EPIC:
             newState = { ...state, authenticated: true, loading: false }
             newState.epics.push(action.data)
             return newState
-        case DELETE_SUCCESS_ISSUE:
+        case DELETE_SUCCESS_TASK:
             newState = { ...state, authenticated: true, loading: false }
             newState.issues.delete(action.id)
             return newState
@@ -39,7 +39,7 @@ export default function IssueReducer(state = {
             newState = { ...state, authenticated: true, loading: false }
             newState.epics.filter(item => item._id !== action.id)
             return newState
-        case UPDATE_SUCCESS_ISSUE:
+        case UPDATE_SUCCESS_TASK:
             newState = { ...state, authenticated: true, loading: false }
             newState.issues.set(action.data._id, action.data)
             return newState

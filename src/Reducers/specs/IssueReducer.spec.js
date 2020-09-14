@@ -20,6 +20,12 @@ const initialState = {
     errorMessage:""
 }
 
+const newTask = new Map()
+newTask.set("id 2", {
+    _id: "id 2", summary: "test 2", key: "test key 2", labels: [], assignee: "testUserId 2",
+    issueType: "task", flag: false, reportee: "testUserId", project: "test id"
+})
+
 describe('Issue Reducer', () => {
     it.skip('should return the initial state', () => {
         expect(IssueReducer(undefined, {})).toEqual(initialState)
@@ -33,7 +39,7 @@ describe('Issue Reducer', () => {
 
     it('should handle CREATE_SUCCESS_ISSUE', () => {
         expect(
-            IssueReducer(undefined, { type: CREATE_SUCCESS_ISSUE })
+            IssueReducer(undefined, { type: CREATE_SUCCESS_ISSUE , data:newTask})
         ).toEqual({ ...initialState, loading: true })
     })
 
