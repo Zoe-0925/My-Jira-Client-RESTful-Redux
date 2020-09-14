@@ -18,4 +18,25 @@ describe('Comment Reducer', () => {
             LabelReducer(undefined, { type: LOADING_ISSUE })
         ).toEqual(updatedState)
     })
+
+
+    it('should handle CREATE_SUCCESS_COMMENT', () => {
+
+    })
+
+    it('should handle DELETE_SUCCESS_COMMENT', () => {
+
+    })
+
+    it('should handle APPEND_SUCCESS_COMMENTS', () => {
+
+    })
+
+    it('should handle UPDATE_SUCCESS_COMMENT', () => {
+
+    })
+
+    it('should handle ERROR_COMMENT', () => {
+
+    })
 })

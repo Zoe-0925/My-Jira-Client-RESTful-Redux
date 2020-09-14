@@ -17,6 +17,7 @@ export default function IssueReducer(state = {
     issues: issues, //Map()
     epics: [],
     authenticated: false,
+    errorMessage:""
 }, action) {
     let newState;
     switch (action.type) {
@@ -69,7 +70,7 @@ export default function IssueReducer(state = {
             issue.flag = !issue.flag
             return newState;
         case ERROR_ISSUE:
-            return { ...state, authenticated: false, loading: false }
+            return { ...state, authenticated: false, loading: false, errorMessage:action.data }
         default:
             return state;
     }

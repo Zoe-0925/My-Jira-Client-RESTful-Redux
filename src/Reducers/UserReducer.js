@@ -17,6 +17,7 @@ const UserReducer = (state = {
 	errorMessage: ""
 }, action) => {
 	let newState
+	let tempUsers
 	switch (action.type) {
 		case LOADING_USER:
 			newState = Object.assign({}, state, { loading: true, authenticated: false })
@@ -28,31 +29,33 @@ const UserReducer = (state = {
 				loading: false, authenticated: false, currentUser: {}, users: []
 			})
 		case UPDATE_USER:
-
-			//TODO bug
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			const initialUsers = [...newState.users]
-			newState.users = initialUsers.filter(item => item._id === action.data._id).push(action.data)
+			tempUsers = newState.users.filter(item => item._id === action.data._id)
+			tempUsers.push(action.data)
+			newState.users = tempUsers
 			return newState
 		case UPDATE_USER_EMAIL:
+		//TODO bug
 
-			//TODO bug
+
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
-			const userToUpdateEmail = { ...newState.currentUser, email: action.email }
-			newState.currentUser = userToUpdateEmail
-			let newUsersForEmail = newState.users.filter(item => item._id !== userToUpdateEmail._id)
-			newUsersForEmail = newState.users.push(userToUpdatePassword)
-			newState.users = newUsersForEmail
+			let userToUpdateEmail = newState.users.find(item => item._id=== action.id)
+			userToUpdateEmail.email =  action.email
+			tempUsers = newState.users.filter(item => item._id !== action.id)
+			tempUsers.push(userToUpdateEmail)
+			newState.users = tempUsers
+
 			return newState
 		case UPDATE_USER_PASSWORD:
-			//TODO bug
+	//TODO bug
+
 
 			newState = Object.assign({}, state, { loading: false, authenticated: true })
 			const userToUpdatePassword = Object.assign({}, newState.currentUser, { password: action.password })
 			newState.currentUser = userToUpdatePassword
-			let newUsersForPassword = newState.users.filter(item => item._id !== userToUpdatePassword._id)
-			newUsersForPassword = newState.users.push(userToUpdatePassword)
-			newState.users = newUsersForPassword
+			tempUsers = newState.users.filter(item => item._id === userToUpdatePassword._id)
+			tempUsers.push(userToUpdatePassword)
+			newState.users = tempUsers
 			return newState
 		case ADD_OTHER_USERS:
 			newState = Object.assign({}, state, { loading: false, authenticated: true })

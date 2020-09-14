@@ -4,6 +4,7 @@ import {
     APPEND_SUCCESS_ISSUES_PARENT, APPEND_SUCCESS_ISSUES_CHILDREN,
     ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG
 } from "../../Actions/IssueActions"
+import IssueReducer from "../IssueReducer"
 
 const initialState = {
     loading: false,
@@ -27,14 +28,13 @@ const initialState = {
 
 describe('Issue Reducer', () => {
     it.skip('should return the initial state', () => {
-        expect(LabelReducer(undefined, {})).toEqual(initialState)
+        expect(IssueReducer(undefined, {})).toEqual(initialState)
     })
 
     it.skip('should handle LOADING_ISSUE', () => {
-        const updatedState = { ...initialState, loading: true, authenticated: false }
         expect(
-            LabelReducer(undefined, { type: LOADING_ISSUE })
-        ).toEqual(updatedState)
+            IssueReducer(undefined, { type: LOADING_ISSUE })
+        ).toEqual({ ...initialState, loading: true, authenticated: false })
     })
 
     it('should handle CREATE_SUCCESS_ISSUE', () => {
@@ -71,6 +71,10 @@ describe('Issue Reducer', () => {
     })
 
     it('should handle  ERROR_ISSUE', () => {
+        expect(
+            IssueReducer(undefined, { type: ERROR_ISSUE, data: "err" })
+        ).toEqual({ ...initialState, errorMessage: "err" }
+        )
     })
 
 })
