@@ -11,35 +11,38 @@ import {
 const initialState = {
     loading: false,
     authenticated: false,
-    comments: []
+    comments: [],
+    errorMessage: ""
 }
-
-
 
 export default function CommentReducer(state = initialState, action) {
     let newState
+    let tempComments
     switch (action.type) {
         case LOADING_COMMENT:
             return Object.assign({}, state, { loading: true })
         case CREATE_SUCCESS_COMMENT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.comments = newState.comments.push(action.data)
+            newState.comments.push(action.data)
             return newState
         case DELETE_SUCCESS_COMMENT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.comments = newState.comments.filter(item => item._id !== action.id)
+            tempComments = newState.comments.filter(item => item._id !== action.id)
+            newState.comments = tempComments
             return newState
         case APPEND_SUCCESS_COMMENTS:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            newState.comments = newState.comments.concat(action.data)
+            tempComments = newState.comments.concat(action.data)
+            newState.comments = tempComments
             return newState
         case UPDATE_SUCCESS_COMMENT:
             newState = Object.assign({}, state, { loading: false, authenticated: true })
-            let comment = newState.comments.find(item => item._id === action.data._id)
-            comment = action.data
+            tempComments = newState.comments.filter(item => item._id !== action.data._id)
+            tempComments.push(action.data)
+            newState.comments = tempComments
             return newState
         case ERROR_COMMENT:
-            return Object.assign({}, state, { loading: false, authenticated: false })
+            return Object.assign({}, state, { loading: false, authenticated: false ,errorMessage:action.data})
         default:
             return state;
     }

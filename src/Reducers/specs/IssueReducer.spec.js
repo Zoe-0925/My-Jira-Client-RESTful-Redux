@@ -6,13 +6,6 @@ import {
 } from "../../Actions/IssueActions"
 import IssueReducer from "../IssueReducer"
 
-const initialState = {
-    loading: false,
-    authenticated: false,
-    errorMessage: "",
-    labels: ["test label1"]
-}
-
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
     _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
@@ -24,6 +17,7 @@ const initialState = {
     issues: issues, //Map()
     epics: [],
     authenticated: false,
+    errorMessage:""
 }
 
 describe('Issue Reducer', () => {
@@ -34,43 +28,76 @@ describe('Issue Reducer', () => {
     it.skip('should handle LOADING_ISSUE', () => {
         expect(
             IssueReducer(undefined, { type: LOADING_ISSUE })
-        ).toEqual({ ...initialState, loading: true, authenticated: false })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle CREATE_SUCCESS_ISSUE', () => {
+        expect(
+            IssueReducer(undefined, { type: CREATE_SUCCESS_ISSUE })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle CREATE_SUCCESS_EPIC', () => {
+        expect(
+            IssueReducer(undefined, { type: CREATE_SUCCESS_EPIC })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle DELETE_SUCCESS_ISSUE', () => {
+        expect(
+            IssueReducer(undefined, { type: DELETE_SUCCESS_ISSUE })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle DELETE_SUCCESS_EPIC', () => {
+        expect(
+            IssueReducer(undefined, { type: DELETE_SUCCESS_EPIC })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle UPDATE_SUCCESS_ISSUE', () => {
+        expect(
+            IssueReducer(undefined, { type: UPDATE_SUCCESS_ISSUE })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle DELETE_SUCCESS_STATUS', () => {
+        expect(
+            IssueReducer(undefined, { type: DELETE_SUCCESS_STATUS })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle UPDATE_SUCCESS_EPIC', () => {
+        expect(
+            IssueReducer(undefined, { type: UPDATE_SUCCESS_EPIC })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle UPDATE_ISSUE_GROUP', () => {
+        expect(
+            IssueReducer(undefined, { type: UPDATE_ISSUE_GROUP })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle APPEND_SUCCESS_ISSUES_PARENT', () => {
+        expect(
+            IssueReducer(undefined, { type: APPEND_SUCCESS_ISSUES_PARENT })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle APPEND_SUCCESS_ISSUES_CHILDREN', () => {
+        expect(
+            IssueReducer(undefined, { type: APPEND_SUCCESS_ISSUES_CHILDREN })
+        ).toEqual({ ...initialState, loading: true })
     })
 
     it('should handle TOGGLE_FLAG', () => {
+        expect(
+            IssueReducer(undefined, { type: TOGGLE_FLAG })
+        ).toEqual({ ...initialState, loading: true })
     })
 
-    it('should handle  ERROR_ISSUE', () => {
+    it.skip('should handle  ERROR_ISSUE', () => {
         expect(
             IssueReducer(undefined, { type: ERROR_ISSUE, data: "err" })
         ).toEqual({ ...initialState, errorMessage: "err" }
