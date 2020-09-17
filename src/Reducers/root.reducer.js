@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import ProjectReducer from "./ProjectReducer"
-import IssueReducer from "./IssueReducer"
-import CommentReducer from "./CommentReducer"
-import LabelReducer from "./LabelReducer"
-import StatusReducer from "./StatusReducer"
-import UserReducer from "./UserReducer"
-import FilterReducer from "./FilterReducer"
+import ProjectReducer from "./project.reducer"
+import IssueReducer from "./issue.reducer"
+import CommentReducer from "./comment.reducer"
+import LabelReducer from "./label.reducer"
+import StatusReducer from "./status.reducer"
+import UserReducer from "./user.reducer"
+import FilterReducer from "./filter.reducer"
 import { connectRouter } from 'connected-react-router'
 
 

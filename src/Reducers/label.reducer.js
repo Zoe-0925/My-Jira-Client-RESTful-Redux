@@ -4,7 +4,7 @@ import {
     APPEND_SUCCESS_LABELS,
     LOADING_LABEL,
     ERROR_LABEL
-} from "../Actions/LabelActions"
+} from "../Actions/label.actions"
 
 export default function LabelReducer(state = {
     loading: false,

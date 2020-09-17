@@ -16,7 +16,7 @@ import {
     Select,
 } from 'formik-material-ui';
 import { useDispatch, useSelector } from "react-redux"
-import { updateProject, deleteProject } from "../../Actions/ProjectActions"
+import { updateProject, deleteProject } from "../../Actions/project.actions"
 import { selectCurrentProjectObject } from "../../Reducers/Selectors"
 
 const ProjectDetailForm = props => {

@@ -1,19 +1,19 @@
 import mockAxios from 'jest-mock-axios';
 import {
-    fetchIssueById, appendSuccessfulIssues, appendSuccessfulEpics, appendCurrentIssue,
-    createSuccessfulIssue, createSuccessfulEpic, deleteSuccessfulIssue, deleteSuccessfulEpic,
-    updateSuccessfulIssue, updateIssueGroup, toggleSuccessfulFlag, dispatchError
+    fetchIssueById, appendSuccessfulTasks, appendSuccessfulEpics, appendCurrentTask,
+    createSuccessfulTask, createSuccessfulEpic, deleteSuccessfulTask, deleteSuccessfulEpic,
+    updateSuccessfulTask, updateIssueGroup, toggleSuccessfulFlag, dispatchError
 } from "../IssueActions"
 import { jwtConfig } from "../../Components/Util"
 
 const data = {}
 const id = "test id"
 
-describe.skip("appendSuccessfulIssues(data)", () => {
+describe.skip("appendSuccessfulTasks(data)", () => {
     it("Creates an action", () => {
-        const result = appendSuccessfulIssues(data)
+        const result = appendSuccessfulTasks(data)
         expect(result).toEqual({
-            type: "APPEND_SUCCESS_ISSUES",
+            type: "APPEND_SUCCESS_TASKS",
             data: data
         })
     })
@@ -29,21 +29,21 @@ describe.skip("appendSuccessfulEpics(data)", () => {
     })
 })
 
-describe.skip("appendCurrentIssue(data)", () => {
+describe.skip("appendCurrentTask(data)", () => {
     it("Creates an action", () => {
-        const result = appendCurrentIssue(data)
+        const result = appendCurrentTask(data)
         expect(result).toEqual({
-            type: "APPEND_SUCCESS_CURRENT_ISSUE",
+            type: APPEND_SUCCESS_CURRENT_TASK,
             data: data
         })
     })
 })
 
-describe.skip("createSuccessfulIssue(data)", () => {
+describe.skip("createSuccessfulTask(data)", () => {
     it("Creates an action", () => {
-        const result = createSuccessfulIssue(data)
+        const result = createSuccessfulTask(data)
         expect(result).toEqual({
-            type: "CREATE_SUCCESS_ISSUE",
+            type: "CREATE_SUCCESS_TASK",
             data: data
         })
     })
@@ -59,11 +59,11 @@ describe.skip("createSuccessfulEpic(data)", () => {
     })
 })
 
-describe.skip("deleteSuccessfulIssue(id)", () => {
+describe.skip("deleteSuccessfulTask(id)", () => {
     it("Creates an action", () => {
-        const result = deleteSuccessfulIssue(id)
+        const result = deleteSuccessfulTask(id)
         expect(result).toEqual({
-            type: "DELETE_SUCCESS_ISSUE",
+            type: "DELETE_SUCCESS_TASK",
             id: id
         })
     })
@@ -80,11 +80,11 @@ describe.skip("deleteSuccessfulEpic(id)", () => {
     })
 })
 
-describe.skip("updateSuccessfulIssue(data)", () => {
+describe.skip("updateSuccessfulTask(data)", () => {
     it("Creates an action", () => {
-        const result = updateSuccessfulIssue(data)
+        const result = updateSuccessfulTask(data)
         expect(result).toEqual({
-            type: "UPDATE_SUCCESS_ISSUE",
+            type: "UPDATE_SUCCESS_TASK",
             data: data
         })
     })

@@ -10,7 +10,7 @@ export const DELETE_SUCCESS_PROJECT = "DELETE_SUCCESS_PROJECT"
 export const UPDATE_SUCCESS_PROJECT = "UPDATE_SUCCESS_PROJECT"
 export const APPEND_SUCCESS_PROJECTS = "APPEND_SUCCESS_PROJECTS"
 export const SET_CURRENT_PROJECT = "SET_CURRENT_PROJECT"
-
+export const APPEDN_CURRENT_PROJECT = "APPEDN_CURRENT_PROJECT"
 export const CREATE_PROJECT = "CREATE_PROJECT"
 export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
 
@@ -19,6 +19,13 @@ export const LEAVE_PROJECT = "LEAVE_PROJECT"  //Remove a user from a project...
 export function createSuccessfulProject(data) {
     return {
         type: CREATE_SUCCESS_PROJECT,
+        data: data
+    }
+}
+
+export function appendCurrentProject(data) {
+    return {
+        type: APPEDN_CURRENT_PROJECT,
         data: data
     }
 }

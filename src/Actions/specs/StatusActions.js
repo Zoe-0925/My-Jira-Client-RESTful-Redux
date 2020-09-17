@@ -1,7 +1,7 @@
 import {
     createSuccessfulStatus, updateSuccessfulStatus, deleteSuccessfulStatus, dispatchError,
   moveIssues, reorderIssues, reorderToBotttom
-} from "../StatusActions"
+} from "../status.actions"
 
 const data = {}
 const id = "test id"

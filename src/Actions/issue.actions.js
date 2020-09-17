@@ -1,13 +1,14 @@
 import axios from 'axios'
 import Util from "../Components/Util"
-import { createSuccessfulStatus } from "./StatusActions"
-import { appendSuccessfulLabels } from "./LabelActions"
+import { createSuccessfulStatus } from "./status.actions"
+import { appendSuccessfulLabels } from "./label.actions"
 require('dotenv').config()
 
 const { post, put, jwtConfig } = Util
 
-
-
+export const CREATE_SUCCESS_SUB_TASK = "CREATE_SUCCESS_SUB_TASK"
+export const APPEND_SUCCESS_TASKS_PARENT = "APPEND_SUCCESS_TASKS_PARENT"
+export const APPEND_SUCCESS_TASKS_CHILDREN = "APPEND_SUCCESS_TASKS_CHILDREN"
 export const LOADING_ISSUE = "LOADING_ISSUE"
 export const ERROR_ISSUE = "ERROR_ISSUE"
 export const CREATE_SUCCESS_TASK = "CREATE_SUCCESS_TASK"
@@ -18,18 +19,13 @@ export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
 export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
 export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
-
-
-
 export const APPEND_SUCCESS_CURRENT_TASK = "APPEND_SUCCESS_CURRENT_TASK"
-
-
 export const APPEND_SUCCESS_CURRENT_EPIC = "APPEND_SUCCESS_CURRENT_EPIC"
-
-
-export const APPEND_SUCCESS_TASKS_PARENT = "APPEND_SUCCESS_TASKS_PARENT"
-export const APPEND_SUCCESS_TASKS_CHILDREN = "APPEND_SUCCESS_TASKS_CHILDREN"
-
+export const DELETE_SUCCESS_SUB_TASK = "DELETE_SUCCESS_SUB_TASK"
+export const ADD_TASK_TO_EPIC = "ADD_TASK_TO_EPIC"
+export const REMOVE_TASK_FROM_EPIC = "REMOVE_TASK_FROM_EPIC"
+export const ADD_SUBTASK_TO_TASK = "ADD_SUBTASK_TO_TASK"
+export const REMOVE_SUBTASK_FROM_TASK = "REMOVE_SUBTASK_FROM_TASK"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
 
@@ -37,9 +33,9 @@ export const TOGGLE_FLAG = "TOGGLE_FLAG"
 
 //TODO analyze!!!
 //TODO: optimize the data structure to store issues!
-export function appendSuccessfulIssues(data) {
+export function appendSuccessfulTasks(data) {
     return {
-        type: APPEND_SUCCESS_ISSUES,
+        type: APPEND_SUCCESS_TASKS,
         data: data
     }
 }
@@ -51,16 +47,16 @@ export function appendSuccessfulEpics(data) {
     }
 }
 
-export function appendCurrentIssue(data) { //Append the issue to be opened in a page or modal
+export function appendCurrentTask(data) { //Append the issue to be opened in a page or modal
     return {
-        type: APPEND_SUCCESS_CURRENT_ISSUE,
+        type: APPEND_SUCCESS_CURRENT_TASK,
         data: data
     }
 }
 
-export function createSuccessfulIssue(data) {
+export function createSuccessfulTask(data) {
     return {
-        type: CREATE_SUCCESS_ISSUE,
+        type: CREATE_SUCCESS_TASK,
         data: data
     }
 }
@@ -72,9 +68,9 @@ export function createSuccessfulEpic(data) {
     }
 }
 
-export function deleteSuccessfulIssue(id) {
+export function deleteSuccessfulTask(id) {
     return {
-        type: DELETE_SUCCESS_ISSUE,
+        type: DELETE_SUCCESS_TASK,
         id: id
     }
 }
@@ -86,9 +82,9 @@ export function deleteSuccessfulEpic(id) {
     }
 }
 
-export function updateSuccessfulIssue(data) {
+export function updateSuccessfulTask(data) {
     return {
-        type: UPDATE_SUCCESS_ISSUE,
+        type: UPDATE_SUCCESS_TASK,
         data: data
     }
 }
@@ -131,7 +127,7 @@ export const getLabelsAndIssuesGroupByStatus = (projectId, token) => async  disp
             dispatch(appendSuccessfulLabels(response.data.labels)) //Array
             dispatch(createSuccessfulStatus(response.data.status)) //Array
             dispatch(appendSuccessfulEpics(response.data.epics)) //Array
-            dispatch(appendSuccessfulIssues(response.data.issues)) // Map()
+            dispatch(appendSuccessfulTasks(response.data.issues)) // Map()
         }
         else {
             dispatch(dispatchError(response.message))
@@ -150,7 +146,7 @@ export const constgetIssuesForProject = (projectId, token) => async  dispatch =>
     try {
         const response = await dispatch(fetchProjectsIssues(process.env.BASE, projectId, token))
         if (response.data.success) {
-            dispatch(appendSuccessfulIssues(response.data.data))
+            dispatch(appendSuccessfulTasks(response.data.data))
         }
         else {
             dispatch(dispatchError(response.message))
@@ -171,7 +167,7 @@ export const createIssue = (data) => async  dispatch => {
         if (response.data.success) {
             let newData = Object.assign({}, data)
             newData._id = response.id
-            dispatch(createSuccessfulIssue(newData))
+            dispatch(createSuccessfulTask(newData))
         }
         else {
             dispatch(dispatchError(response.message))
@@ -190,7 +186,7 @@ export const getASingleIssue = (id) => async  dispatch => {
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchIssueById(process.env.BASE, id, token))
         if (response.data.success) {
-            dispatch(appendSuccessfulIssues(response.data.data))
+            dispatch(appendSuccessfulTasks(response.data.data))
         }
         else {
             dispatch(dispatchError(response.message))
@@ -212,7 +208,7 @@ export const getIssueByProjectAndType = (id, type) => async  dispatch => {
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchByProjectAndIssueType(process.env.BASE, id, type, token))
         if (response.data.success) {
-            dispatch(appendCurrentIssue(response.data.data))
+            dispatch(appendCurrentTask(response.data.data))
         }
         else {
             dispatch(dispatchError(response.message))
@@ -232,7 +228,7 @@ export const updateIssue = (data) => async  dispatch => {
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchUpdateIssue(process.env.BASE, data, token))
         if (response.data.success) {
-            dispatch(updateSuccessfulIssue(data))
+            dispatch(updateSuccessfulTask(data))
         }
         else {
             dispatch(dispatchError(response.message))
@@ -251,7 +247,7 @@ export const deleteIssue = (id) => async  dispatch => {
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchDeleteIssue(process.env.BASE, id, token))
         if (response.data.success) {
-            dispatch(deleteSuccessfulIssue(id))
+            dispatch(deleteSuccessfulTask(id))
         }
         else {
             dispatch(dispatchError(response.message))

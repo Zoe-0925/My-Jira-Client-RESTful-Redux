@@ -36,7 +36,7 @@ export const deleteSuccessfulStatus = (id, issues) => {
     }
 }
 
-export const appendSuccessfulStatus = (id, issues) => {
+export const appendSuccessfulStatus = (data, order) => {
     return {
         type: APPEND_SUCCESS_STATUS,
         data: data,

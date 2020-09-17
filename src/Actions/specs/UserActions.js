@@ -5,7 +5,7 @@ import {
     loginSuccess, dispatchError, updateUser, dispatchUpdateEmail, dispatchUpdatePassword,
 
 
-} from '../UserActions';
+} from '../user.actions';
 import thunk from 'redux-thunk'
 import mockAxios from 'jest-mock-axios';
 import configureStore from 'redux-mock-store'

@@ -2,7 +2,7 @@ import {
     appendSuccessfulComments, createSuccessfulComment, deleteSuccessfulComment,
     updateSuccessfulComment, dispatchError, getCommentsForIssue, 
     fetchCreateComment
-} from "../CommentActions"
+} from "../comment.actions"
 import React from 'react'
 import { render, waitForElement, fireEvent } from '@testing-library/react'
 import axios from 'axios';

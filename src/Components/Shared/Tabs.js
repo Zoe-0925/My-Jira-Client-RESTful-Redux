@@ -9,7 +9,7 @@ import {
     Typography, Link, Grow, Paper, Popper, ClickAwayListener,
     ListItem, MenuList, IconButton, MenuItem
 } from '@material-ui/core';
-import { reorderToBotttom } from "../../Actions/StatusActions"
+import { reorderToBotttom } from "../../Actions/status.actions"
 import { deleteIssue, toggleFlag } from "../../Actions/mockIssueActions"
 //TODO swap
 //import { deleteIssue, toggleFlag } from "../../Components/Issue/Actions"

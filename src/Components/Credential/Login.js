@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom'
 import { useDispatch } from "react-redux"
 import { EmailField, PasswordField } from "./SharedTextFields"
 //TODO swap
-//import { manualLogin } from "../../Actions/UserActions"
+//import { manualLogin } from "../../Actions/user.actions"
 import { manualLogin } from "../../Actions/mockUserActions"
 
 const LoginForm = props => {

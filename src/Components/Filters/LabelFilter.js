@@ -2,7 +2,7 @@ import React from 'react'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Tooltip, ClickAwayListener, MenuItem, MenuList } from '@material-ui/core'
 import { useSimpleState } from "../Shared/CustomHooks"
-import {useLabelFilter} from "../Filters/CustomHooks"
+import {useLabelFilter} from "./CustomHooks"
 
 export default function Label() {
     const { value, handleTrue, handleFalse } = useSimpleState()

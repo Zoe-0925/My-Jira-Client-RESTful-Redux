@@ -1,10 +1,10 @@
 import {
-    LOADING_ISSUE, CREATE_SUCCESS_ISSUE, CREATE_SUCCESS_EPIC, DELETE_SUCCESS_ISSUE,
-    UPDATE_SUCCESS_ISSUE, DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
-    APPEND_SUCCESS_ISSUES_PARENT, APPEND_SUCCESS_ISSUES_CHILDREN,
-    ERROR_ISSUE, UPDATE_ISSUE_GROUP, TOGGLE_FLAG
+    LOADING_ISSUE,  CREATE_SUCCESS_EPIC, 
+     DELETE_SUCCESS_EPIC, UPDATE_SUCCESS_EPIC,
+    APPEND_SUCCESS_TASKS_PARENT, APPEND_SUCCESS_TASKS_CHILDREN,
+UPDATE_ISSUE_GROUP, TOGGLE_FLAG
 } from "../../Actions/IssueActions"
-import IssueReducer from "../IssueReducer"
+import IssueReducer from "../issue.reducer"
 
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
@@ -37,33 +37,15 @@ describe('Issue Reducer', () => {
         ).toEqual({ ...initialState, loading: true })
     })
 
-    it('should handle CREATE_SUCCESS_ISSUE', () => {
-        expect(
-            IssueReducer(undefined, { type: CREATE_SUCCESS_ISSUE , data:newTask})
-        ).toEqual({ ...initialState, loading: true })
-    })
-
     it('should handle CREATE_SUCCESS_EPIC', () => {
         expect(
             IssueReducer(undefined, { type: CREATE_SUCCESS_EPIC })
         ).toEqual({ ...initialState, loading: true })
     })
 
-    it('should handle DELETE_SUCCESS_ISSUE', () => {
-        expect(
-            IssueReducer(undefined, { type: DELETE_SUCCESS_ISSUE })
-        ).toEqual({ ...initialState, loading: true })
-    })
-
     it('should handle DELETE_SUCCESS_EPIC', () => {
         expect(
             IssueReducer(undefined, { type: DELETE_SUCCESS_EPIC })
-        ).toEqual({ ...initialState, loading: true })
-    })
-
-    it('should handle UPDATE_SUCCESS_ISSUE', () => {
-        expect(
-            IssueReducer(undefined, { type: UPDATE_SUCCESS_ISSUE })
         ).toEqual({ ...initialState, loading: true })
     })
 
@@ -85,15 +67,15 @@ describe('Issue Reducer', () => {
         ).toEqual({ ...initialState, loading: true })
     })
 
-    it('should handle APPEND_SUCCESS_ISSUES_PARENT', () => {
+    it('should handle APPEND_SUCCESS_TASKS_PARENT', () => {
         expect(
-            IssueReducer(undefined, { type: APPEND_SUCCESS_ISSUES_PARENT })
+            IssueReducer(undefined, { type: APPEND_SUCCESS_TASKS_PARENT })
         ).toEqual({ ...initialState, loading: true })
     })
 
-    it('should handle APPEND_SUCCESS_ISSUES_CHILDREN', () => {
+    it('should handle APPEND_SUCCESS_TASKS_CHILDREN', () => {
         expect(
-            IssueReducer(undefined, { type: APPEND_SUCCESS_ISSUES_CHILDREN })
+            IssueReducer(undefined, { type: APPEND_SUCCESS_TASKS_CHILDREN })
         ).toEqual({ ...initialState, loading: true })
     })
 
@@ -101,13 +83,6 @@ describe('Issue Reducer', () => {
         expect(
             IssueReducer(undefined, { type: TOGGLE_FLAG })
         ).toEqual({ ...initialState, loading: true })
-    })
-
-    it.skip('should handle  ERROR_ISSUE', () => {
-        expect(
-            IssueReducer(undefined, { type: ERROR_ISSUE, data: "err" })
-        ).toEqual({ ...initialState, errorMessage: "err" }
-        )
     })
 
 })

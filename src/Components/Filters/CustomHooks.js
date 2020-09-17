@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { selectLabels } from "../../Reducers/Selectors"
-import { filterByLabel } from "../../rActions/FilterActions"
+import { filterByLabel } from "../../rActions/"
 
 export const useLabelFilter = (data) => {
     const labels = useSelector(state=> selectLabels(state))

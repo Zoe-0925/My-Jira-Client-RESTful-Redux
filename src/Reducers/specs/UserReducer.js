@@ -1,4 +1,4 @@
-import UserReducer from "../UserReducer"
+import UserReducer from "../user.reducer"
 import {
     LOADING_USER,
     LOGIN_SUCCESS_USER,
@@ -8,7 +8,7 @@ import {
     UPDATE_USER_EMAIL,
     UPDATE_USER_PASSWORD,
     ADD_OTHER_USERS,
-} from "../../Actions/UserActions"
+} from "../../Actions/user.actions"
 
 
 const initialUser = { _id: "testUserId", name: "userName", email: "test email" }

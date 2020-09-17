@@ -1,6 +1,6 @@
 import {
     FILTER_BY_EPIC, FILTER_BY_LABEL, FILTER_BY_ASSIGNEE, CLEAN_FILTER, GROUP_BY
-} from "../../Actions/FilterActions"
+} from "../../Actions/Filter.actions"
 import FilterReducer from "../FilterReducer"
 
 const initialState = {

@@ -7,7 +7,7 @@ import {
 	UPDATE_USER_EMAIL,
 	UPDATE_USER_PASSWORD,
 	ADD_OTHER_USERS,
-} from "../Actions/UserActions"
+} from "../Actions/user.actions"
 
 const UserReducer = (state = {
 	loading: false,

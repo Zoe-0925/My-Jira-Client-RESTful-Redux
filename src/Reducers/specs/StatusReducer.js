@@ -2,7 +2,7 @@ import StatusReducer from "../StatusReducer"
 import {
     LOADING_STATUS, ERROR_STATUS, CREATE_SUCCESS_STATUS, DELETE_SUCCESS_STATUS,
     UPDATE_SUCCESS_STATUS, APPEND_SUCCESS_STATUS, REORDER_ISSUES, MOVE_ISSUES
-} from "../../Actions/StatusActions"
+} from "../../Actions/status.actions"
 
 
 const initialUser = { _id: "testUserId", name: "userName", email: "test email" }

@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
-import { moveIssues} from "../../Actions/StatusActions"
+import { moveIssues} from "../../Actions/status.actions"
 
 export default function DragContext() {
     const dispatch = useDispatch()

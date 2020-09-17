@@ -2,18 +2,20 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const LOADING_ISSUE = "LOADING_ISSUE"
 export const ERROR_ISSUE = "ERROR_ISSUE"
-export const CREATE_SUCCESS_ISSUE = "CREATE_SUCCESS_ISSUE"
+
+export const CREATE_SUCCESS_TASK = "CREATE_SUCCESS_TASK"
 export const CREATE_SUCCESS_EPIC = "CREATE_SUCCESS_EPIC"
-export const DELETE_SUCCESS_ISSUE = "DELETE_SUCCESS_ISSUE"
+export const DELETE_SUCCESS_TASK = "DELETE_SUCCESS_TASK"
 export const DELETE_SUCCESS_EPIC = "DELETE_SUCCESS_EPIC"
-export const UPDATE_SUCCESS_ISSUE = "UPDATE_SUCCESS_ISSUE"
+export const APPEND_SUCCESS_CURRENT_TASK = "APPEND_SUCCESS_CURRENT_TASK"
+export const UPDATE_SUCCESS_TASK = "UPDATE_SUCCESS_TASK"
 export const UPDATE_SUCCESS_EPIC = "UPDATE_SUCCESS_EPIC"
-export const APPEND_SUCCESS_ISSUES = "APPEND_SUCCESS_ISSUES"
+export const APPEND_SUCCESS_TASKS = "APPEND_SUCCESS_TASKS"
 export const APPEND_SUCCESS_EPICS = "APPEND_SUCCESS_EPICS"
 export const APPEND_SUCCESS_CURRENT_ISSUE = "APPEND_SUCCESS_CURRENT_ISSUE"
 export const APPEND_SUCCESS_CURRENT_EPICS = "APPEND_SUCCESS_CURRENT_EPICS"
-export const APPEND_SUCCESS_ISSUES_PARENT = "APPEND_SUCCESS_ISSUES_PARENT"
-export const APPEND_SUCCESS_ISSUES_CHILDREN = "APPEND_SUCCESS_ISSUES_CHILDREN"
+export const APPEND_SUCCESS_TASKS_PARENT = "APPEND_SUCCESS_TASKS_PARENT"
+export const APPEND_SUCCESS_TASKS_CHILDREN = "APPEND_SUCCESS_TASKS_CHILDREN"
 export const UPDATE_ISSUE_GROUP = "UPDATE_ISSUE_GROUP"
 export const TOGGLE_FLAG = "TOGGLE_FLAG"
 
@@ -21,7 +23,7 @@ export const TOGGLE_FLAG = "TOGGLE_FLAG"
 
 export function appendSuccessfulIssues(data) {
     return {
-        type: APPEND_SUCCESS_ISSUES,
+        type: APPEND_SUCCESS_TASKS,
         data: data
     }
 }
@@ -33,16 +35,16 @@ export function appendSuccessfulEpics(data) {
     }
 }
 
-export function appendCurrentIssue(data) { //Append the issue to be opened in a page or modal
+export function appendCurrentTask(data) { //Append the issue to be opened in a page or modal
     return {
-        type: APPEND_SUCCESS_CURRENT_ISSUE,
+        type: APPEND_SUCCESS_CURRENT_TASK,
         data: data
     }
 }
 
-export function createSuccessfulIssue(data) {
+export function createSuccessfulTask(data) {
     return {
-        type: CREATE_SUCCESS_ISSUE,
+        type: CREATE_SUCCESS_TASK,
         data: data
     }
 }
@@ -54,9 +56,9 @@ export function createSuccessfulEpic(data) {
     }
 }
 
-export function deleteSuccessfulIssue(id) {
+export function deleteSuccessfulTask(id) {
     return {
-        type: DELETE_SUCCESS_ISSUE,
+        type: DELETE_SUCCESS_TASK,
         id: id
     }
 }
@@ -68,9 +70,9 @@ export function deleteSuccessfulEpic(id) {
     }
 }
 
-export function updateSuccessfulIssue(data) {
+export function updateSuccessfulTask(data) {
     return {
-        type: UPDATE_SUCCESS_ISSUE,
+        type: UPDATE_SUCCESS_TASK,
         data: data
     }
 }
@@ -116,7 +118,7 @@ export function createIssue(data) {
         dispatch({ type: LOADING_ISSUE })
         let newData = Object.assign({}, data)
         newData._id = uuidv4()
-        dispatch(createSuccessfulIssue(newData))
+        dispatch(createSuccessfulTask(newData))
     }
 }
 
@@ -142,7 +144,7 @@ export function getIssueByProjectAndType(id, type) {
             id: "2", summary: "test sub issue", key: "test key 1", labels: ["test"]
         }]
         const data = type === "issue" ? issue : type === "epic" ? epic : type === "subIssue" ? subIssue : ""
-        dispatch(appendCurrentIssue(data))
+        dispatch(appendCurrentTask(data))
     }
 }
 
@@ -150,14 +152,14 @@ export function getIssueByProjectAndType(id, type) {
 export function updateIssue(data) {
     return dispatch => {
         dispatch({ type: LOADING_ISSUE })
-        dispatch(updateSuccessfulIssue(data))
+        dispatch(updateSuccessfulTask(data))
     }
 }
 
 export function deleteIssue(id, token) {
     return dispatch => {
         dispatch({ type: LOADING_ISSUE })
-        dispatch(deleteSuccessfulIssue(id))
+        dispatch(deleteSuccessfulTask(id))
     }
 }
 

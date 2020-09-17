@@ -5,7 +5,7 @@ import {
     UPDATE_SUCCESS_COMMENT,
     LOADING_COMMENT,
     ERROR_COMMENT
-} from "../../Actions/CommentActions"
+} from "../../Actions/comment.actions"
 import CommentReducer from "../CommentReducer"
 
 const initialState = {
