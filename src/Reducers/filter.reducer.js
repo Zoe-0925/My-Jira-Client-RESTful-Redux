@@ -1,6 +1,6 @@
 import {
     FILTER_BY_EPIC, FILTER_BY_LABEL, FILTER_BY_ASSIGNEE, CLEAN_FILTER, GROUP_BY
-} from "../Actions/Filter.actions"
+} from "../Actions/filter.actions"
 
 const initialState = {
     none: true,

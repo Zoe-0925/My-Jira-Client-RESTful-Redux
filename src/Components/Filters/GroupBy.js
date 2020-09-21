@@ -1,7 +1,7 @@
 import React from 'react'
 import CustomSelect from "../Shared/CustomSelect"
 import { useDispatch } from "react-redux"
-import { groupBy } from "../../Actions/Filter.actions"
+import { groupBy } from "../../Actions/filter.actions"
 
 export default function GroupBy() {
     const items = [{ name: "None", value: "" }, { name: "Epic", value: "epic" }, { name: "Assignee", value: "assignee" }]
