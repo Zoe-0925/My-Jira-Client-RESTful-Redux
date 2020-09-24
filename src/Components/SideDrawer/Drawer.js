@@ -11,12 +11,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 export default function SideDrawer({ handleClick, open, ...props }) {
     const theme = useTheme();
-    const classes =  makeStyles()
+    const classes = makeStyles()
 
     const title = useSelector(selectCurrentProjectName)
 
     return <div className="drawer">
         <Drawer
+            style={{ "position": "relatvie" }}
             variant="persistent"
             open={open}
             classes={{
@@ -39,7 +40,7 @@ export default function SideDrawer({ handleClick, open, ...props }) {
         {!open && <Drawer
             variant="permanent"
             className="close-drawer"
-            style={{"backgroundColor":"rgb(244, 245, 247)"}}
+            style={{ "backgroundColor": "rgb(244, 245, 247)" }}
         > <IconButton className="open-drawer-icon" onClick={() => { handleClick(true) }}>
                 <ChevronRightIcon />
             </IconButton>
