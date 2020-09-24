@@ -4,10 +4,8 @@ import { Typography, Breadcrumbs, Link } from '@material-ui/core';
 
 export default function NavBreadcrumbs() {
 
-
-
+    //TODO update this to props
     const projectName = "Project Name"
-
 
     return (
         <Breadcrumbs aria-label="breadcrumb" >

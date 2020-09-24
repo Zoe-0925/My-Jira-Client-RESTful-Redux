@@ -17,7 +17,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
  * @param projectName: current project's name
  * @param CurentLocation: enum ("roadmap", "board", "detail")
  */
-export function DrawerBody({ currentLocation }) {
+export function DrawerInner({ currentLocation }) {
     const projectName = useSelector(selectCurrentProjectName)
 
     return (

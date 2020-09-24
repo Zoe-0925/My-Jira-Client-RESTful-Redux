@@ -130,9 +130,9 @@ export const selectEpics = createSelector(
 
 //TODO: This should select a wrong key/value array
 // Check usage and maybe use selectIssueA
-export const selectIssues = createSelector(
+export const selectTasks = createSelector(
     selectIssueReducer,
-    issueReducer => issueReducer.issues
+    issueReducer => issueReducer.tasks
 )
 
 /****************** Reselectors - Labels  *********************/

@@ -1,48 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux"
-import { IssueDotIconMenu } from "../Shared/Tabs"
-import { Tooltip } from '@material-ui/core';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Column from "./Column"
 import {
-    selectStatus, selectStatusOrder, selectIssues, selectNoneFilter, selectCurrentProject,
+    selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, selectCurrentProject,
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy
 } from "../../Reducers/Selectors"
-import { v4 as uuidv4 } from 'uuid'
 import IssueModal from "../Issues/IssueModal"
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
+import IssueCard from "./Card"
 
-export const IssueCard = ({ task, openTaskDetail }) => {
-    const [taskState, setTask] = useState(task)
-
-    useEffect(() => {
-        setTask(task)
-    }, [task])
-
-    return (
-        <div key={uuidv4()} className={!taskState.flag ? "epic-body" : "epic-body flagged"}>
-            <div className="col">
-                <p className="summary" onClick={() => openTaskDetail(task)}>{task.summary}</p>
-                <div className="labels" onClick={() => openTaskDetail(task)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
-                <div className="issueType tab row" onClick={() => openTaskDetail(task)}>
-                    <div>
-                        <Tooltip title={task.issueType} aria-label={task.issueType}>
-                            <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
-                        </Tooltip>
-                        <p>{task.summary}</p>
-                    </div>
-                </div>
-                <div className="col">
-                    <IssueDotIconMenu id={task._id} flag={task.flag} />
-                    <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task)} /></Tooltip>
-                </div>
-            </div>
-        </div>
-    )
-}
 
 export const draggable = (task, index, openTaskDetail) => <Draggable
     className="draggable"
@@ -66,7 +34,7 @@ export default function DragAndDrop() {
     const columnOrder = useSelector(selectStatusOrder) // droppableId = the index of each column in order
     const status = useSelector(selectStatus)
     const columns = columnOrder.map(each => status.get(each))
-    const issues = useSelector(selectIssues)
+    const tasks = useSelector(selectTasks)
     //  const { createNewColumn } = useCreateStatus(initialStatus._id)
     const [showNewEditable, setShowEditable] = useState(false)
     const noneFilter = useSelector(selectNoneFilter)
@@ -115,7 +83,7 @@ export default function DragAndDrop() {
                         >
                             <Column initialStatus={el}>
                                 {noneFilter && el.issues.map((issueId, index) =>{
-                                   return draggable(issues.get(issueId), index, openTaskDetail)
+                                   return draggable(tasks.get(issueId), index, openTaskDetail)
                                 })}
                             </Column>
                             {provided.placeholder}

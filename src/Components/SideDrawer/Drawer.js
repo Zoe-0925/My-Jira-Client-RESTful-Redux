@@ -9,49 +9,13 @@ import { ProjectHeaderTab } from "../Shared/Tabs"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-const drawerWidth = 240;
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        display: 'flex',
-    },
-    menuButton: {
-        marginLeft: theme.spacing(2),
-    },
-    hide: {
-        display:"none"
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(1),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
-    },
-}));
 export default function SideDrawer({ handleClick, open, ...props }) {
     const theme = useTheme();
-    const classes = useStyles();
+    const classes =  makeStyles()
 
     const title = useSelector(selectCurrentProjectName)
 
-    return <div className={classes.root}>
+    return <div className="drawer">
         <Drawer
             variant="persistent"
             open={open}

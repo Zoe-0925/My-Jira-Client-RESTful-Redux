@@ -12,7 +12,7 @@ export default function SearchBox() {
         <Fragment>
             <ClickAwayListener onClickAway={handleFalse}>
                 <TextField className={className} id="standard-search" placeholder={placeholder} type="search"
-                    variant="outlined"
+                    variant="outlined" size="small"
                     InputProps={{
                         startAdornment: (
                             <InputAdornment>

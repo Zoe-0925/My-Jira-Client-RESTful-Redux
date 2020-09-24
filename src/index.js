@@ -9,6 +9,7 @@ import configureStore from './Components/store';
 import App from './App';
 /**     Fonts    */
 import './fonts/Montserrat/Montserrat-Regular.ttf';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
 

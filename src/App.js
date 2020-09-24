@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader/root';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { isLoggedOut } from "./Components/Credential/Auth.service"
 /**     Router    */
 import { Router } from 'react-router-dom';
@@ -11,6 +11,7 @@ import Signup from "./Pages/Signup"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import './App.scss';
+import NavBarDesktop from "./Components/NavBar/NavBarDesktop"
 
 
 const App = ({ history, context }) => {
@@ -18,11 +19,12 @@ const App = ({ history, context }) => {
   //useEffect(() => {
   //  if (isLoggedOut()) {
   //    history.push("/login")
-   // }
+  // }
   //}, [])
 
   return (
     <div className="App">
+      <NavBarDesktop />
       <ConnectedRouter history={history} context={context}>
         <Router history={history}>
           <Switch>
