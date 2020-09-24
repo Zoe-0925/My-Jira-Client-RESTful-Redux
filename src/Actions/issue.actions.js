@@ -159,15 +159,38 @@ export const constgetIssuesForProject = (projectId, token) => async  dispatch =>
     }
 }
 
-export const createIssue = (data) => async  dispatch => {
+export const createTask = (data) => async  dispatch => {
     dispatch({ type: LOADING_ISSUE })
     try {
+        //TODO change this to session storage
         const token = localStorage.getItem("token")
         const response = await dispatch(fetchCreateIssue(process.env.BASE, data, token))
         if (response.data.success) {
             let newData = Object.assign({}, data)
             newData._id = response.id
             dispatch(createSuccessfulTask(newData))
+        }
+        else {
+            dispatch(dispatchError(response.message))
+        }
+    }
+    catch (err) {
+        dispatch(dispatchError(err))
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', err);
+    }
+}
+
+export const createEpic = (data) => async  dispatch => {
+    dispatch({ type: LOADING_ISSUE })
+    try {
+        //TODO change this to session storage
+        const token = localStorage.getItem("token")
+        const response = await dispatch(fetchCreateIssue(process.env.BASE, data, token))
+        if (response.data.success) {
+            let newData = Object.assign({}, data)
+            newData._id = response.id
+            dispatch(createSuccessfulEpic(newData))
         }
         else {
             dispatch(dispatchError(response.message))

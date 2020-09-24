@@ -22,12 +22,7 @@ export default function IssueReducer(state = {
     authenticated: false,
     errorMessage: ""
 }, action) {
-    let task
-    let subtask
-    let epic
     let newState;
-    let parent
-    let children
     let tempResult
     switch (action.type) {
         case LOADING_ISSUE:
@@ -79,34 +74,24 @@ export default function IssueReducer(state = {
         case ADD_TASK_TO_EPIC:
             newState = { ...state, authenticated: true, loading: false }
 
-            //TODO update the task and update the epic
-            issue = newState.issues.get(action.id)
-            issue.epic = action.data
-            newState.issues.set(action.id, issue)
             return newState
         case REMOVE_TASK_FROM_EPIC:
             newState = { ...state, authenticated: true, loading: false }
 
-            //TODO update the issue and update the epic
-            issue = newState.issues.get(action.id)
-            issue.epic = action.data
-            newState.issues.set(action.id, issue)
+ 
             return newState
 
         case ADD_SUBTASK_TO_TASK:
             newState = { ...state, authenticated: true, loading: false }
 
-            //TODO update the issue and update the epic
-            task= newState.issues.get(action.id)
-            task.epic = action.data
-            newState.issues.set(action.id, task)
+       
             return newState
 
         case REMOVE_SUBTASK_FROM_TASK:
             newState = { ...state, authenticated: true, loading: false }
 
             //TODO update the issue and update the epic
-            task = newState.issues.get(action.id)
+           // task = newState.issues.get(action.id)
             //task.epic = action.data
            // newState.issues.set(action.id, issue)
             return newState
@@ -119,7 +104,7 @@ export default function IssueReducer(state = {
             return newState
         case UPDATE_SUCCESS_EPIC:
             newState = { ...state, authenticated: true, loading: false }
-            let epic = newState.epics.find(item => item._id = action.data._id)
+            epic = newState.epics.find(item => item._id = action.data._id)
             epic = action.data
             return newState
         case UPDATE_ISSUE_GROUP:

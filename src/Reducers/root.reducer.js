@@ -11,8 +11,7 @@ import { connectRouter } from 'connected-react-router'
 
 const RootReducer = (history) => combineReducers({
     ProjectReducer, IssueReducer, CommentReducer, LabelReducer, StatusReducer, UserReducer,
-    FilterReducer,
-    router: connectRouter(history),
+    FilterReducer,  router: connectRouter(history)
 });
 
 export default RootReducer;

@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from "react-redux"
 // TODO swap
-import { createIssue } from "../../Actions/mockIssueActions"
-//import {createIssue} from "../../Actions/IssueActions"
+import { CREATE_SUCCESS_TASK } from "../../Actions/mockIssueActions"
+//import {createTask} from "../../Actions/IssueActions"
 import { createStatus } from "../../Actions/mockStatusActions"
 //TODO swap
 //import {createStatus} from "../../Actions/StatusActions"
 import { getUserByIds } from "../../Actions/mockUserActions"
 import { selectCurrentProject, selectCurrentUser } from "../../Reducers/Selectors"
+import { v4 as uuidv4 } from 'uuid'
+
 
 export function useCreateIssue(statusId) {
     const dispatch = useDispatch()
@@ -16,6 +18,7 @@ export function useCreateIssue(statusId) {
 
     const createNewTask = (issueName) => {
         const issue = {
+            _id:uuidv4(),
             project: currentProject,
             summary: issueName,
             description: "",
@@ -30,7 +33,10 @@ export function useCreateIssue(statusId) {
             chilren: [],
             comments: []
         }
-        dispatch(createIssue(issue))
+        dispatch({
+            type: CREATE_SUCCESS_TASK,
+            data: issue
+        })
     }
 
     return { createNewTask }

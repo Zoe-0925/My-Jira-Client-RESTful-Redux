@@ -22,7 +22,7 @@ function ColumnTitle({ status }) {
         <div className="flex-row epic-title" id={status !== undefined ? status.id : ""}>
             <EditableText name="epic-summary" className="epic-summary"
                 edit={edit} text={state.value || status.name} setEdit={setEdit}>
-                <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
+                <Input name="status-title-input" state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
                     dispatch(updateSuccessfulStatus(state.value))
                 }} />
             </EditableText>
@@ -38,22 +38,23 @@ function ColumnTitle({ status }) {
 
 //Need the status id
 export default function Column({ initialStatus, ...props }) {
-    const { state, setState, setEdit } = useEditText(initialStatus.name)
+    const [statusName, setStatusName] = useState(initialStatus.name)
+    const { state, setState, setEdit } = useEditText("") //for Creating the new issue
     const { createNewTask } = useCreateIssue(initialStatus._id)
     const [showCreateTaskTab, setShowEditable] = useState(false)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setState(initialStatus)
+        setStatusName(initialStatus)
     }, [])
 
     return (<div className="epic-box">
-        <ColumnTitle status={state} />
+        <ColumnTitle status={statusName} />
         {props.children}
         {!showCreateTaskTab && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
         {showCreateTaskTab && <EditableText name="creare-new-task" className="editable-create-issue" edit={true}
             text={state.value || status.name} setEdit={setEdit}>
-            <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
+            <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => {
                 dispatch(createNewTask(state.value))
             }} />
         </EditableText>

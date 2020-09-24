@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
+import {batch} from "react-redux"
 
 export const LOADING_STATUS = "LOADING_STATUS"
 export const ERROR_STATUS = "ERROR_STATUS"
@@ -53,8 +54,10 @@ export function createStatus(data) {
 
 export function updateStatus(data) {
     return async dispatch => {
-        dispatch({ type: LOADING_STATUS })
-        dispatch(updateSuccessfulStatus(data))
+        batch(() => {
+            dispatch({ type: LOADING_STATUS })
+            dispatch(updateSuccessfulStatus(data))
+        })
     }
 }
 

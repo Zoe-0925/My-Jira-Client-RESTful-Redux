@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
+import { batch } from "react-redux"
 
 export const LOADING_ISSUE = "LOADING_ISSUE"
 export const ERROR_ISSUE = "ERROR_ISSUE"
@@ -22,27 +22,27 @@ export const TOGGLE_FLAG = "TOGGLE_FLAG"
 /**********************************  Actions  ******************************************/
 
 export function appendSuccessfulIssues(data) {
-    return {
+    return ({
         type: APPEND_SUCCESS_TASKS,
         data: data
-    }
+    })
 }
 
 export function appendSuccessfulEpics(data) {
-    return {
+    return ({
         type: APPEND_SUCCESS_EPICS,
         data: data
-    }
+    })
 }
 
 export function appendCurrentTask(data) { //Append the issue to be opened in a page or modal
-    return {
+    return ({
         type: APPEND_SUCCESS_CURRENT_TASK,
         data: data
-    }
+    })
 }
 
-export function createSuccessfulTask(data) {
+export const createSuccessfulTask = (data) => {
     return {
         type: CREATE_SUCCESS_TASK,
         data: data
@@ -50,13 +50,13 @@ export function createSuccessfulTask(data) {
 }
 
 export function createSuccessfulEpic(data) {
-    return {
+    return ({
         type: CREATE_SUCCESS_EPIC,
         data: data
-    }
+    })
 }
 
-export function deleteSuccessfulTask(id) {
+export const deleteSuccessfulTask = (id) => {
     return {
         type: DELETE_SUCCESS_TASK,
         id: id
@@ -64,39 +64,39 @@ export function deleteSuccessfulTask(id) {
 }
 
 export function deleteSuccessfulEpic(id) {
-    return {
+    return ({
         type: DELETE_SUCCESS_EPIC,
         id: id
-    }
+    })
 }
 
 export function updateSuccessfulTask(data) {
-    return {
+    return ({
         type: UPDATE_SUCCESS_TASK,
         data: data
-    }
+    })
 }
 
 export function updateSuccessfulEpics(data) {
-    return {
+    return ({
         type: UPDATE_SUCCESS_EPIC,
         data: data
-    }
+    })
 }
 
 export function updateIssueGroup(id, data) {
-    return {
+    return ({
         type: UPDATE_ISSUE_GROUP,
         id: id,
         data: data
-    }
+    })
 }
 
 export function toggleSuccessfulFlag(id) {
-    return {
+    return ({
         type: TOGGLE_FLAG,
         id: id
-    }
+    })
 }
 
 /**********************************  Thunk Actions  ******************************************/
@@ -113,12 +113,12 @@ export async function getIssuesForProject(projectId, token) {
     }
 }
 
-export function createIssue(data) {
+
+
+export function createEpic(data) {
     return dispatch => {
         dispatch({ type: LOADING_ISSUE })
-        let newData = Object.assign({}, data)
-        newData._id = uuidv4()
-        dispatch(createSuccessfulTask(newData))
+        dispatch(createSuccessfulEpic(data))
     }
 }
 
