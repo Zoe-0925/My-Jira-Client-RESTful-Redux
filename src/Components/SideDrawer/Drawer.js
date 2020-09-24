@@ -17,7 +17,6 @@ export default function SideDrawer({ handleClick, open, ...props }) {
 
     return <div className="drawer">
         <Drawer
-            style={{ "position": "relatvie" }}
             variant="persistent"
             open={open}
             classes={{

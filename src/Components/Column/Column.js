@@ -40,7 +40,8 @@ function ColumnTitle({ status }) {
 export default function Column({ initialStatus, ...props }) {
     const { state, setState, setEdit } = useEditText(initialStatus.name)
     const { createNewTask } = useCreateIssue(initialStatus._id)
-    const [showNewEditable, setShowEditable] = useState(false)
+    const [showCreateTaskTab, setShowEditable] = useState(false)
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setState(initialStatus)
@@ -49,11 +50,19 @@ export default function Column({ initialStatus, ...props }) {
     return (<div className="epic-box">
         <ColumnTitle status={state} />
         {props.children}
-        {!showNewEditable && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
-        {showNewEditable && <EditableText className="editable-create-issue" edit={true}>
-            <Textarea state={state} setState={setState} setEdit={setEdit}
-                handleSubmit={() => { createNewTask(state) }} />
-        </EditableText>}
+        {!showCreateTaskTab && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
+        {showCreateTaskTab && <EditableText name="creare-new-task" className="editable-create-issue" edit={true}
+            text={state.value || status.name} setEdit={setEdit}>
+            <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={() => {
+                dispatch(createNewTask(state.value))
+            }} />
+        </EditableText>
+        }
     </div>
     )
 }
+
+/**
+ *         <Textarea state={state} setState={setState} setEdit={setEdit}
+                handleSubmit={() => { createNewTask(state) }} />
+ */
