@@ -1,21 +1,18 @@
 import React from 'react';
 import { useSelector } from "react-redux"
 import { selectCurrentProjectName } from "../../Reducers/Selectors"
-import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Drawer, AppBar, Toolbar, IconButton, Hidden } from '@material-ui/core';
+import { Drawer, IconButton, Hidden } from '@material-ui/core';
 import { ProjectHeaderTab } from "../Shared/Tabs"
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import CloseIcon from '@material-ui/icons/Close';
-import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
-        backgroundColor: "rgb(244, 245, 247)"
     },
     drawer: {
         [theme.breakpoints.up('sm')]: {
@@ -31,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
     },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-        width: drawerWidth
+        marginTop: "1rem",
+        width: drawerWidth,
+        backgroundColor: "rgb(250, 251, 252)"
     },
     content: {
         flexGrow: 1,
@@ -54,6 +53,17 @@ export default function SideDrawer({ handleClick, open, ...props }) {
         setMobileOpen(!mobileOpen)
     }
 
+    const closeButton = (<IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
+        <CloseIcon />
+    </IconButton>)
+
+    const drawerTitle = (<div className="title">
+        <ProjectHeaderTab title={title} subtite="Software project" imgSrc="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" />
+        <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+        </IconButton>
+    </div>)
+
     return <div className="drawer">
         <nav className={classes.drawer}>
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
@@ -70,15 +80,8 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                         keepMounted: true, // Better open performance on mobile.
                     }}
                 >
-                    <IconButton onClick={handleDrawerToggle} className={classes.closeMenuButton}>
-                        <CloseIcon />
-                    </IconButton>
-                    <div className="title">
-                        <ProjectHeaderTab title={title} subtite="Software project" imgSrc="https://www.lovethispic.com/uploaded_images/218149-Hot-Guy-To-Wake-Up-To.jpg" />
-                        <IconButton className="close-drawer-icon" onClick={open ? () => { handleClick(false) } : () => { handleClick(true) }}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </IconButton>
-                    </div>
+                    {closeButton}
+                    {drawerTitle}
                     {props.children}
                 </Drawer>
             </Hidden>
@@ -91,6 +94,7 @@ export default function SideDrawer({ handleClick, open, ...props }) {
                     }}
                 >
                     <div className={classes.toolbar} />
+                    {drawerTitle}
                     {props.children}
                 </Drawer>
             </Hidden>

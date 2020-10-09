@@ -1,6 +1,4 @@
 import React, { Fragment } from 'react';
-import { useSelector } from "react-redux"
-import { selectCurrentProjectName } from "../../Reducers/Selectors"
 import { Divider, List, ListItem, ListItemIcon, ListItemText, Link } from '@material-ui/core';
 import history from "../../history"
 /**--------------Icons-------------- */
@@ -14,12 +12,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 /**
- * @param projectName: current project's name
  * @param CurentLocation: enum ("roadmap", "board", "detail")
  */
 export function DrawerInner({ currentLocation }) {
-    const projectName = useSelector(selectCurrentProjectName)
-
     return (
         <Fragment>
             <List>

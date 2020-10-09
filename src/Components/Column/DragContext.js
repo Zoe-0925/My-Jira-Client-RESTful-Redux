@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch } from "react-redux"
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragAndDrop from "./DragAndDrop"
-import { moveIssues} from "../../Actions/status.actions"
+import { moveIssues } from "../../Actions/status.actions"
 
 export default function DragContext() {
     const dispatch = useDispatch()
@@ -23,7 +23,9 @@ export default function DragContext() {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
-            <DragAndDrop />
+            <div className="board-container">
+                <DragAndDrop />
+            </div>
         </DragDropContext>
     )
 }

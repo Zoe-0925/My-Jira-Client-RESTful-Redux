@@ -496,6 +496,10 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   width: 100%;
 }
 
+.board-container{
+  padding:2.5rem;
+}
+
 .epic-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
