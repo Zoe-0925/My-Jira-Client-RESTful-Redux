@@ -255,8 +255,8 @@ export default function NavAppBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Button onClick={() => history.push("/projects")} className="nav-title">Jira Software Mock </Button>
-                    <Button className="nav-title" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
+                    <Button onClick={() => history.push("/projects")} className="nav-title">Jira Mock </Button>
+                    <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
                     {projectMenu}
                     <Button className="navbar-create-btn" onClick={() => { }}>Create</Button>
                     <div className={classes.grow} />
