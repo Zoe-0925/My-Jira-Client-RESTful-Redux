@@ -23,21 +23,19 @@ export default function CustomIconMenu({ options, click, ...props }) {
             >
                 {props.children}
             </IconButton>
-            <ClickAwayListener onClickAway={handleClose}>
-                <Menu
-                    id="long-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={open}
-                    onClose={handleClose}
-                >
-                    {options.map((option) => (
-                        <MenuItem key={option} onClick={() => click(option)}>
-                            {option}
-                        </MenuItem>
-                    ))}
-                </Menu>
-            </ClickAwayListener>
+            <Menu
+                id="long-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={open}
+                onClose={handleClose}
+            >
+                {options.map((option) => (
+                    <MenuItem key={option} onClick={() => click(option)}>
+                        {option}
+                    </MenuItem>
+                ))}
+            </Menu>
         </div>
     );
 }

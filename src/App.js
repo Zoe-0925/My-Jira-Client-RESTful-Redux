@@ -11,7 +11,6 @@ import Signup from "./Pages/Signup"
 import Board from "./Pages/Board"
 import ProjectDetail from "./Pages/ProjectDetail"
 import './App.scss';
-import NavBarDesktop from "./Components/NavBar/NavBarDesktop"
 
 
 const App = ({ history, context }) => {
@@ -24,7 +23,6 @@ const App = ({ history, context }) => {
 
   return (
     <div className="App">
-      <NavBarDesktop />
       <ConnectedRouter history={history} context={context}>
         <Router history={history}>
           <Switch>
@@ -32,7 +30,8 @@ const App = ({ history, context }) => {
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/projects" exact component={Board} />
-            <Route path="/project/detail" exact component={App} />
+            <Route path="/projects/create" exact component={App} />
+            <Route path="/projects/detail" exact component={App} />
             <Route path="/ManageCategory" exact component={App} />
             <Route path="/projects/roadmap" component={App} />
             <Route path="/projects/board" exact component={Board} />
