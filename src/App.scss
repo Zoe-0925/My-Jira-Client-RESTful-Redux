@@ -519,11 +519,19 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     cursor: pointer;
     z-index: 1;
     background-color: white;
+    padding-top:0.7rem;
+    padding-bottom:0.7rem;
+    margin:0.3rem;
+    border-radius: 3%;
 
     .col {
       width: 50%;
       flex-direction: column;
       z-index: 100;
+    }
+
+    .dot-icon{
+
     }
   }
 
@@ -566,6 +574,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   .epic-title:hover {
     .dot-icon {
       display: block;
+      padding:0.5rem;
     }
   }
 
@@ -673,4 +682,8 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     color: rgb(107, 119, 140);
     padding: 0px 20px;
   }
+}
+
+.full-width{
+  width:$full;
 }

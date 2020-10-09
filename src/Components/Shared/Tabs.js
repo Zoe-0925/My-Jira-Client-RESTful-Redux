@@ -1,18 +1,10 @@
 import React from 'react'
-import { useDispatch } from "react-redux"
 import AddIcon from '@material-ui/icons/Add';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
-//The round version
-//import MoreHorizRoundedIcon from '@material-ui/icons/MoreHorizRounded';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {
-    Typography, Link, Grow, Paper, Popper, ClickAwayListener,
-    ListItem, MenuList, IconButton, MenuItem
+    Typography, Link, Menu, ListItem, IconButton
 } from '@material-ui/core';
-import { reorderToBotttom } from "../../Actions/status.actions"
-import { deleteIssue, toggleFlag } from "../../Actions/mockIssueActions"
-//TODO swap
-//import { deleteIssue, toggleFlag } from "../../Components/Issue/Actions"
 
 export function AddTab({ operationName, handleClick, className }) {
     return (
@@ -58,76 +50,38 @@ export function ProjectHeaderTab({ title, subtite, imgSrc }) {
 }
 
 export function DotIconMenu({ className, ...props }) {
-    const [open, setOpen] = React.useState(false);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const isOpen = Boolean(anchorEl);
     const anchorRef = React.useRef(null);
 
-    const handleToggle = () => {
-        setOpen((prevOpen) => !prevOpen);
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
-    const handleClose = (event) => {
-        if (anchorRef.current && anchorRef.current.contains(event.target)) {
-            return;
-        }
-
-        setOpen(false);
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
     };
-
-    function handleListKeyDown(event) {
-        if (event.key === 'Tab') {
-            event.preventDefault();
-            setOpen(false);
-        }
-    }
-
-    // return focus to the button when we transitioned from !open -> open
-    const prevOpen = React.useRef(open);
-    React.useEffect(() => {
-        if (prevOpen.current === true && open === false) {
-            anchorRef.current.focus();
-        }
-
-        prevOpen.current = open;
-    }, [open]);
 
     return (
         <div className={className}>
-            <IconButton ref={anchorRef}
+            <IconButton
+                ref={anchorRef}
+                size='small'
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
-                onClick={handleToggle}>
-                <MoreHorizIcon />
+                onClick={handleMenuOpen}>
+                <MoreHorizIcon fontSize="1.5rem" />
             </IconButton>
-            <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-                {({ TransitionProps, placement }) => (
-                    <Grow
-                        {...TransitionProps}
-                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                    >
-                        <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
-                                <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                    {props.children}
-                                </MenuList>
-                            </ClickAwayListener>
-                        </Paper>
-                    </Grow>
-                )}
-            </Popper>
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                keepMounted
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isOpen}
+                onClose={handleMenuClose}
+            >
+                {props.children}
+            </Menu>
         </div>
-    )
-}
-
-export function IssueDotIconMenu({ id, flag }) {
-    const dispatch = useDispatch()
-
-    return (
-        <DotIconMenu className="dot-icon">
-            <MenuItem onClick={() => dispatch(toggleFlag(id))}>{!flag ? "Add flag" : "Remove flag"}</MenuItem>
-            <MenuItem >Add parent</MenuItem>
-            <MenuItem >Add label</MenuItem>
-            <MenuItem onClick={() => dispatch(deleteIssue(id))}>Delete</MenuItem>
-            <MenuItem onClick={() => dispatch(reorderToBotttom(id))} >Bottom of column</MenuItem>
-        </DotIconMenu>
     )
 }

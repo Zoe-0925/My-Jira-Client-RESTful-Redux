@@ -100,8 +100,6 @@ export default function NavAppBar() {
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isAccountMenuOpen = Boolean(accountAnchorEl);
 
-    const handleClick = () => { }
-
     //TODO
     const projects = useSelector(selectAllProjects)
 

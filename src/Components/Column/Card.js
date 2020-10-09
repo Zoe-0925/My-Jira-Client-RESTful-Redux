@@ -1,31 +1,53 @@
 import React from "react";
-import { IssueDotIconMenu } from "../Shared/Tabs"
-import { Tooltip } from '@material-ui/core';
+import { useDispatch } from "react-redux"
+import { Tooltip, MenuItem,Box } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { Container, Row, Col } from 'reactstrap';
+import { DotIconMenu } from "../Shared/Tabs"
 import { v4 as uuidv4 } from 'uuid'
 
 const IssueCard = ({ task, openTaskDetail }) => {
+    const dispatch = useDispatch()
 
     return (
-        <div key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"}>
-            <div className="col">
-                <p className="summary" onClick={() => openTaskDetail(task)}>{task.summary}</p>
-                <div className="labels" onClick={() => openTaskDetail(task)}>{task.labels.length !== 0 && task.labels.map(each => <p key={uuidv4()} className="label">{each}</p>)}</div>
-                <div className="issueType tab row" onClick={() => openTaskDetail(task)}>
-                    <div>
+        <Box boxShadow={1}
+        key={uuidv4()} className={!task.flag ? "epic-body" : "epic-body flagged"}
+          onClick={() => openTaskDetail(task)}>
+            <Container>
+                <Row className="mt-0">
+                    <Col sm="10">
+                        <p>{task.summary}</p>
+                    </Col>
+                    <Col sm="2">
+                        <DotIconMenu className="dot-icon">
+                            <MenuItem onClick={() => dispatch(toggleFlag(id))}>{!task.flag ? "Add flag" : "Remove flag"}</MenuItem>
+                            <MenuItem >Add parent</MenuItem>
+                            <MenuItem >Add label</MenuItem>
+                            <MenuItem onClick={() => dispatch(deleteIssue(id))}>Delete</MenuItem>
+                            <MenuItem onClick={() => dispatch(reorderToBotttom(id))} >Bottom of column</MenuItem>
+                        </DotIconMenu>
+                    </Col>
+                </Row>
+                <Row className="mt-0">
+                    {task.labels.length !== 0 && task.labels.map(each => <Col><p key={uuidv4()} className="label">{each}</p></Col>)}
+                </Row>
+                <Row className="mt-0">
+                    <Col sm="1">
                         <Tooltip title={task.issueType} aria-label={task.issueType}>
                             <CheckBoxIcon className="icon" style={{ color: "#5BC2F2" }} />
                         </Tooltip>
+                    </Col>
+                    <Col sm="8">
                         <p>{task.summary}</p>
-                    </div>
-                </div>
-                <div className="col">
-                    <IssueDotIconMenu id={task._id} flag={task.flag} />
-                    <Tooltip title={task.assignee} aria-label={task.assignee}><AccountCircleIcon onClick={() => openTaskDetail(task)} /></Tooltip>
-                </div>
-            </div>
-        </div>
+                    </Col>
+                    <Col sm="1">
+                        <Tooltip title={task.assignee} aria-label={task.assignee}>
+                            <AccountCircleIcon /></Tooltip>
+                    </Col>
+                </Row>
+            </Container>
+        </Box>
     )
 }
 
