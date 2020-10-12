@@ -1,17 +1,21 @@
 import React from 'react'
-import Modal from '@material-ui/core/Modal';
+import { Modal, DialogContent } from '@material-ui/core';
 
 
 export default function CustomModal({ open, closeModal, ...props }) {
     return (
-        <Modal
-            className="modal"
-            open={open}
-            onClose={closeModal}
-            aria-labelledby="modal-title"
-            aria-describedby="modal-description"
-        >
-            {props.children}
-        </Modal>
+        <div>
+            <Modal
+                className="modal"
+                open={open}
+                onClose={closeModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+            >
+                <DialogContent>
+                    {props.children}
+                </DialogContent>
+            </Modal>
+        </div>
     );
 }

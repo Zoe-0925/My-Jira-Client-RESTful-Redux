@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Select from 'react-select';
 import { Container, Row, Col } from 'reactstrap';
 import {
     Button,
@@ -24,7 +25,8 @@ import CreateIcon from '@material-ui/icons/Create';
 import { SingleSelect, MultiSelect } from "./CustomSelect"
 import CustomModal from "../Shared/CustomModal"
 import {
-    selectCurrentProjectName, selectMemberNames, selectLabelNames, selectUserById
+    selectCurrentProjectName, selectProjects,
+    selectMemberNames, selectLabelNames, selectUserById
 } from "../../Reducers/Selectors"
 import { Member } from "./AvatorCard"
 
@@ -35,18 +37,10 @@ const IssueForm = props => {
         handleSubmit,
         closeModal,
         setFieldValue,
-        setFieldTouched,
         isSubmitting,
-        issue,
     } = props
 
-    const [clicked, setClicked] = useState({ assignee: false, labels: false, reportee: false })
 
-    const issueParsed = issue.values().next().value //Extract the issue object from the map
-    const assignee = useSelector(selectUserById(issueParsed.assignee))
-    const reportee = useSelector(selectUserById(issueParsed.reportee))
-    const memberNames = useSelector(selectMemberNames)
-    const labelNames = useSelector(selectLabelNames)
     const projectName = useSelector(selectCurrentProjectName)
 
     function showEpic() {
@@ -57,7 +51,19 @@ const IssueForm = props => {
 
     }
 
-    return <div className={"issue-form-in-modal"}>
+    const projects = useSelector(selectProjects)
+    const projectOptions = projects.map(each => {
+        return {
+            value: each._id, label: each.name
+        }
+    })
+
+    const issueTypeOptions = [
+        { value: 'task', label: 'task' },
+        { value: 'epic', label: 'epic' },
+    ]
+
+    return <div className="issue-form-in-modal">
         <Container>
             <Row>
                 <Breadcrumbs aria-label="breadcrumb">
@@ -70,34 +76,23 @@ const IssueForm = props => {
             </Row>
             <div className="left">
                 <Form onSubmit={handleSubmit}>
-
-                    <Col><Typography color="textPrimary">Project Name*</Typography></Col>
-                    <Col><Typography color="textPrimary">{projectName}</Typography></Col>
-
-                    <Row>
-
-                    </Row>
-                    <InputLabel className="row" id="state">Issue Type*</InputLabel>
-                    <Field
-                        className="form-select row"
-                        id="select"
-                        component={TextField}
+                    <InputLabel className="row" id="state">Project Name*</InputLabel>
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select"
                         name="issueType"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={issue.issueType || values.issueType}
-                        margin="normal"
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment>
-                                    <IconButton>
-                                        <ExpandMoreIcon fontSize="small" />
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }}
+                        defaultValue={projectOptions[0]}
+                        options={projectOptions}
+                        onChange={(e) => setFieldValue("projectName", e.value)}
+                    />
+                    <InputLabel className="row" id="state">Issue Type*</InputLabel>
+                    <Select
+                        className="basic-single"
+                        classNamePrefix="select"
+                        name="issueType"
+                        defaultValue={issueTypeOptions[0]}
+                        options={issueTypeOptions}
+                        onChange={(e) => setFieldValue("issueType", e.value)}
                     />
                     <Typography className="row" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
                     <Box margin={1}>
@@ -112,19 +107,17 @@ const IssueForm = props => {
                         variant="outlined"
                         size="small"
                         onChange={handleChange}
-                        value={issue.summary || values.summary}
+                        value={values.summary}
                         margin="normal"
                     />
                     <InputLabel className="row" id="state">description*</InputLabel>
-                    <Field
+                    <TextareaAutosize
                         className="row full-length-center"
-                        component={TextareaAutosize}
                         name="description"
                         type="text"
                         variant="outlined"
                         size="small"
-                        onChange={handleChange}
-                        value={issue.description || values.description}
+                        onChange={(e) => setFieldValue("issueType", e.target.value)}
                         margin="normal"
                         aria-label="minimum height" rowsMin={15}
                     />
@@ -134,46 +127,30 @@ const IssueForm = props => {
                     </div>
                 </Form>
             </div>
-            <div className="right">
-                <Typography variant="caption" display="block" gutterBottom>Assignee</Typography>
-                {!clicked.assignee &&
-                    <Member user={assignee} onClick={() => setClicked({ assignee: true, labels: false, reportee: false })} />}
-                {clicked.assignee &&
-                    <SingleSelect onChange={setFieldValue} onBlur={setFieldTouched} defaultValue={assignee.name} options={memberNames} type="assignee" />}
-                <Typography variant="caption" display="block" gutterBottom>Labels</Typography>
-                {!clicked.labels && <Member user={assignee} onClick={() => setClicked({ assignee: false, labels: true, reportee: false })} />}
-                {clicked.labels &&
-                    <MultiSelect onChange={setFieldValue} onBlur={setFieldTouched} options={labelNames} type="labels" />}
-                <Typography variant="caption" display="block" gutterBottom>Reporter</Typography>
-                {!clicked.reportee && <Member user={assignee} onClick={() => setClicked({ assignee: true, labels: false, reportee: false })} />}
-                {clicked.reportee &&
-                    <SingleSelect onChange={setFieldValue} onBlur={setFieldTouched} defaultValue={reportee.name} options={memberNames} type="reportee" />}
-            </div>
+
         </Container>
     </div>
 }
 
-const IssueView = withFormik({
+const IssueCreateView = withFormik({
     validationSchema: Yup.object().shape({
         summary: Yup.string()
             .required('Summary is required!')
     }),
-    mapPropsToValues: (issue) => ({
-        projectName: issue.projectName,
-        issueType: issue.issueType,
-        summary: issue.summary,
-        description: issue.description,
-        assignee: issue.assignee,
-        labels: issue.labels,
-        reportee: issue.reportee,
+    mapPropsToValues: () => ({
+        projectName: "",
+        issueType: "task",
+        summary: "",
+        description: ""
     }),
     handleSubmit: (values, { 'props': { onContinue } }) => {
+        console.log("values", values)
         onContinue(values)
     },
     displayName: 'MyForm',
 })(IssueForm);
 
-export default IssueView
+export default IssueCreateView
 
 /**
 export default function IssueModal({ open, closeModal, issue }) {

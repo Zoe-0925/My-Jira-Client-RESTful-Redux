@@ -62,8 +62,8 @@ export const selectCurrentProjectObject = createSelector(
 )
 
 export const selectProjectMembers = createSelector(
-    selectProjectReducer,
-    reducer => reducer.currentProject.members
+    selectCurrentProjectObject,
+    currentProject => currentProject.members
 )
 
 //TODO bug
@@ -71,8 +71,7 @@ export const selectMemberNames = createSelector(
     selectProjectMembers,
     selectUserReducer,
     (projectMembers, userReducer) => {
-        const members = projectMembers
-        const memberNames = members.map(each => {
+        const memberNames = projectMembers.map(each => {
             return userReducer.users.find(user => user._id === each).name
         })
         return memberNames
@@ -118,11 +117,6 @@ export const selectIssueAuthenticated = createSelector(
 )
 
 
-export const selectIssueArray = createSelector(
-    selectIssueReducer,
-    reducer => reducer.tasks.values()
-)
-
 export const selectEpics = createSelector(
     selectIssueReducer,
     reducer => reducer.epics
@@ -133,6 +127,11 @@ export const selectEpics = createSelector(
 export const selectTasks = createSelector(
     selectIssueReducer,
     issueReducer => issueReducer.tasks
+)
+
+export const selectProjects = createSelector(
+    selectProjectReducer,
+    reducer => reducer.projects
 )
 
 /****************** Reselectors - Labels  *********************/

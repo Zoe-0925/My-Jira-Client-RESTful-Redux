@@ -2,7 +2,7 @@ import {
     selectStatusReducer, selectIssueReducer, selectProjectReducer, selectFilterReducer,
     selectLabelReducer, selectUserReducer, selectStatus, selectStatusOrder,
     selectCurrentProject, selectProjectMembers, selectMemberNames,
-    selectCurrentProjectName, selectCurrentUser, selectUserById, selectIssueArray,
+    selectCurrentProjectName, selectCurrentUser, selectUserById, 
     selectEpics, selectIssues, selectLabels, selectLabelNames,
     selectNoneFilter, selectGroupBy, selectFilterByAssignee, selectFilterByLabel,
     selectFilterByEpic,
@@ -24,8 +24,22 @@ const state = {
         errorMessage: ""
     },
     ProjectReducer: {
+        loading: false,
+        authenticated: false,
         currentProject: "test id",
-        members: ["test id1", "test id2"]
+        projects: [
+            {
+                _id: "test id",
+                name: "test project name",
+                key: "test key",
+                lead: "testUserId",
+                members: ["testUserId"],
+                image: "",
+                issues: [],
+                default_assignee: "Project Lead",
+                start_date: ""
+            }
+        ]
     },
     FilterReducer: {
         none: true,
@@ -40,7 +54,7 @@ const state = {
     UserReducer: {
         currentUser: "test id3",
         users: [
-            { _id: "test id1", name: "test name1" },
+            { _id: "testUserId", name: "test name1" },
             { _id: "test id2", name: "test name2" },
             { _id: "test id3", name: "test name3" }
         ]
@@ -114,14 +128,14 @@ describe.skip("selectCurrentProject(state)", () => {
 describe.skip("selectProjectMembers(state)", () => {
     it("should select the specified value", () => {
         const result = selectProjectMembers(state)
-        expect(result).toEqual(state.ProjectReducer.currentProject.members)
+        expect(result).toEqual(["testUserId"])
     })
 })
 
 describe.skip("selectMemberNames(state)", () => {
     it("should select the specified value", () => {
         const result = selectMemberNames(state)
-        expect(result).toEqual(["test name1", "test name2"])
+        expect(result).toEqual(["test name1"])
     })
 })
 
@@ -136,13 +150,6 @@ describe.skip("selectCurrentUser", () => {
     it("should select the current user successfully", () => {
         const result = selectCurrentUser(state)
         expect(result).toEqual(state.UserReducer.currentUser._id)
-    })
-})
-
-describe("selectIssueArray", () => {
-    it("should select the specified value", () => {
-        const result = selectIssueArray(state)
-        expect(result).toEqual(["test issue value1", "test issue value2"])
     })
 })
 

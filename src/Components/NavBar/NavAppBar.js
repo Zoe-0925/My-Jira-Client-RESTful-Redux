@@ -280,7 +280,7 @@ export default function NavAppBar() {
                             color="inherit"
                             aria-label="open drawer"
                         >
-                            <SettingsIcon style={{ "cursor": "pointer" }} className="icon" fontSize="2.5rem" />
+                            <SettingsIcon style={{ "cursor": "pointer" }} className="icon" />
                         </IconButton>
                         <IconButton
                             edge="start"
@@ -288,7 +288,7 @@ export default function NavAppBar() {
                             color="inherit"
                             aria-label="open drawer"
                         >
-                            <AccountCircle style={{ "cursor": "pointer" }} fontSize="2.5rem" onClick={handleAccountMenuOpen} />
+                            <AccountCircle style={{ "cursor": "pointer" }}  onClick={handleAccountMenuOpen} />
                         </IconButton>
                     </div>
                     <div className={classes.sectionMobile}>

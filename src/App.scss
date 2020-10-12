@@ -687,3 +687,17 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 .full-width{
   width:$full;
 }
+
+
+.issue-form-in-modal{
+  @media (max-width: 400px) {
+    width: $full;
+  }
+
+  @media (min-width: 401px) {
+    width: 1200px;
+
+
+
+  }
+}

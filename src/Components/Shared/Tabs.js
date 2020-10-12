@@ -70,7 +70,7 @@ export function DotIconMenu({ className, ...props }) {
                 aria-controls={open ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 onClick={handleMenuOpen}>
-                <MoreHorizIcon fontSize="1.5rem" />
+                <MoreHorizIcon />
             </IconButton>
             <Menu
                 anchorEl={anchorEl}
