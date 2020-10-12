@@ -1,6 +1,6 @@
 import React from 'react'
 import IssueModal from "../Components/Issues/IssueModal"
-import IssueCreateView from "../Components/Issues/IssueCreateModal"
+import CreateIssueModal from "../Components/Issues/IssueCreateModal"
 
 const testIssue = new Map()
 testIssue.set("hdkahdjaskdh", {
@@ -11,7 +11,7 @@ testIssue.set("hdkahdjaskdh", {
 export default function Test() {
     return (
         <div>
-          <IssueCreateView projectName="test id"/>
+          <CreateIssueModal/>
         </div>
     )
 }

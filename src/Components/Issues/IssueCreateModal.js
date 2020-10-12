@@ -65,21 +65,13 @@ const IssueForm = props => {
 
     return <div className="issue-form-in-modal">
         <Container>
-            <Row>
-                <Breadcrumbs aria-label="breadcrumb">
-                    <div>
-                        <CreateIcon className="cursor" size="small" onClick={showEpic} />
-                        <Link color="inherit" href="/" onClick={showEpic}>
-                            Add epic</Link>
-                    </div>
-                </Breadcrumbs>
-            </Row>
+            <p className="title">Create issue</p>
             <Row>
             </Row>
             <Form onSubmit={handleSubmit}>
                 <InputLabel className="form-label" id="projectName">Project Name*</InputLabel>
                 <Select
-                    className="field"
+                    className="select"
                     classNamePrefix="select"
                     name="issueType"
                     defaultValue={projectOptions[0]}
@@ -90,7 +82,7 @@ const IssueForm = props => {
                 </Row>
                 <InputLabel className="form-label" id="issueType">Issue Type*</InputLabel>
                 <Select
-                    className="field"
+                    className="select"
                     classNamePrefix="select"
                     name="issueType"
                     defaultValue={issueTypeOptions[0]}

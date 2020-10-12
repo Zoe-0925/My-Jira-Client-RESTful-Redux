@@ -678,13 +678,17 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 
   @media (min-width: 401px) {
-    width: 800px;
-    padding-left: 5%;
-    padding-right: 5%;
+    width: 750px;
+    padding: 1.5rem;
     text-align: left;
 
     .field {
       width: $full;
+      background-color: $bgc;
+    }
+
+    .select{
+      width: 40%;
       background-color: $bgc;
     }
 
@@ -703,6 +707,18 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
     .navbar-create-btn {
       @include call-to-action-button;
+    }
+
+    .title {
+      color: #333;
+      font-weight: normal;
+      font-size: 20px;
+      line-height: 1.5;
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
