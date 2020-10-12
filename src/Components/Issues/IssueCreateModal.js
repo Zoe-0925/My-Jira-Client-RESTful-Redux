@@ -74,59 +74,71 @@ const IssueForm = props => {
                     </div>
                 </Breadcrumbs>
             </Row>
-            <div className="left">
-                <Form onSubmit={handleSubmit}>
-                    <InputLabel className="row" id="state">Project Name*</InputLabel>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select"
-                        name="issueType"
-                        defaultValue={projectOptions[0]}
-                        options={projectOptions}
-                        onChange={(e) => setFieldValue("projectName", e.value)}
-                    />
-                    <InputLabel className="row" id="state">Issue Type*</InputLabel>
-                    <Select
-                        className="basic-single"
-                        classNamePrefix="select"
-                        name="issueType"
-                        defaultValue={issueTypeOptions[0]}
-                        options={issueTypeOptions}
-                        onChange={(e) => setFieldValue("issueType", e.value)}
-                    />
-                    <Typography className="row" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-                    <Box margin={1}>
-                        <Divider />
-                    </Box>
-                    <InputLabel className="row" id="state">Summary*</InputLabel>
-                    <Field
-                        className="row form-select full-length-center summary"
-                        component={TextField}
-                        name="summary"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={values.summary}
-                        margin="normal"
-                    />
-                    <InputLabel className="row" id="state">description*</InputLabel>
-                    <TextareaAutosize
-                        className="row full-length-center"
-                        name="description"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={(e) => setFieldValue("issueType", e.target.value)}
-                        margin="normal"
-                        aria-label="minimum height" rowsMin={15}
-                    />
-                    <div className="row right-align btn-row">
-                        <ListItem><p className="cancel-btn" onClick={closeModal}>Cancel</p></ListItem>
+            <Row>
+            </Row>
+            <Form onSubmit={handleSubmit}>
+                <InputLabel className="form-label" id="projectName">Project Name*</InputLabel>
+                <Select
+                    className="field"
+                    classNamePrefix="select"
+                    name="issueType"
+                    defaultValue={projectOptions[0]}
+                    options={projectOptions}
+                    onChange={(e) => setFieldValue("projectName", e.value)}
+                />
+                <Row>
+                </Row>
+                <InputLabel className="form-label" id="issueType">Issue Type*</InputLabel>
+                <Select
+                    className="field"
+                    classNamePrefix="select"
+                    name="issueType"
+                    defaultValue={issueTypeOptions[0]}
+                    options={issueTypeOptions}
+                    onChange={(e) => setFieldValue("issueType", e.value)}
+                />
+
+                <Typography variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
+
+                <Row>
+                </Row>
+                <Divider />
+                <Row>
+                </Row>
+                <InputLabel className="form-label" id="summary">Summary*</InputLabel>
+                <Field
+                    className="field"
+                    component={TextField}
+                    name="summary"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={handleChange}
+                    value={values.summary}
+                    margin="normal"
+                />
+                <InputLabel className="form-label" id="state">description*</InputLabel>
+                <TextareaAutosize
+                    className="field"
+                    name="description"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) => setFieldValue("issueType", e.target.value)}
+                    margin="normal"
+                    aria-label="minimum height" rowsMin={15}
+                />
+                <Row>
+                    <Col sm="2">
+                        <Button className="cancel-btn" disabled={isSubmitting} onClick={closeModal}>Cancel</Button>
+                    </Col>
+                    <Col sm="8"></Col>
+                    <Col sm="2">
                         <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
-                    </div>
-                </Form>
-            </div>
+                    </Col>
+                </Row>
+            </Form>
+
 
         </Container>
     </div>

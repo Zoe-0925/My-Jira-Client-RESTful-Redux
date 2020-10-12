@@ -35,6 +35,32 @@ $one-third: 33%;
 
 $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
 
+@mixin call-to-action-button {
+  align-items: baseline;
+  box-sizing: border-box;
+  font-weight: 500;
+  max-width: $full;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: transparent 0px 0px 0px 2px;
+  background: $call-to-action-color;
+  height: 2.28571em;
+  line-height: 2.28571em;
+  vertical-align: middle;
+  width: auto;
+  border-width: 0px;
+  color: rgb(255, 255, 255);
+  border-radius: 3px;
+  padding: 3px 12px 6px 12px;
+  margin: 0px;
+  cursor: pointer;
+  transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
+  transition-property: background, box-shadow;
+  transition-duration: 0.1s, 0.15s;
+  transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
+  transition-delay: 0s, 0s;
+}
+
 .App {
   width: $full;
   height: $full;
@@ -52,7 +78,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   height: auto;
 }
 
-.nav-tab{
+.nav-tab {
   cursor: pointer;
   font-size: 1rem;
   font-weight: 400;
@@ -309,9 +335,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   align-items: center;
 }
 
-.group-by {
-}
-
 .modal {
   position: absolute;
   overflow: scroll;
@@ -346,18 +369,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 
   .summary {
     width: 700px;
-  }
-
-  .cancel-btn {
-    color: $call-to-action-color;
-    cursor: pointer;
-    font-family: $sm-font;
-    margin-left: 15px;
-    margin-right: 15px;
-  }
-
-  .cancel-btn:hover {
-    text-decoration: underline;
   }
 
   .btn-row {
@@ -458,32 +469,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     background-color: $bgc;
     margin-top: 10px;
   }
-
-  .navbar-create-btn {
-    align-items: baseline;
-    box-sizing: border-box;
-    font-weight: 500;
-    max-width: $full;
-    text-align: center;
-    white-space: nowrap;
-    box-shadow: transparent 0px 0px 0px 2px;
-    background: $call-to-action-color;
-    height: 2.28571em;
-    line-height: 2.28571em;
-    vertical-align: middle;
-    width: auto;
-    border-width: 0px;
-    color: rgb(255, 255, 255);
-    border-radius: 3px;
-    padding: 3px 12px 6px 12px;
-    margin: 0px;
-    cursor: pointer;
-    transition: background 0.1s ease-out 0s, box-shadow 0.15s cubic-bezier(0.47, 0.03, 0.49, 1.38) 0s;
-    transition-property: background, box-shadow;
-    transition-duration: 0.1s, 0.15s;
-    transition-timing-function: ease-out, cubic-bezier(0.47, 0.03, 0.49, 1.38);
-    transition-delay: 0s, 0s;
-  }
 }
 
 .drawer-img {
@@ -496,8 +481,8 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   width: 100%;
 }
 
-.board-container{
-  padding:2.5rem;
+.board-container {
+  padding: 2.5rem;
 }
 
 .epic-list {
@@ -519,9 +504,9 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     cursor: pointer;
     z-index: 1;
     background-color: white;
-    padding-top:0.7rem;
-    padding-bottom:0.7rem;
-    margin:0.3rem;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    margin: 0.3rem;
     border-radius: 3%;
 
     .col {
@@ -530,8 +515,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
       z-index: 100;
     }
 
-    .dot-icon{
-
+    .dot-icon {
     }
   }
 
@@ -574,7 +558,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   .epic-title:hover {
     .dot-icon {
       display: block;
-      padding:0.5rem;
+      padding: 0.5rem;
     }
   }
 
@@ -665,12 +649,12 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   display: none;
 }
 
-
 .menu-container {
   width: 300px;
   padding: 1rem;
   color: $body-color;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   font-size: 0.8rem;
   font-style: normal;
   font-weight: 400;
@@ -684,20 +668,53 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.full-width{
-  width:$full;
+.full-width {
+  width: $full;
 }
 
-
-.issue-form-in-modal{
+.issue-form-in-modal {
   @media (max-width: 400px) {
     width: $full;
   }
 
   @media (min-width: 401px) {
-    width: 1200px;
+    width: 800px;
+    padding-left: 5%;
+    padding-right: 5%;
+    text-align: left;
 
+    .field {
+      width: $full;
+      background-color: $bgc;
+    }
 
+    .form-label {
+      font-family: "Segoe UI", Roboto, Oxygen, Ubuntu, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      color: #5e6c84;
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 16px;
+      float: none;
+      margin: 0 16px 0 0;
+      display: block;
+      text-align: left;
+      width: auto;
+    }
 
+    .navbar-create-btn {
+      @include call-to-action-button;
+    }
   }
+}
+
+.cancel-btn {
+  color: $call-to-action-color;
+  cursor: pointer;
+  font-family: $sm-font;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.cancel-btn:hover {
+  text-decoration: underline;
 }
