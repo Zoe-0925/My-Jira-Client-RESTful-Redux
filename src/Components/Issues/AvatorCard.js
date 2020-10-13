@@ -4,7 +4,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import { ListItem, Typography } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid'
-
+import { Container, Row, Col } from 'reactstrap';
 
 export const AvatorCard = ({ user }) => {
 
@@ -28,11 +28,13 @@ export const AvatorCard = ({ user }) => {
 export const Member = ({ user }) => {
     const { value, handleTrue, handleFalse } = useSimpleState()
 
-    return <div className="row" >
-        {value ? <AvatorCard user={user} /> : ""}
-        <ListItem key={uuidv4()}>
-            <AccountCircleIcon onMouseEnter={handleTrue} onMouseLeave={handleFalse} />
-        </ListItem>
-        <Typography variant="h6" display="block" gutterBottom>{user.name}</Typography>
-    </div>
+    return <Container>
+        <Row>
+            {value ? <AvatorCard user={user} /> : ""}
+            <ListItem key={uuidv4()}>
+                <AccountCircleIcon onMouseEnter={handleTrue} onMouseLeave={handleFalse} />
+            </ListItem>
+            <Typography variant="h6" display="block" gutterBottom>{user.name}</Typography>
+        </Row>
+    </Container>
 }

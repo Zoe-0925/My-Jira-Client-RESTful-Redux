@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid'
+import { CREATE_SUCCESS_TASK } from "../../Actions/mockIssueActions"
+//import {createTask} from "../../Actions/IssueActions"
 
 export function useSimpleState() {
     const [value, setValue] = useState(false)
@@ -79,3 +82,45 @@ export function useOnClickOutside(ref, handler) {
     );
 }
 
+
+export function useCreateIssue(statusId) {
+    const dispatch = useDispatch()
+    const currentProject = useSelector(selectCurrentProject)
+    const currentUser = useSelector(selectCurrentUser)
+
+    const createNewTask = (issueName) => {
+        const issue = {
+            _id: uuidv4(),
+            project: currentProject,
+            summary: issueName,
+            description: "",
+            issueType: 'task',
+            status: statusId,
+            assignee: currentUser,
+            labels: [],
+            flag: false,
+            startDate: (new Date()).toJSON(),
+            reportee: currentUser,
+            parent: "",
+            chilren: [],
+            comments: []
+        }
+        dispatch({
+            type: CREATE_SUCCESS_TASK,
+            data: issue
+        })
+    }
+
+    return { createNewTask }
+}
+
+
+export function useEditText(value) {
+    const [state, setState] = useState({
+        value: value !== undefined ? value : "",
+        backup: value !== undefined ? value : ""
+    })
+    const [edit, setEdit] = useState(false)
+
+    return { state, setState, edit, setEdit }
+}

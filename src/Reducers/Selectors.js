@@ -11,7 +11,7 @@ export const selectFilterReducer = state => state.FilterReducer
 export const selectLabelReducer = state => state.LabelReducer
 
 export const selectUserReducer = state => state.UserReducer
-/****************** Reselectors *********************/
+/****************** Reselectors - Status  *********************/
 export const selectStatusLoading = createSelector(
     selectStatusReducer,
     statusReducer => statusReducer.loading
@@ -30,6 +30,11 @@ export const selectStatus = createSelector(
 export const selectStatusOrder = createSelector(
     selectStatusReducer,
     statusReducer => statusReducer.statusOrder
+)
+
+export const selectStatusById = (id) => createSelector(
+    selectStatus,
+    status => status.get(id)
 )
 
 /****************** Reselectors - Projects  *********************/
@@ -66,7 +71,6 @@ export const selectProjectMembers = createSelector(
     currentProject => currentProject.members
 )
 
-//TODO bug
 export const selectMemberNames = createSelector(
     selectProjectMembers,
     selectUserReducer,
@@ -100,9 +104,20 @@ export const selectCurrentUser = createSelector(
     reducer => reducer.currentUser
 )
 
-export const selectUserById = (id) => createSelector(
+export const selectAllUsers = createSelector(
     selectUserReducer,
-    reducer => reducer.users.find(user => user._id === id)
+    reducer => reducer.users
+)
+
+export const selectUserById = (id) => createSelector(
+    selectAllUsers,
+    users => users.find(user => user._id === id)
+)
+
+export const selectUsersForProjectMember = createSelector(
+    selectProjectMembers,
+    selectAllUsers,
+    (memberIds, allUsers) => memberIds.map(each => allUsers.find(user => user._id === each))
 )
 
 /****************** Reselectors - Issues  *********************/

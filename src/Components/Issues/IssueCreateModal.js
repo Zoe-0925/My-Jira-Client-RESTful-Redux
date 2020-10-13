@@ -1,21 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector } from "react-redux"
 import { Form, Field, withFormik } from 'formik';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Select from 'react-select';
 import { Container, Row, Col } from 'reactstrap';
 import {
     Button,
     Divider,
-    Box,
-    Link,
-    Breadcrumbs,
     Typography,
     InputLabel,
-    InputAdornment,
-    IconButton,
     TextareaAutosize,
-    ListItem
 } from '@material-ui/core';
 import * as Yup from 'yup';
 import {
@@ -28,7 +21,6 @@ import {
     selectCurrentProjectName, selectProjects,
     selectMemberNames, selectLabelNames, selectUserById
 } from "../../Reducers/Selectors"
-import { Member } from "./AvatorCard"
 
 const IssueForm = props => {
     const {
@@ -39,17 +31,6 @@ const IssueForm = props => {
         setFieldValue,
         isSubmitting,
     } = props
-
-
-    const projectName = useSelector(selectCurrentProjectName)
-
-    function showEpic() {
-
-        //TODO
-        //If there's no epic,
-        //Pop the dialogue
-
-    }
 
     const projects = useSelector(selectProjects)
     const projectOptions = projects.map(each => {
@@ -89,9 +70,7 @@ const IssueForm = props => {
                     options={issueTypeOptions}
                     onChange={(e) => setFieldValue("issueType", e.value)}
                 />
-
                 <Typography variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-
                 <Row>
                 </Row>
                 <Divider />

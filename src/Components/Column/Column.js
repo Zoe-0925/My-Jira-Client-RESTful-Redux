@@ -6,7 +6,7 @@ import { updateSuccessfulStatus, deleteSuccessfulStatus } from "../../Actions/mo
 /**--------------Editable Textfiled-------------- */
 import { EditableText, Input, Textarea } from "../Shared/EditableText"
 /**--------------Icons-------------- */
-import { useEditText, useCreateIssue } from './CustomHooks';
+import { useEditText, useCreateIssue } from '../Shared/CustomHooks';
 
 /**
  * If there's no task yet, the user has to add from the "TO DO/ the 1st" column 

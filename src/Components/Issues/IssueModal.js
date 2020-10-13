@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from "react-redux"
-import { Form, Field, withFormik } from 'formik';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { IssueSummaryInput, IssueDescriptionInput } from "./IssueInputField"
 import { Container, Row, Col } from 'reactstrap';
+import Select from 'react-select';
 import {
     Button,
     Divider,
@@ -16,38 +17,61 @@ import {
     TextareaAutosize,
     ListItem
 } from '@material-ui/core';
-import * as Yup from 'yup';
-import {
-    TextField,
-} from 'formik-material-ui';
 import CreateIcon from '@material-ui/icons/Create';
 import { SingleSelect, MultiSelect } from "./CustomSelect"
 import CustomModal from "../Shared/CustomModal"
 import {
-    selectCurrentProjectName, selectMemberNames, selectLabelNames, selectUserById
+    selectStatusById, selectStatus, selectLabels,
+    selectMemberNames, selectLabelNames, selectUserById
 } from "../../Reducers/Selectors"
 import { Member } from "./AvatorCard"
+import { useEditText } from "../Shared/CustomHooks"
 
-const IssueForm = props => {
-    const {
-        values,
-        handleChange,
-        handleSubmit,
-        closeModal,
-        setFieldValue,
-        setFieldTouched,
-        isSubmitting,
-        issue,
-    } = props
+const StatusSelect = ({ statusId }) => {
+    const defaultStatus = useSelector(selectStatusById(statusId))
+    const allStatus = useSelector(selectStatus)
+    const currentOption = { label: defaultStatus.name, value: defaultStatus }
+    let statusOptions = []
+    allStatus.forEach(each => statusOptions.push({ label: each.name, value: each }))
 
+    const updateStatus = (status) => {
+        //TODO
+        //call the thunk to update the store and also call the api call
+    }
+
+    return <Select
+        className="select"
+        classNamePrefix="select"
+        name="issueType"
+        defaultValue={currentOption}
+        options={statusOptions}
+        onChange={(e) => updateStatus(e.value)}
+    />
+}
+
+const IssueDetailForm = ({ issue }) => {
     const [clicked, setClicked] = useState({ assignee: false, labels: false, reportee: false })
-
     const issueParsed = issue.values().next().value //Extract the issue object from the map
     const assignee = useSelector(selectUserById(issueParsed.assignee))
     const reportee = useSelector(selectUserById(issueParsed.reportee))
-    const memberNames = useSelector(selectMemberNames)
-    const labelNames = useSelector(selectLabelNames)
-    const projectName = useSelector(selectCurrentProjectName)
+    const currentLabels = []
+
+    //TODO call the thunk to get all users, and save to the store
+    const assigneeOptions = []
+
+    const labelOptions = useSelector(selectLabels).map(each => {
+        return { label: each.name, value: each }
+    })
+
+    const reporteeOptions = ["Jira Outlook", "Jira Service Desk Widget",
+        "Jira Spreadsheets", "Statuspage for Jira", "Trello"].map(each => {
+            return { label: each, value: each }
+        })
+
+    //TODO
+    // Call the thunk to get a list of user objects
+    // and then select them from the store
+    const projectMembers = []
 
     function showEpic() {
 
@@ -57,123 +81,82 @@ const IssueForm = props => {
 
     }
 
-    return <div className={"issue-form-in-modal"}>
+    const updateAssignee = (value) => {
+
+    }
+
+    const updateReportee = (value) => {
+
+    }
+
+    const updateLabel = () => {
+        //TODO
+        // Dunno how to update the multple labels
+
+    }
+
+
+    //TODO
+    // use effect for updated time
+
+
+    return <div className="issue-detail-form">
+        <Breadcrumbs aria-label="breadcrumb">
+            <div>
+                <CreateIcon className="cursor" size="small" onClick={showEpic} />
+                <Link color="inherit" href="/" onClick={showEpic}>
+                    Add epic</Link>
+            </div>
+        </Breadcrumbs>
         <Container>
-            <Row>
-                <Breadcrumbs aria-label="breadcrumb">
-                    <div>
-                        <CreateIcon className="cursor" size="small" onClick={showEpic} />
-                        <Link color="inherit" href="/" onClick={showEpic}>
-                            Add epic</Link>
-                    </div>
-                </Breadcrumbs>
-            </Row>
-            <div className="left">
-                <Form onSubmit={handleSubmit}>
+            <IssueSummaryInput id={issueParsed._id} summary={issueParsed.summary} />
+            <p className="label">Description</p>
+            <IssueDescriptionInput id={issueParsed._id} description={issueParsed.description} />
 
-                    <Col><Typography color="textPrimary">Project Name*</Typography></Col>
-                    <Col><Typography color="textPrimary">{projectName}</Typography></Col>
-
-                    <Row>
-
-                    </Row>
-                    <InputLabel className="row" id="state">Issue Type*</InputLabel>
-                    <Field
-                        className="form-select row"
-                        id="select"
-                        component={TextField}
-                        name="issueType"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={issue.issueType || values.issueType}
-                        margin="normal"
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment>
-                                    <IconButton>
-                                        <ExpandMoreIcon fontSize="small" />
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                    <Typography className="row" variant="caption">Some issue types are unavailable due to incompatible field configuration and/or workflow associations.</Typography>
-                    <Box margin={1}>
-                        <Divider />
-                    </Box>
-                    <InputLabel className="row" id="state">Summary*</InputLabel>
-                    <Field
-                        className="row form-select full-length-center summary"
-                        component={TextField}
-                        name="summary"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={issue.summary || values.summary}
-                        margin="normal"
-                    />
-                    <InputLabel className="row" id="state">description*</InputLabel>
-                    <Field
-                        className="row full-length-center"
-                        component={TextareaAutosize}
-                        name="description"
-                        type="text"
-                        variant="outlined"
-                        size="small"
-                        onChange={handleChange}
-                        value={issue.description || values.description}
-                        margin="normal"
-                        aria-label="minimum height" rowsMin={15}
-                    />
-                    <div className="row right-align btn-row">
-                        <ListItem><p className="cancel-btn" onClick={closeModal}>Cancel</p></ListItem>
-                        <Button className="navbar-create-btn" disabled={isSubmitting} onClick={handleSubmit}>Create</Button>
-                    </div>
-                </Form>
-            </div>
-            <div className="right">
-                <Typography variant="caption" display="block" gutterBottom>Assignee</Typography>
-                {!clicked.assignee &&
-                    <Member user={assignee} onClick={() => setClicked({ assignee: true, labels: false, reportee: false })} />}
-                {clicked.assignee &&
-                    <SingleSelect onChange={setFieldValue} onBlur={setFieldTouched} defaultValue={assignee.name} options={memberNames} type="assignee" />}
-                <Typography variant="caption" display="block" gutterBottom>Labels</Typography>
-                {!clicked.labels && <Member user={assignee} onClick={() => setClicked({ assignee: false, labels: true, reportee: false })} />}
-                {clicked.labels &&
-                    <MultiSelect onChange={setFieldValue} onBlur={setFieldTouched} options={labelNames} type="labels" />}
-                <Typography variant="caption" display="block" gutterBottom>Reporter</Typography>
-                {!clicked.reportee && <Member user={assignee} onClick={() => setClicked({ assignee: true, labels: false, reportee: false })} />}
-                {clicked.reportee &&
-                    <SingleSelect onChange={setFieldValue} onBlur={setFieldTouched} defaultValue={reportee.name} options={memberNames} type="reportee" />}
-            </div>
+            <StatusSelect statusId={issueParsed.status} />
+            <Row></Row>
+            <p className="label">Assignee</p>
+            <Select
+                className="select"
+                classNamePrefix="select"
+                name="assignee"
+                defaultValue={{ label: assignee.name, value: assignee }}
+                options={assigneeOptions}
+                onChange={(e) => updateAssignee(e.value)}
+                isClearable={true}
+            />
+            <Row></Row>
+            <p className="label">Labels</p>
+            <Select
+                className="select"
+                classNamePrefix="select"
+                isMulti
+                name="labels"
+                defaultValue={currentLabels}
+                options={labelOptions}
+                onChange={(e) => updateLabel(e.value)}
+                isClearable={true}
+            />
+            <Row></Row>
+            <p className="label">Reporter</p>
+            <Select
+                className="select"
+                classNamePrefix="select"
+                name="reportee"
+                defaultValue={{ label: reportee.name, value: reportee }}
+                options={reporteeOptions}
+                onChange={(e) => updateReportee(e.value)}
+            />
+            <Row></Row>
+            <Divider />
+            <Row></Row>
+            <p className="time">{"Created " + issueParsed.created}</p>
+            <p className="time">{"Updated " + issueParsed.updated}</p>
         </Container>
     </div>
 }
 
-const IssueView = withFormik({
-    validationSchema: Yup.object().shape({
-        summary: Yup.string()
-            .required('Summary is required!')
-    }),
-    mapPropsToValues: (issue) => ({
-        projectName: issue.projectName,
-        issueType: issue.issueType,
-        summary: issue.summary,
-        description: issue.description,
-        assignee: issue.assignee,
-        labels: issue.labels,
-        reportee: issue.reportee,
-    }),
-    handleSubmit: (values, { 'props': { onContinue } }) => {
-        onContinue(values)
-    },
-    displayName: 'MyForm',
-})(IssueForm);
-
-export default IssueView
+export default IssueDetailForm
 
 /**
 export default function IssueModal({ open, closeModal, issue }) {
