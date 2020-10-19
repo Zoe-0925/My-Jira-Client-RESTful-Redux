@@ -796,15 +796,55 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   }
 }
 
-.CommentContent {
-  width: $full;
-  
-  .author {
-    display: inline;
-    cursor: pointer;
+.CommentBox {
+  .title {
+    @include label;
   }
 
-  .author:hover {
-    color: grey;
+  .CommentContent {
+    width: $full;
+
+    .primary {
+      margin-left: 0.1rem;
+    }
+
+    .author {
+      display: inline;
+      cursor: pointer;
+    }
+
+    .author:hover {
+      color: grey;
+    }
+
+    .date {
+      color: grey;
+    }
+  }
+
+  .comment-input-form {
+    width: $full;
+    margin: 0;
+    padding: 0;
+  }
+
+  .CommentInput {
+    .container {
+      padding: 0;
+      margin: 0;
+
+      .action-btns {
+        display: flex;
+        float: left;
+
+        .cancel-btn {
+          margin-right: 0.5rem;
+        }
+
+        .navbar-create-btn {
+          @include call-to-action-button;
+        }
+      }
+    }
   }
 }

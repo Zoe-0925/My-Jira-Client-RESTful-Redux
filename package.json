@@ -25,6 +25,7 @@
     "http-proxy-middleware": "^1.0.5",
     "jest-mock-axios": "^4.2.1",
     "lodash": "^4.17.20",
+    "pusher-js": "^7.0.0",
     "react": "^16.13.1",
     "react-app-rewire-hot-loader": "^2.0.1",
     "react-app-rewired": "^2.1.6",

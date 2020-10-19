@@ -26,6 +26,7 @@ import {
 } from "../../Reducers/Selectors"
 import { Member } from "./AvatorCard"
 import { useEditText } from "../Shared/CustomHooks"
+import CommentHOC from "../Comment/CommentHOC"
 
 const StatusSelect = ({ statusId }) => {
     const defaultStatus = useSelector(selectStatusById(statusId))
@@ -38,6 +39,8 @@ const StatusSelect = ({ statusId }) => {
         //TODO
         //call the thunk to update the store and also call the api call
     }
+
+
 
     return <Select
         className="select"
@@ -112,7 +115,7 @@ const IssueDetailForm = ({ issue }) => {
             <IssueSummaryInput id={issueParsed._id} summary={issueParsed.summary} />
             <p className="label">Description</p>
             <IssueDescriptionInput id={issueParsed._id} description={issueParsed.description} />
-
+            <CommentHOC/>
             <StatusSelect statusId={issueParsed.status} />
             <Row></Row>
             <p className="label">Assignee</p>

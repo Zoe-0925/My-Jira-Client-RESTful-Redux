@@ -40,7 +40,7 @@ export default function Test() {
                     <IssueDetailForm issue={testIssue} />
                 </DialogContent>
             </Modal>
-            <CommentBox comments={comments} />
+            <IssueDetailForm issue={testIssue}/>
         </div>
     )
 }
