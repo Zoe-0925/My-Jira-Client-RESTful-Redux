@@ -1,17 +1,41 @@
 import React from 'react'
-import IssueModal from "../Components/Issues/IssueModal"
+import IssueDetailForm from "../Components/Issues/IssueDetail"
+import CustomModal from "../Components/Shared/CustomModal"
+import { Modal, DialogContent } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { Row } from "reactstrap"
+
+
 
 const testIssue = new Map()
 testIssue.set("hdkahdjaskdh", {
     _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
-    description: "test description", status:"1",
+    description: "test description", status: "1",
     issueType: "task", flag: false, reportee: "testUserId", project: "test id"
 })
 
 export default function Test() {
+    const [open, setOpen] = React.useState(true)
+
+    const closeModal = () => setOpen(false)
+
     return (
         <div>
-            <IssueModal issue={testIssue} />
+            <p onClick={() => setOpen(true)}>open </p>
+            <Modal
+                className="modal"
+                open={open}
+                onClose={closeModal}
+                aria-labelledby="modal-title"
+                aria-describedby="modal-description"
+            >
+                <DialogContent>
+                    <Row>
+                        <CloseIcon onClick={closeModal} />
+                    </Row>
+                    <IssueDetailForm issue={testIssue} />
+                </DialogContent>
+            </Modal>
         </div>
     )
 }

@@ -7,7 +7,7 @@ import {
     selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, selectCurrentProject,
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy
 } from "../../Reducers/Selectors"
-import IssueModal from "../Issues/IssueModal"
+import IssueModal from "../Issues/IssueDetail"
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
 import IssueCard from "./Card"
 

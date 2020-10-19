@@ -795,3 +795,14 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
   }
 }
+
+.CommentContent {
+  .author {
+    display: inline;
+    cursor: pointer;
+  }
+
+  .author:hover {
+    color: grey;
+  }
+}

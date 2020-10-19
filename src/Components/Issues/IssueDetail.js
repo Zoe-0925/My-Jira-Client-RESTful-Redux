@@ -158,20 +158,4 @@ const IssueDetailForm = ({ issue }) => {
 
 export default IssueDetailForm
 
-/**
-export default function IssueModal({ open, closeModal, issue }) {
-    const dispatch = useDispatch()
 
-    const submitIssueUpdate = () => {
-        // TODO
-        //dispatch update issue
-
-    }
-
-    return (
-        <CustomModal open={open} closeModal={closeModal}>
-            <IssueView issue={issue} onContinue={submitIssueUpdate} />
-        </CustomModal>
-    )
-}
- */

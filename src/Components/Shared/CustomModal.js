@@ -1,5 +1,7 @@
 import React from 'react'
 import { Modal, DialogContent } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import {Row} from "reactstrap"
 
 
 export default function CustomModal({ open, closeModal, ...props }) {
@@ -13,6 +15,9 @@ export default function CustomModal({ open, closeModal, ...props }) {
                 aria-describedby="modal-description"
             >
                 <DialogContent>
+                    <Row>
+                        <CloseIcon onClick={closeModal}/>
+                    </Row>
                     {props.children}
                 </DialogContent>
             </Modal>
