@@ -67,7 +67,7 @@ export function DotIconMenu({ className, ...props }) {
             <IconButton
                 ref={anchorRef}
                 size='small'
-                aria-controls={open ? 'menu-list-grow' : undefined}
+                aria-controls={isOpen ? 'menu-list-grow' : undefined}
                 aria-haspopup="true"
                 onClick={handleMenuOpen}>
                 <MoreHorizIcon />

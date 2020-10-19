@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListItem, ListItemText } from '@material-ui/core';
+import { ListItem, ListItemText,Typography,Divider } from '@material-ui/core';
 
 export default function CommentContent({ comment }) {
 
@@ -11,7 +11,7 @@ export default function CommentContent({ comment }) {
                         <React.Fragment>
                             <Typography
                                 component="span"
-                                variant="body2"
+                                variant="h6"
                                 className="author"
                                 color="textPrimary"
                             >
@@ -23,7 +23,7 @@ export default function CommentContent({ comment }) {
                     secondary={comment.description}
                 />
             </ListItem>
-            <Divider variant="inset" component="li" />
+            <Divider />
         </div>
     )
 }

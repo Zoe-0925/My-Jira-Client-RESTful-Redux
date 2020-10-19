@@ -4,7 +4,7 @@ import CustomModal from "../Components/Shared/CustomModal"
 import { Modal, DialogContent } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { Row } from "reactstrap"
-
+import CommentBox from "../Components/Comment/CommentBox"
 
 
 const testIssue = new Map()
@@ -18,6 +18,10 @@ export default function Test() {
     const [open, setOpen] = React.useState(true)
 
     const closeModal = () => setOpen(false)
+
+    const comments = [
+        { author: "author 1", description: "test comment", date: "date" }
+    ]
 
     return (
         <div>
@@ -36,6 +40,7 @@ export default function Test() {
                     <IssueDetailForm issue={testIssue} />
                 </DialogContent>
             </Modal>
+            <CommentBox comments={comments} />
         </div>
     )
 }

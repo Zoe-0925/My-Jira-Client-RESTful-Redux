@@ -53,7 +53,7 @@ export default function Column({ initialStatus, ...props }) {
         {props.children}
         {!showCreateTaskTab && <AddTab operationName="Create issue" handleClick={() => { setShowEditable(true) }} className="create-issue-tab" />}
         {showCreateTaskTab && <EditableText name="creare-new-task" className="editable-create-issue" edit={true}
-            text={state.value || status.name} setEdit={setEdit}>
+            text={state.value || statusName} setEdit={setEdit}>
             <Input state={state} name="create-task-input" setState={setState} setEdit={setEdit} handleSubmit={() => {
                 dispatch(createNewTask(state.value))
             }} />

@@ -104,7 +104,7 @@ export default function IssueReducer(state = {
             return newState
         case UPDATE_SUCCESS_EPIC:
             newState = { ...state, authenticated: true, loading: false }
-            epic = newState.epics.find(item => item._id = action.data._id)
+            let epic = newState.epics.find(item => item._id = action.data._id)
             epic = action.data
             return newState
         case UPDATE_ISSUE_GROUP:

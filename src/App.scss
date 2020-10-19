@@ -797,6 +797,8 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
 }
 
 .CommentContent {
+  width: $full;
+  
   .author {
     display: inline;
     cursor: pointer;
