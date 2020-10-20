@@ -35,9 +35,8 @@ const IssueDetail = ({ issue, open, handleClose }) => {
 
 const IssueDetailForm = ({ issue, handleClose }) => {
     const [clicked, setClicked] = useState({ assignee: false, labels: false, reportee: false })
-    const issueParsed = issue.values().next().value //Extract the issue object from the map
-    const assignee = useSelector(selectUserById(issueParsed.assignee))
-    const reportee = useSelector(selectUserById(issueParsed.reportee))
+  const assignee = useSelector(selectUserById(issue.assignee))
+    const reportee = useSelector(selectUserById(issue.reportee))
     const currentLabels = []
 
     //TODO call the thunk to get all users, and save to the store
@@ -94,7 +93,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                             Add epic
                         </Button>
                         <Link color="inherit" href="/" onClick={() => { }}>
-                            {issueParsed.key}
+                            {issue.key}
                         </Link>
                     </Breadcrumbs>
                 </Col>
@@ -110,9 +109,9 @@ const IssueDetailForm = ({ issue, handleClose }) => {
             <Container>
                 <Row>
                     <Col sm="12" md="7">
-                        <IssueSummaryInput id={issueParsed._id} summary={issueParsed.summary} />
+                        <IssueSummaryInput id={issue._id} summary={issue.summary} />
                         <p className="label">Description</p>
-                        <IssueDescriptionInput id={issueParsed._id} description={issueParsed.description} />
+                        <IssueDescriptionInput id={issue._id} description={issue.description} />
                         <Row></Row>
                         <Row></Row>
                         <Divider />
@@ -121,7 +120,7 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <CommentHOC />
                     </Col>
                     <Col sm="12" md="5">
-                        <StatusSelect statusId={issueParsed.status} />
+                        <StatusSelect statusId={issue.status} />
                         <Row></Row>
                         <p className="label">Assignee</p>
                         <Select
@@ -158,8 +157,8 @@ const IssueDetailForm = ({ issue, handleClose }) => {
                         <Row></Row>
                         <Divider />
                         <Row></Row>
-                        <p className="time">{"Created " + issueParsed.created}</p>
-                        <p className="time">{"Updated " + issueParsed.updated}</p>
+                        <p className="time">{"Created " + issue.created}</p>
+                        <p className="time">{"Updated " + issue.updated}</p>
                     </Col>
                 </Row>
             </Container>

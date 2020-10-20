@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
+import { v4 as uuidv4 } from 'uuid'
 import { useDispatch, useSelector } from "react-redux"
 import AddBoxRoundedIcon from '@material-ui/icons/AddBoxRounded';
 import Column from "./Column"
@@ -7,12 +8,12 @@ import {
     selectStatus, selectStatusOrder, selectTasks, selectNoneFilter, selectCurrentProject,
     selectFilterByEpic, selectFilterByLabel, selectFilterByAssignee, selectGroupBy
 } from "../../Reducers/Selectors"
-import IssueModal from "../Issues/IssueDetail"
 import { useIssueDetailModal, useCreateStatus } from "./CustomHooks"
-import IssueCard from "./Card"
+import IssueCard from "../Issues/IssueCard"
+import IssueDetail from "../Issues/IssueDetail"
 
 
-export const draggable = (task, index, openTaskDetail) => <Draggable
+export const MyDraggable = ({ task, index, openTaskDetail }) => <Draggable
     className="draggable"
     key={task._id}
     draggableId={task._id}
@@ -29,6 +30,7 @@ export const draggable = (task, index, openTaskDetail) => <Draggable
             <IssueCard task={task} openTaskDetail={openTaskDetail} />
         </div>)}
 </Draggable>
+
 
 export default function DragAndDrop() {
     const columnOrder = useSelector(selectStatusOrder) // droppableId = the index of each column in order
@@ -53,7 +55,7 @@ export default function DragAndDrop() {
         issues: []
     }
 
-    const { openModal, setOpenModal, issueDetailOpened, openTaskDetail } = useIssueDetailModal()
+    const { open, setOpen, issueOpened, openTaskDetail } = useIssueDetailModal()
     //Add column:
     // dispatch(createSuccessfulStatus(statusName))
     //Delete column: 
@@ -73,6 +75,7 @@ export default function DragAndDrop() {
 
     return (
         <div className="epic-list">
+            {open && <IssueDetail open={open} handleClose={() => setOpen(false)} issue={issueOpened} />}
             {columns.map((el, ind) => (
                 <Droppable key={ind} droppableId={`${ind}`}>
                     {(provided, snapshot) => (
@@ -82,9 +85,7 @@ export default function DragAndDrop() {
                             {...provided.droppableProps}
                         >
                             <Column initialStatus={el}>
-                                {noneFilter && el.issues.map((issueId, index) =>{
-                                   return draggable(tasks.get(issueId), index, openTaskDetail)
-                                })}
+                                {noneFilter && el.issues.map((issueId, index) => <MyDraggable key={uuidv4()} task={tasks.get(issueId)} index={index} openTaskDetail={openTaskDetail} />)}
                             </Column>
                             {provided.placeholder}
                         </div>
@@ -95,7 +96,6 @@ export default function DragAndDrop() {
                 {!showNewEditable && <AddBoxRoundedIcon />}
                 {showNewEditable && <Column initialStatus={emptyStatus} />}
             </div>
-            {openModal && <IssueModal open={openModal} closeModal={() => setOpenModal(false)} issue={issueDetailOpened} />}
         </div>
     );
 }

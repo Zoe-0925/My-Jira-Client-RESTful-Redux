@@ -10,7 +10,7 @@ import { DELETE_SUCCESS_STATUS } from "../Actions/status.actions"
 const issues = new Map()
 issues.set("hdkahdjaskdh", {
     _id: "hdkahdjaskdh", summary: "test 1", key: "test key 1", labels: ["test"], assignee: "testUserId",
-    issueType: "task", flag: false, reportee: "testUserId", project: "test id"
+    issueType: "task", flag: false, reportee: "testUserId", project: "test id", status:"1"
 })
 
 

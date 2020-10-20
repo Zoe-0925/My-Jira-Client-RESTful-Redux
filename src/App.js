@@ -27,7 +27,7 @@ const App = ({ history, context }) => {
       <ConnectedRouter history={history} context={context}>
         <Router history={history}>
           <Switch>
-            <Route path="/" exact component={Test} />
+            <Route path="/" exact component={Board} />
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/projects" exact component={Board} />

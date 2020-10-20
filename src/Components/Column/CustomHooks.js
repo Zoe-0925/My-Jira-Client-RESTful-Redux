@@ -41,16 +41,16 @@ export function useTaskController() {
 export const useIssueDetailModal = () => {
     const dispatch = useDispatch()
 
-    const [openModal, setOpenModal] = useState(false)
-    const [issueDetailOpened, setIssue] = useState("")
+    const [open, setOpen] = useState(false)
+    const [issueOpened, setIssue] = useState("")
     
     const openTaskDetail = (task) => {
-        setOpenModal(true)
+        setOpen(true)
         setIssue(task)
         if (task.assignee === task._id && task.reportee === task._id) { return }
         dispatch(getUserByIds([task.assignee, task.reportee]))
     }
 
-    return { openModal, setOpenModal, issueDetailOpened,  openTaskDetail}
+    return { open, setOpen, issueOpened,  openTaskDetail}
 
 }
