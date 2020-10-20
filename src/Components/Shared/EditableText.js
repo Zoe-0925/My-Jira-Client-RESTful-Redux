@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
-import { ListItem } from '@material-ui/core';
+import { ListItem, TextareaAutosize } from '@material-ui/core';
 import { v4 as uuidv4 } from 'uuid'
+import { Container, Row } from "reactstrap"
+import SaveCancelButtons from "../Shared/SaveCancelButtons"
 
 export function Input({ state, setState, setEdit, handleSubmit }) {
 
@@ -66,6 +68,26 @@ export function Textarea({ state, setState, setEdit, handleSubmit }) {
                 }
             }}
             rows="5" cols="33" />
+    )
+}
+
+export function TextareaWithActionBtns({ isSubmitting, handleChange, handleCancel, handleSave }) {
+    return (
+        <Container className="container">
+            <Row>
+                <TextareaAutosize
+                    className="input-form"
+                    name="description"
+                    type="text"
+                    variant="outlined"
+                    onChange={(e) => handleChange(e.target.value)}
+                    aria-label="minimum height" rowsMin={5}
+                />
+            </Row>
+            <Row className="action-btns">
+                <SaveCancelButtons isSubmitting={isSubmitting} handleCancel={handleCancel} handleSave={handleSave} />
+            </Row>
+        </Container>
     )
 }
 

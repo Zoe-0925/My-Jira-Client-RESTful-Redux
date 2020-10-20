@@ -15,7 +15,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import SettingsIcon from '@material-ui/icons/Settings';
-import CustomIconMenu from "../Shared/CustomIconMenu"
+import IssueCreateDialogue from "../Issues/IssueCreate"
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 /*******/
 
@@ -256,7 +256,10 @@ export default function NavAppBar() {
                     <Button onClick={() => history.push("/projects")} className="nav-title">Jira Mock </Button>
                     <Button className="nav-tab" onClick={handleProjectMenuOpen}>Projects <ExpandMoreIcon /></Button>
                     {projectMenu}
-                    <Button className="navbar-create-btn" onClick={() => { }}>Create</Button>
+
+
+
+                    <IssueCreateDialogue />
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <div className={classes.search}>
@@ -287,8 +290,9 @@ export default function NavAppBar() {
                             className={classes.menuButton}
                             color="inherit"
                             aria-label="open drawer"
+                            onClick={handleAccountMenuOpen}
                         >
-                            <AccountCircle style={{ "cursor": "pointer" }}  onClick={handleAccountMenuOpen} />
+                            <AccountCircle style={{ "cursor": "pointer" }} />
                         </IconButton>
                     </div>
                     <div className={classes.sectionMobile}>

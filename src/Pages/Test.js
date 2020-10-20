@@ -1,10 +1,8 @@
-import React from 'react'
-import IssueDetailForm from "../Components/Issues/IssueDetail"
-import CustomModal from "../Components/Shared/CustomModal"
-import { Modal, DialogContent } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import { Row } from "reactstrap"
-import CommentBox from "../Components/Comment/CommentBox"
+import React, {useState} from 'react'
+import IssueDetail from "../Components/Issues/IssueDetail"
+import {
+    Button,
+} from '@material-ui/core';
 
 
 const testIssue = new Map()
@@ -15,35 +13,25 @@ testIssue.set("hdkahdjaskdh", {
 })
 
 export default function Test() {
-    const [open, setOpen] = React.useState(true)
+    const [open, setOpen] = useState(false)
 
-    const closeModal = () => setOpen(false)
 
-    const comments = [
-        { author: "author 1", description: "test comment", date: "date" }
-    ]
-
-    return (
-        <div>
-            <p onClick={() => setOpen(true)}>open </p>
-            <Modal
-                className="modal"
-                open={open}
-                onClose={closeModal}
-                aria-labelledby="modal-title"
-                aria-describedby="modal-description"
-            >
-                <DialogContent>
-                    <Row>
-                        <CloseIcon onClick={closeModal} />
-                    </Row>
-                    <IssueDetailForm issue={testIssue} />
-                </DialogContent>
-            </Modal>
-            <IssueDetailForm issue={testIssue}/>
-        </div>
+    return (<div>
+        <Button onClick={() => setOpen(true)}>open</Button>
+        <IssueDetail open={open} handleClose={() => setOpen(false)} issue={testIssue} />
+    </div>
     )
 }
 
 
 //  <IssueModal open={true} closeModal={()=>{}} issue={testIssue}/>
+
+
+/**
+ *    closeButton: {
+        position: 'absolute',
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500],
+    },
+ */

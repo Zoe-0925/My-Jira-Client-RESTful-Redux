@@ -1,8 +1,6 @@
 import React from 'react'
-import { EditableText, Input } from "../Shared/EditableText"
+import { EditableText, Input, TextareaWithActionBtns } from "../Shared/EditableText"
 import { useEditText } from "../Shared/CustomHooks"
-import { Row, Container } from 'reactstrap';
-import { Button, } from '@material-ui/core';
 
 export function IssueSummaryInput({ summary }) {
     const { state, setState, edit, setEdit } = useEditText(summary)
@@ -29,21 +27,20 @@ export function IssueDescriptionInput({ id, description }) {
 
     }
 
+    const isSubmitting = false
+    //TODO
+    // select loading from the store
+
     const cancel = () => {
         setState({ ...state, value: state.backup })
         setEdit(false)
     }
-    //TODO
-    //save on click, call the thunk
 
     return (
-        <EditableText name="issue-description" className="board-name"
+        <EditableText name="issue-description" className="issue-description"
             setEdit={setEdit} edit={edit} text={state.value} >
-            <Container>
-                <Row>
-                    <Input state={state} setState={setState} setEdit={setEdit} handleSubmit={updateDesciption} />
-                </Row>
-            </Container>
+            <TextareaWithActionBtns isSubmitting={isSubmitting} handleChange={value => setState(value)}
+                handleCancel={cancel} handleSave={updateDesciption} />
         </EditableText>
     )
 }

@@ -232,12 +232,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
         width: $full;
       }
 
-      .select {
-        height: 40px;
-        background-color: $bgc;
-        width: 100%;
-      }
-
       .link {
         font-size: 0.875rem;
         padding-bottom: 2rem;
@@ -713,7 +707,7 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
 
     .select {
-      width: 40%;
+      width: $full;
       background-color: $bgc;
     }
 
@@ -743,13 +737,20 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
   text-decoration: underline;
 }
 
+.add-epic-btn {
+  width: 7rem;
+  font-size:0.7rem;
+}
+
 .issue-detail-form {
+  width: $full;
+
   .issue-title {
     font-size: 2rem;
   }
 
   .select {
-    width: 50%;
+    width: $full;
     margin: 0;
     padding: 0;
   }
@@ -763,10 +764,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     padding: 1.5rem;
     text-align: left;
     max-height: 700px;
-
-    .column {
-      overflow: scroll;
-    }
 
     .navbar-create-btn {
       @include call-to-action-button;
@@ -822,12 +819,6 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
     }
   }
 
-  .comment-input-form {
-    width: $full;
-    margin: 0;
-    padding: 0;
-  }
-
   .CommentInput {
     .container {
       padding: 0;
@@ -846,5 +837,25 @@ $title-font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Fira Sans", "Droi
         }
       }
     }
+  }
+}
+
+.container {
+  margin: 0;
+  padding: 0;
+}
+
+.input-form {
+  width: $full;
+  margin: 0;
+  padding: 0;
+}
+
+.issue-detail-dialogue {
+  .close-btn {
+    position: absolute;
+    padding-right: 1rem;
+    padding-top: 1rem;
+    color: grey;
   }
 }
